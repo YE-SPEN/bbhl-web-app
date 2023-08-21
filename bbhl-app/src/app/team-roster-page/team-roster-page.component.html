@@ -1,0 +1,89 @@
+<div>
+    <div class="content-box">
+        <table width="80%">
+            <tr>
+                <td width="20%">
+                    <img src="{{ team.logo }}" width="175">
+                </td>
+                <td>
+                    <h2>{{ team.name }}</h2>
+                    <h3><b>Captain:</b> {{ team.captain }}</h3>
+                    <h3><b>Current Record: </b> {{ team.wins }} - {{team.losses }} - {{ team.ties }}</h3>
+
+                </td>
+            </tr>           
+        </table> 
+    </div>
+
+    <h2>Roster</h2>
+    <div class="content-table">
+        <table class="main" width="100%">
+            <tr>
+                <th>#</th>
+                <th class="clickable" (click)="toggleSort('name')">
+                  Name
+                  <span *ngIf="sortColumn === 'name'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+                <th class="clickable" (click)="toggleSort('games_played')">
+                  GP
+                  <span *ngIf="sortColumn === 'games_played'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+                <th class="clickable" (click)="toggleSort('goals')">
+                  Goals
+                  <span *ngIf="sortColumn === 'goals'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+                <th class="clickable" (click)="toggleSort('assists')">
+                  Assists
+                  <span *ngIf="sortColumn === 'assists'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+                <th class="clickable" (click)="toggleSort('points')">
+                  Points
+                  <span *ngIf="sortColumn === 'points'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+                <th class="clickable" (click)="toggleSort('ppg')">
+                  PPG
+                  <span *ngIf="sortColumn === 'ppg'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+                <th class="clickable" (click)="toggleSort('pims')">
+                  PIMS
+                  <span *ngIf="sortColumn === 'pims'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+                <th class="clickable" (click)="toggleSort('gwg')">
+                  GWG
+                  <span *ngIf="sortColumn === 'gwg'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+            </tr>
+            <tr class="main" *ngFor="let player of roster; let i = index">
+                <td class="main" style="text-align: center;">
+                    {{ (i+ 1) }}
+                </td>
+                <td class="main" style="padding-left: 8px;">
+                    <a [routerLink]="['/players', player.player_id]">
+                        <p><b>{{ player.name }}</b></p>
+                    </a>
+                </td>
+                <td class="main">
+                    <p>{{ player.games_played }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ player.goals }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ player.assists }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ player.points }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ player.ppg }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ player.pims }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ player.gwg }}</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

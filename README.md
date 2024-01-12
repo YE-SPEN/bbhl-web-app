@@ -2,6 +2,8 @@
 
  A personal project web application for experimenting with full-stack application development. The BBHL app displays historical data for a hockey league including upcoming games schedules, team standings, player rosters, and player history. 
 
+Tools & Techniques used: Angular, TypeScript, Node.js, MySQL, Postman, VS Code, HTML5, Tailwind CSS, 
+
  Current functionality:
  1. View/sort player statistics
  2. View/sort team statistics

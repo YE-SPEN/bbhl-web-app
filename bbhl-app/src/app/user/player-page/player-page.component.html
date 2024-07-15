@@ -1,0 +1,70 @@
+<div>
+    <div class="content-box">
+        <table width="80%">
+            <tr>
+                <td width="20%">
+                    <img src="{{ player.picture }}" width="175">
+                </td>
+                <td>
+                    <h2>{{ player.name }}</h2>
+                    <h3><b>Position:</b> {{ player.position }}</h3>
+                    <h3><b>Year Joined: </b> {{ year_joined }}</h3>
+
+                </td>
+            </tr>           
+        </table> 
+    </div>
+
+    <h2>Player History</h2>
+    <div class="content-table">
+        <table class="main" width="100%">
+            <tr>
+                <th style="padding-left: 8px;">Season</th>
+                <th colspan="2">Team</th>
+                <th>GP</th>
+                <th>Goals</th>
+                <th>Assists</th>
+                <th>Points</th>
+                <th>PPG</th>
+                <th>PIMS</th>
+                <th>GWG</th>
+            </tr>
+            <tr class="main" *ngFor="let season of stats">
+                <td class="main" style="padding-left: 8px;">
+                    <p>{{ season.season }}</p>
+                </td>
+                <td class="main" style="text-align: center;">
+                    <a [routerLink]="['/teams', season.id]">
+                        <img src="{{ season.logo }}" width="40">
+                    </a>
+                </td>
+                <td class="main">
+                    <a [routerLink]="['/teams', season.id]">
+                        <p><b>{{ season.team }}</b></p>
+                    </a>
+                </td>
+                <td class="main">
+                    <p>{{ season.games_played }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ season.goals }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ season.assists }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ season.points }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ season.ppg }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ season.pims }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ season.gwg }}</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

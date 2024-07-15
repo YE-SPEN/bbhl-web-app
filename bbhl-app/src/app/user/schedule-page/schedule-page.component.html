@@ -1,0 +1,131 @@
+<div>
+    <table width="70%">
+        <tr>
+            <td>
+                <h1>Schedule & Results</h1>
+            </td>
+            <td>
+                <h4>Filter by team:
+                    <select id="teamFilter" [(ngModel)]="selectedTeam" (ngModelChange)="filterByTeam(selectedTeam)">
+                    <option value="">All Teams</option>
+                    <option *ngFor="let team of teamNames" [value]="team.name">{{ team.name }}</option>
+                    </select>
+                </h4>
+            </td>
+            <td>
+                <h4>Select Season:
+                    <select [(ngModel)]="selectedSeason" (ngModelChange)="getScheduleBySeason()">
+                        <option *ngFor="let season of seasons" [value]="season">{{ season }}</option>
+                    </select>
+                </h4>
+            </td>
+        </tr>           
+    </table>
+
+    <div *ngIf="selectedSeason === 2024">
+        <h2>Upcoming Games</h2>
+        
+        <div class="content-table">    
+            <table class="main" width="100%">
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th colspan="2">Home</th>
+                    <th colspan="2">Away</th>
+                </tr>
+                <tr class="tight" *ngFor="let game of filteredUpcomingGames">
+                    <td class="tight" style="padding-left: 8px;">
+                        <p>{{ game.formatted_date }}</p>
+                    </td>
+                    <td class="tight">
+                        <p>{{ game.time }}</p>
+                    </td>
+                    <td class="tight" style="text-align: right; padding: 10px;">
+                        <a [routerLink]="['/teams', game.home_team_id]">
+                            <p><b>{{ game.home_team }}</b></p>
+                        </a>
+                    </td>
+                    <td class="tight">
+                        <a [routerLink]="['/teams', game.home_team_id]">
+                            <img src="{{ game.home_team_logo }}" width="50">
+                        </a>
+                    </td>
+                    <td class="tight">
+                        <a [routerLink]="['/teams', game.away_team_id]">
+                            <img src="{{ game.away_team_logo }}" width="50">
+                        </a>
+                    </td>
+                    <td class="tight">
+                        <a [routerLink]="['/teams', game.away_team_id]">
+                            <p><b>{{ game.away_team }}</b></p>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <table width="60%">
+        <tr>
+            <td>
+                <h2>Results</h2>
+            </td>
+        </tr>           
+    </table> 
+    
+    <div class="content-table">    
+        <table class="main" width="100%">
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th colspan="2">Home</th>
+                <th>Result</th>
+                <th colspan="2">Away</th>
+                <th></th>
+            </tr>
+            <tr class="tight" *ngFor="let game of filteredPastGames  | slice:(currentPage - 1) * pageSize : currentPage * pageSize;">
+                <td class="tight" style="padding-left: 8px;">
+                    <p>{{ game.formatted_date }}</p>
+                </td>
+                <td class="tight">
+                    <p>{{ game.time }}</p>
+                </td>
+                <td class="tight" style="text-align: right; padding: 10px;">
+                    <a [routerLink]="['/teams', game.home_team_id]">
+                        <p><b>{{ game.home_team }}</b></p>
+                    </a>
+                </td>
+                <td class="tight">
+                    <a [routerLink]="['/teams', game.home_team_id]">
+                        <img src="{{ game.home_team_logo }}" width="50">
+                    </a>
+                </td>
+                <td class="tight">
+                    <p>{{ game.home_score }} - {{ game.away_score }}</p>
+                </td>
+                <td class="tight">
+                    <a [routerLink]="['/teams', game.away_team_id]">
+                        <img src="{{ game.away_team_logo }}" width="50">
+                    </a>
+                </td>
+                <td class="tight">
+                    <a [routerLink]="['/teams', game.away_team_id]">
+                        <p><b>{{ game.away_team }}</b></p>
+                    </a>
+                </td>
+                <td class="tight">
+                    <div *ngIf="game.hasBoxscore">
+                        <a [routerLink]="['/results', game.game_id]">
+                            <button class="btn-primary">View Boxscore</button>
+                        </a>                        
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="pagination">
+        <button class="prev" [disabled]="currentPage === 1" (click)="previousPage()">Previous</button>
+        <span style="font-size: 22px; font-weight: bold;">{{ currentPage }}</span>
+        <button class="next" [disabled]="currentPage === totalPages" (click)="nextPage()">Next</button>
+    </div>
+</div>

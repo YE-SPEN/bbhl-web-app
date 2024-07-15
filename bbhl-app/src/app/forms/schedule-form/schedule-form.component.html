@@ -1,0 +1,35 @@
+<form (ngSubmit)="onSubmit()" #formA="ngForm">
+    <div>
+      <label for="nameA">Date</label>
+      <input type="date" id="date" required [(ngModel)]="formData.date" name="name" />
+    </div>
+    <div>
+      <label for="time">Time</label>
+      <select required [(ngModel)]="formData.time" name="time">
+        <option value="16:00">4:00 PM</option>
+        <option value="17:00">5:00 PM</option>
+        <option value="18:00">6:00 PM</option>
+      </select>
+    </div>
+    <div>
+        <label for="homeTeam">Home Team</label>
+          <select required id="home" [(ngModel)]="formData.homeTeam" name="homeTeam">
+              <option value="">Select</option>
+              <option *ngFor="let team of teamNames" [value]="team.name">{{ team.name }}</option>
+          </select>
+    </div>
+    <div>
+        <label for="awayTeam">Away Team</label>
+          <select required id="away" [(ngModel)]="formData.awayTeam" name="awayTeam">
+              <option value="">Select</option>
+              <option *ngFor="let team of teamNames" [value]="team.name">{{ team.name }}</option>
+          </select>
+    </div>
+
+    <button type="submit">Add to schedule</button>
+  </form>
+
+  <div *ngIf="formSubmitted" class="popup-message">
+    New game added to the schedule!
+  </div>
+  

@@ -1,0 +1,108 @@
+<div class="content-box">
+    <table width="100%">
+        <tr>
+            <td>
+                <h2>BBHLdoku</h2>
+                <p>Test your BBHL knowledge! Guess players that have played for both teams in the corresponding square. Careful though, you cannot guess the same player for two different squares. <b>Note:</b> The database only goes back to the 2017 season so don't get too bogged down with the league history, but less common answers will net you bonus points for uniqueness!</p>        
+            </td>
+        </tr>           
+    </table> 
+</div>
+<div *ngIf="guesses === 0">
+    <h2 style="color: red;">Game over! Click squares to view all answers.</h2>
+</div>
+<table width="100%" align="center"> 
+      <tr>
+        <td width="16%" align="center" style="padding: 6px"></td>
+        <td *ngFor="let col of column; let colIndex = index" width="28%" align="center" style="padding: 6px">
+          <img [src]="col.logo" width="125px">
+        </td>
+      </tr>
+      <tr *ngFor="let rowItem of row; let rowIndex = index">
+        <td width="16%" align="center" style="padding: 6px">
+          <img [src]="rowItem.logo" width="125px">
+        </td>
+        <td *ngFor="let col of column; let colIndex = index" width="28%" align="center" style="padding: 6px">
+          <div class="content-box-doku" (click)="gameBoard[rowIndex][colIndex] && guesses > 0 ? null : guesses === 0 ? openModal(rowIndex, colIndex, resultModal) : openModal(rowIndex, colIndex, guessModal)">
+            <div *ngIf="gameBoard[rowIndex][colIndex]" class="player-info">
+              <img [src]="gameBoard[rowIndex][colIndex]?.picture" alt="{{ gameBoard[rowIndex][colIndex]?.name }}" class="player-image">
+              <h2>{{ gameBoard[rowIndex][colIndex]?.name }}</h2>
+              <div class="percentage">{{ gameBoard[rowIndex][colIndex]?.uniqueness || 0 }}%</div>
+            </div>
+            <div class="popup-message" *ngIf="message && rowIndex === rowSelected && colIndex === colSelected && guesses !== 0">
+                <h4>{{ message }}</h4>
+            </div>
+          </div>     
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td align="center">
+            <h2>{{ score }}/9 Score<br>
+                {{ total_uniqueness }} Uniqueness
+            </h2>
+        </td>
+        <td align="center">
+            <h2>{{ guesses }}/9 Shots Left</h2>
+        </td>
+        <td align="right">
+            <button *ngIf="guesses > 0" class="btn-primary" (click)="endGame()">End Game</button>
+            &nbsp;&nbsp;&nbsp;
+            <button class="btn-primary" (click)="generateBoard()">New Game</button>
+        </td>
+    </tr>
+</table>
+
+<ng-template #guessModal>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title pull-left">{{ row[rowSelected].name }} - {{ column[colSelected].name }}</h3>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true"><b>X</b></span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <p>Player must have played for both of these teams. <br>
+                (Churchers/Irish and Easy/Kingsmen are considered different teams).</p>
+                <label for="playerSearch">Search Player:</label>
+                <input type="text" class="form-control" id="playerSearch" [(ngModel)]="searchTerm" (input)="searchPlayer()" placeholder="Search player..." autocomplete="off">
+            </div>
+            <div *ngIf="searchTerm.length >= 3" class="autocomplete-results">
+                <div *ngFor="let player of searchResults">
+                    {{ player.name }}
+                    <button class="btn" (click)="checkAnswer(player, rowSelected, colSelected)">Guess</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+        </div>
+      </div>
+    </div>
+</ng-template>
+
+<ng-template #resultModal>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title pull-left">Results: {{ row[rowSelected].name }} - {{ column[colSelected].name }}</h3>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true"><b>X</b></span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div *ngFor="let player of answerSet">
+                {{ player.name }} - {{ player?.uniqueness || 0 }}%
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+        </div>
+      </div>
+    </div>
+</ng-template>
+  
+
+  

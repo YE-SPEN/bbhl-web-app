@@ -1,0 +1,305 @@
+<div class="content-box">
+    <table width="100%">
+        <tr>
+            <td>
+                <h2>BBHL Draft Simulator</h2>
+                <p>Think you can can do what a BBHL captain does? Well now you can give it a try by drafting against this super smart simulator that knows everything about the BBHL. Choose your team, randomize the order, and build your BBHL champion.</p>        
+            </td>
+        </tr>           
+    </table> 
+</div>
+<div>
+    <table class="auto-width">
+        <tr>
+            <td class="padding">
+                <h4>Choose your team:
+                    <select required [(ngModel)]="draftingAs" (ngModelChange)="setDraftingAs($event)" [disabled]="status !== 'Ready'">
+                        <option *ngFor="let drafter of draftOrder" [ngValue]="drafter">
+                            {{ drafter['team'].name }} 
+                        </option>
+                    </select>
+                </h4>
+            </td>
+            <td class="padding">
+                <button class="btn" (click)="generateOrder()" [disabled]="status !== 'Ready'">Randomize Draft Order</button>
+            </td>
+            <td class="padding">
+                <div *ngIf="status === 'Ready'">
+                    <button class="btn" (click)="startDraft()" [disabled]="!draftingAs">Start draft</button>
+                </div>
+                
+                <div *ngIf="status === 'Complete'">
+                    <button class="btn" (click)="resetDraft()">Reset draft</button>
+                </div>
+                
+            </td>
+            <td class="expand">
+                <h1>{{ formatCountdown() }}</h1>
+            </td>
+        </tr>
+    </table>
+</div>
+<div>
+    <table class="main draftboard" width="100%">
+        <tr>
+          <td>
+            <h3 align="center">Round</h3>
+          </td>
+          <td *ngFor="let drafter of draftOrder; let i = index" 
+              
+              align="center" style="padding: 6px">
+            <img [src]="drafter['team'].logo" width="80px">
+            <h3>{{ drafter['team'].captain }}</h3>
+          </td>
+        </tr>
+        <tr *ngFor="let round of rounds; let i = index">
+          <td class="draftboard" style="text-align: center;">
+            <b>{{ (i + 1) }}</b>
+          </td>
+          <td *ngFor="let drafter of draftOrder; let j = index" 
+              class="draftboard" 
+              [ngClass]="{'highlight-column': drafter === draftingAs}" 
+              style="text-align: center;">
+            <ng-container *ngIf="drafter.roster[i+1]; else emptyCell">
+              <i>{{ drafter.roster[i+1].name }}</i>
+            </ng-container>
+            <ng-template #emptyCell></ng-template>
+          </td>
+        </tr>
+      </table>
+      
+</div>
+
+<div>
+    <table width="100%">
+        <tr>
+            <td colspan="2">
+                <h2>Dashboard</h2>
+                <p><b>Draft Status:</b> {{ status }}<br>
+                    <b>Drafting As:</b> {{ draftingAs?.['team']?.name }}
+                </p>
+            </td>
+            <td>
+                <h3 align="right">
+                    Round {{ currentRound }}, Pick {{ pickOfRound }} ({{ nextPick }})<br>
+                    On the clock: {{ onTheClock?.['team']?.name }}<br>   
+                </h3>
+            </td>
+        </tr>
+        <tr>
+            <td width="30%">
+                <div *ngIf="displaying === 'Available'">
+                    <h3>Available players:</h3>   
+                </div>
+                <div *ngIf="displaying === 'Roster'">
+                    <h3>View roster for:
+                        <select required [(ngModel)]="onDisplay" (ngModelChange)="setOnDisplay($event)" placeholder="Select...">
+                            <option *ngFor="let drafter of draftOrder" [ngValue]="drafter">
+                                {{ drafter['team'].name }} 
+                            </option>
+                        </select>
+                    </h3>
+                </div>
+            </td>
+            <td width="35%" align="right">
+                <div class="toggle-container">
+                    <span [ngClass]="{'bold': displaying === 'Available'}">View Available Players&nbsp;&nbsp;</span>
+                    <label class="switch">
+                        <input type="checkbox" [checked]="displaying === 'Roster'" (change)="toggleDisplay()" [disabled]="status === 'Complete'" />
+                        <span class="slider round"></span>
+                    </label>
+                    <span [ngClass]="{'bold': displaying === 'Roster'}">&nbsp;&nbsp;View Rosters</span>
+                </div> 
+            </td>
+            <td>
+                <h3>Draft Log</h3>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div *ngIf="displaying === 'Available'">
+                    <div class="content-table available-players">
+                        <table class="main available-players" width="100%">
+                        <tr>
+                            <th class="clickable" (click)="toggleSort('draft_row')">
+                                #
+                                <span *ngIf="sortColumn === 'draft_row'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                                </th>
+                            <th class="clickable" (click)="toggleSort('name')">
+                            Name
+                            <span *ngIf="sortColumn === 'name'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                            </th>
+                            <th>
+                                Position
+                            </th>
+                            <th class="clickable" (click)="toggleSort('games_played')">
+                            GP
+                            <span *ngIf="sortColumn === 'games_played'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                            </th>
+                            <th class="clickable" (click)="toggleSort('goals')">
+                            Goals
+                            <span *ngIf="sortColumn === 'goals'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                            </th>
+                            <th class="clickable" (click)="toggleSort('assists')">
+                            Assists
+                            <span *ngIf="sortColumn === 'assists'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                            </th>
+                            <th class="clickable" (click)="toggleSort('points')">
+                            Points
+                            <span *ngIf="sortColumn === 'points'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                            </th>
+                            <th class="clickable" (click)="toggleSort('ppg')">
+                            PPG
+                            <span *ngIf="sortColumn === 'ppg'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                            </th>
+                            <th>
+            
+                            </th>
+                        </tr>
+                        <tr *ngFor="let player of available">
+                            <td class="available-players" style="text-align: center;">
+                                {{ player.draft_row }}</td>
+                            <td class="available-players">
+                                <p><b>{{ player.name }}</b></p>
+                            </td>
+                            <td class="available-players">
+                                <p>{{ player.position }}</p>
+                            </td>
+                            <td class="available-players">
+                            <p>{{ player.games_played }}</p>
+                            </td>
+                            <td class="available-players">
+                            <p>{{ player.goals }}</p>
+                            </td>
+                            <td class="available-players">
+                            <p>{{ player.assists }}</p>
+                            </td>
+                            <td class="available-players">
+                            <p>{{ player.points }}</p>
+                            </td>
+                            <td class="available-players">
+                            <p>{{ player.ppg }}</p>
+                            </td>
+                            <td class="available-players">
+                                <button class="btn" (click)="userSelects(player)" [disabled]="onTheClock !== draftingAs || (player.position === 'Goalie' && draftingAs && draftingAs.numG > 0)">Draft</button>
+                            </td>
+                        </tr>
+                        </table>
+                    </div>
+                </div>
+                <div *ngIf="displaying === 'Roster'">
+                    <div class="content-box">
+                        <table width="100%">
+                            <tr>
+                                <td align="center">
+                                    <img [src]="onDisplay?.['team']?.logo" width="60px">
+                                </td>
+                                <td colspan="3">
+                                    <h2>
+                                        <i>{{ onDisplay?.['team']?.name }}</i>
+                                    </h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="26%" class="roster-display">
+                                    {{ onDisplayF[0]?.name || '' }}
+                                </td>
+                                <td width="26%" class="roster-display">
+                                    {{ onDisplayF[1]?.name || '' }}
+                                </td>
+                                <td  width="26%" class="roster-display">
+                                    {{ onDisplayF[2]?.name || '' }}
+                                </td>
+                                <td rowspan="3" align="right">
+                                    <h4>
+                                        {{ onDisplayF.length }}/9 Forwards
+                                    </h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="roster-display">
+                                    {{ onDisplayF[3]?.name || '' }}
+                                </td>
+                                <td class="roster-display">
+                                    {{ onDisplayF[4]?.name || '' }}
+                                </td>
+                                <td class="roster-display">
+                                    {{ onDisplayF[5]?.name || '' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="roster-display">
+                                    {{ onDisplayF[6]?.name || '' }}
+                                </td>
+                                <td class="roster-display">
+                                    {{ onDisplayF[7]?.name || '' }}
+                                </td>
+                                <td class="roster-display">
+                                    {{ onDisplayF[8]?.name || '' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="roster-display" style="padding-top: 25px;">
+                                    {{ onDisplayD[0]?.name || '' }}
+                                </td>
+                                <td class="roster-display" style="padding-top: 25px;">
+                                    {{ onDisplayD[1]?.name || '' }}
+                                </td>
+                                <td style="padding-top: 25px;">
+
+                                </td>
+                                <td rowspan="3" align="right" style="padding-top: 25px;">
+                                    <h4>
+                                        {{ onDisplayD.length }}/5 Defensemen
+                                    </h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="roster-display">
+                                    {{ onDisplayD[2]?.name || '' }}
+                                </td>
+                                <td class="roster-display">
+                                    {{ onDisplayD[3]?.name || '' }}
+                                </td>
+                                <td>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="roster-display">
+                                    {{ onDisplayD[4]?.name || '' }}
+                                </td>
+                                <td colspan="2">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="roster-display">
+                                    {{ onDisplayG[0]?.name || '' }}
+                                </td>
+                                <td colspan="2">
+
+                                </td>
+                                <td align="right">
+                                    <h4>
+                                        {{ onDisplayG.length }}/1 Goalie
+                                    </h4>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </td>
+            <td valign="top" colspan="2">
+                <div class="draft-log">
+                    <table width="100%" class="draft-log">
+                        <tr *ngFor="let entry of draftLog; let i = index">
+                            <td width="100%" valign="top">
+                                <i>{{ draftLog[i] }}</i>
+                            </td>
+                        </tr>          
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div> 

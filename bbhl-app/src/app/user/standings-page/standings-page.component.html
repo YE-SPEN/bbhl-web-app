@@ -1,0 +1,113 @@
+<div>
+    <div class="content-box">
+        <table width="90%">
+            <tr>
+                <td>
+                    <h1>League Standings</h1>
+                </td>
+                <td style="padding: 10px">
+                    <h4>Select Season:
+                        <select [(ngModel)]="selectedSeason" (ngModelChange)="getStandingsBySeason()">
+                            <option *ngFor="let season of seasons" [value]="season">{{ season }}</option>
+                        </select>
+                    </h4>
+                </td>
+                <td style="padding: 10px">
+                    <h4>Sort by:
+                      <select [(ngModel)]="sortColumn" (ngModelChange)="sortTable($event, sortDirection)">
+                        <option *ngFor="let column of ['games_played', 'points', 'wins', 'losses', 'ties', 'goals_for', 'goals_against', 'differential']" [value]="column">{{ column }}</option>
+                      </select>
+                    </h4>
+                </td>
+                <td style="padding: 10px; vertical-align: middle;">
+                    <div class="toggle-container">
+                        <span [ngClass]="{'bold': sortDirection === 'desc'}">DESC&nbsp;&nbsp;</span>
+                        <label class="switch">
+                            <input type="checkbox" [checked]="sortDirection === 'asc'" (change)="toggleSort(sortColumn || 'points')" />
+                            <span class="slider round"></span>
+                        </label>
+                        <span [ngClass]="{'bold': sortDirection === 'asc'}">&nbsp;&nbsp;ASC</span>
+                    </div>
+                  </td>
+            </tr>           
+        </table> 
+    </div>
+    
+    <div class="content-table">
+        <table class="main" width="100%">
+            <tr>
+                <th>#</th>
+                <th colspan="2"></th>
+                <th class="clickable" (click)="toggleSort('games_played')">
+                    GP
+                    <span *ngIf="sortColumn === 'games_played'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+                <th class="clickable" (click)="toggleSort('points')">
+                    PTS
+                    <span *ngIf="sortColumn === 'points'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+                <th class="clickable" (click)="toggleSort('wins')">
+                    Wins
+                    <span *ngIf="sortColumn === 'wins'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+                <th class="clickable" (click)="toggleSort('losses')">
+                    Losses
+                    <span *ngIf="sortColumn === 'losses'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+                <th class="clickable" (click)="toggleSort('ties')">
+                    Ties
+                    <span *ngIf="sortColumn === 'ties'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+                <th class="clickable" (click)="toggleSort('goals_for')">
+                    GF
+                    <span *ngIf="sortColumn === 'goals_for'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+                <th class="clickable" (click)="toggleSort('goals_against')">
+                    GA
+                    <span *ngIf="sortColumn === 'goals_against'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+                <th class="clickable" (click)="toggleSort('differential')">
+                    DIFF
+                    <span *ngIf="sortColumn === 'differential'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
+                </th>
+            </tr>
+            <tr class="main" *ngFor="let team of teams; let i = index">
+                <td class="main" style="text-align: center;">{{ (i + 1) }}</td>
+                <td class="main" style="text-align: center;">
+                    <a [routerLink]="['/teams', team.id]">
+                    <img src="{{ team.logo }}" width="50">
+                    </a>
+                </td>
+                <td class="main">
+                    <a [routerLink]="['/teams', team.id]">
+                    <p><b>{{ team.name }}</b></p>
+                    </a>
+                </td>
+                <td class="main">
+                    <p>{{ team.games_played }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ team.points }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ team.wins }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ team.losses }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ team.ties }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ team.goals_for }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ team.goals_against }}</p>
+                </td>
+                <td class="main">
+                    <p>{{ team.differential }}</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

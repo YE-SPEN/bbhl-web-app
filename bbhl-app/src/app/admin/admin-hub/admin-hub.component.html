@@ -1,0 +1,159 @@
+<h1>Admin Hub</h1>
+<table width="80%" align="center">
+    <tr>
+        <td width="33%" align="center" style="padding: 6px">
+                <div class="content-box">
+                    <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678116-calendar-1024.png" width="125px"><br><br>
+                    <button class="btn-primary" (click)="setAction('addToSchedule')">Add to Schedule</button>
+                </div>
+            </td>
+        <td width="33%" align="center" style="padding: 6px">
+            <div class="content-box">
+                <img src="https://cdn3.iconfinder.com/data/icons/wintersport/128/Scoreboard_hockey-512.png" width="125px"><br><br>
+                <button class="btn-primary" (click)="setAction('recordResult')">Record Results</button>
+            </div>
+        </td>
+        <td width="33%" align="center" style="padding: 6px">
+            <div class="content-box">
+                <img src="https://cdn2.iconfinder.com/data/icons/database-and-storage-soft-fill/60/Edit-Data-storage-information-write-512.png" width="125px"><br><br>
+                <button class="btn-primary" (click)="setAction('editPlayer')">Edit Player</button>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div *ngIf="action === 'addToSchedule'">
+    <h2>Add to Schedule</h2>
+    <app-schedule-form></app-schedule-form>
+</div>
+
+<div *ngIf="action === 'recordResult'">
+    <h2>Record Results</h2>
+        <div>
+            <label for="selectedGame">Select game</label>
+            <select required id="game_id" name="selectedGame" [(ngModel)]="selectedGame" (change)="generateBoxscore()">
+                <option value="" selected disabled>Select...</option>
+                <option *ngFor="let game of upcomingGames" [ngValue]="game">
+                    {{ game.game_id }}: {{ game.home_team }} vs. {{ game.away_team }} ({{ game.formatted_date }} @ {{ game.time }})
+                </option>
+            </select>
+        </div>
+    <div *ngIf="selectedGame !== null">
+        <div class="content-box">
+            <table width="80%" align="center">
+                <tr>
+                    <td align="right">
+                        <img [src]="matchup[0].logo" width="150">
+                    </td>
+                   <td align="center">
+                        <h1>VS.</h1>
+                   </td>
+                    <td align="left">
+                        <img [src]="matchup[1].logo" width="150">
+                    </td>
+                </tr>
+                <tr>
+                    <td  colspan="3" width="100%" align="center">
+                        <h4>Game # {{ selectedGame.game_id }}<br>
+                            {{ selectedGame.formatted_date }} @ {{ selectedGame.time }}
+                        </h4>
+                    </td>
+                </tr>          
+            </table> 
+        </div>
+    
+        <h2>Rosters</h2>
+        <p>Enter stats in the table below and submit your gamesheet when ready.</p>
+        <div>
+            <table width="100%">
+                <tr>
+                    <td width="50%" *ngFor="let team of matchup; let i = index">
+                        <table class="main boxscore" width="100%">
+                            <tr>
+                                <th>#</th>
+                                <th width="35%">
+                                    Name
+                                </th>
+                                <th>
+                                    Goals
+                                </th>
+                                <th>
+                                    Assists
+                                </th>
+                                <th>
+                                    PIMS
+                                </th>
+                                <th>
+                                    GWG
+                                </th>
+                            </tr>
+                            <tr class="main" *ngFor="let player of matchup[i].roster; let j = index">
+                                <td class="boxscore" style="text-align: center;">
+                                    {{ (j+1) }}
+                                </td>
+                                <td class="boxscore" style="padding-left: 8px; text-align: left;">
+                                    <p><b>{{ player.name }}</b></p>
+                                </td>
+                                <td class="boxscore">
+                                    <input class="boxscore" type="number" (change)="statChange(player, matchup[i], $event, 'goals')">
+                                </td>
+                                <td class="boxscore">
+                                    <input class="boxscore" type="number" (change)="statChange(player, matchup[i], $event, 'assists')">
+                                </td>
+                                <td class="boxscore">
+                                    <input class="boxscore" type="number" step="2" (change)="statChange(player, matchup[i], $event, 'pims')">
+                                </td>
+                                <td class="boxscore">
+                                    <input class="boxscore" type="number" (change)="statChange(player, matchup[i], $event, 'gwg')">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: right">
+                                    <h3>Totals:</h3>
+                                </td>
+                                <td>
+                                    <h3>{{ getStatTotal('goals', i) }}</h3>
+                                </td>
+                                <td>
+                                    <h3>{{ getStatTotal('assists', i) }}</h3>
+                                </td>
+                                <td>
+                                    <h3>{{ getStatTotal('pims', i) }}</h3>
+                                </td>
+                                <td>
+                                    <h3>{{ getStatTotal('gwg', i) }}</h3>
+                                </td>                     
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <br><br>
+                        <button class="btn-primary" (click)="finalizeGame(); openModal(gamesheetModal)">Submit Gamesheet</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #gamesheetModal>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title pull-left">Game Results Recorded!</h3>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true"><b>X</b></span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="closeModal()">Back to Admin Hub</button>
+        </div>
+      </div>
+    </div>
+</ng-template>
+
+<div *ngIf="action === 'editPlayer'">
+    <h2>Edit player information</h2>
+</div>

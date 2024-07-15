@@ -1,0 +1,79 @@
+<div>
+    <table width="100%">
+        <tr>
+            <td>
+                <h2>Welcome to the BBHL Angular App</h2>
+                <p>This app has no affiliation with the real BBHL..... it is simply an excuse for me to learn some Angular. That being said, all the stats and results shown herein actually happened!</p>        
+            </td>
+        </tr>           
+    </table> 
+</div>
+
+<table width="100%">
+    <tr>
+        <td align="center" style="padding-right: 6px">
+            <div class="content-box">
+                <img src="https://i0.wp.com/thebbhl.ca/wp-content/uploads/2021/10/2022-BBHL-Draft.png?resize=1024%2C446&ssl=1" width="100%">
+                <h2>Try my Draft Simulator!</h2>
+                <p>Pick your BBHL franchise, randomize a draft order, and start picking. This fully functional simulator includes a dashboard to help you sort through the available players and visualize your lineup as you draft.</p>
+                <a routerLink="/draft-sim">
+                    <button class="btn-primary">Start a draft</button>
+                </a>    
+            </div>
+        </td>
+        <td width="50%" align="center" style="padding-left: 6px">
+            <div class="content-box">
+                <img src="https://images.dailyhive.com/20230708104619/puckdoku-hockey.jpg" width="84%">
+                <h2>Play some BBHLdoku</h2>
+                <p>Think you know everyone in league? Prove it in this PuckDoku inspired guessing game. Name players who've bounced around the league and get rewarded for more obscure guesses.</p>
+                <a routerLink="/bbhldoku">
+                    <button class="btn-primary">Play BBHLdoku</button>
+                </a>
+            </div>
+        </td>
+    </tr>
+</table>  
+
+<h2>Statistics & Results</h2>
+<p>Dive into the BBHL archives and see player stats and standings from years past. Check out game results and boxscores from last season, or put on your pretend admin hat and generate your own results and boxscores from the Admin hub.</p>
+<div>
+    <table width="90%" align="center">
+        <tr>
+            <td width="25%" align="center" style="padding: 6px">
+                    <div class="content-box">
+                        <img src="https://cdn4.iconfinder.com/data/icons/hockey-18/64/1_stick_puck_match_hockey_hockey_player_sport-1024.png" width="125px"><br><br>
+                        <a routerLink="/players">
+                            <button class="btn-primary">Player Stats</button>
+                        </a>
+                    </div>
+                </td>
+            <td width="25%" align="center" style="padding: 6px">
+                <div class="content-box">
+                    <img src="https://cdn2.iconfinder.com/data/icons/baseball-smooth-vol-2/256/STANDINGS-1024.png" width="125px"><br><br>
+                    <a routerLink="/standings">
+                        <button class="btn-primary">League Standings</button>
+                    </a>
+                </div>
+            </td>
+            <td width="25%" align="center" style="padding: 6px">
+                <div class="content-box">
+                    <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678116-calendar-1024.png" width="125px"><br><br>
+                    <a routerLink="/schedule">
+                        <button class="btn-primary">Schedule</button>
+                    </a>
+                </div>
+            </td>
+            <td width="25%" align="center" style="padding: 6px">
+                <div class="content-box">
+                    <img src="https://cdn0.iconfinder.com/data/icons/seo-marketing-flat-color-vol-1/52/admin__administration__setting__user__gear__account__profile-1024.png" width="125px"><br><br>
+                    <a routerLink="/admin-hub">
+                        <button class="btn-primary">Admin Hub</button>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+    

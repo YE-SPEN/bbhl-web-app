@@ -1,5 +1,5 @@
 import Boom from '@hapi/boom';
-import { db } from '../database';
+import { db } from '../database.js';
 
 export const homeRoute = {
     method: 'GET',

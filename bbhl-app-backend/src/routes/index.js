@@ -1,14 +1,14 @@
-import { scheduleRoute } from "./schedule";
-import { resultsRoute } from "./results";
-import { playerStatsRoute } from "./playerStats";
-import { playerRoute } from "./player";
-import { standingsRoute } from "./standings";
-import { teamRoute } from "./team";
-import { homeRoute } from "./home";
-import { bbhldokuRoute } from "./bbhldoku";
-import { adminRoute } from "./admin";
-import { newGameRoute } from "./newGame";
-import { draftSimRoute } from "./draftSim";
+import { scheduleRoute } from "./schedule.js";
+import { resultsRoute } from "./results.js";
+import { playerStatsRoute } from "./playerStats.js";
+import { playerRoute } from "./player.js";
+import { standingsRoute } from "./standings.js";
+import { teamRoute } from "./team.js";
+import { homeRoute } from "./home.js";
+import { bbhldokuRoute } from "./bbhldoku.js";
+import { adminRoute } from "./admin.js";
+import { newGameRoute } from "./newGame.js";
+import { draftSimRoute } from "./draftSim.js";
 
 
 export default [

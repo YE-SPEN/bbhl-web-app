@@ -1,9 +1,9 @@
 import Hapi from '@hapi/hapi';
 import admin from 'firebase-admin';
 import routes from './routes/index.js';
-import { db } from './database';
+import { db } from './database.js';
 import credentials from '../credentials.json';
-import HapiCors from 'hapi-cors';
+//import HapiCors from 'hapi-cors';
 
 admin.initializeApp({
     credential: admin.credential.cert(credentials),

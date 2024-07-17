@@ -2,7 +2,9 @@ import Hapi from '@hapi/hapi';
 import admin from 'firebase-admin';
 import routes from './routes/index.js';
 import { db } from './database.js';
-import credentials from '../credentials.json' assert { type: 'json' };
+import fs from 'fs';
+
+const credentials = JSON.parse(fs.readFileSync('../credentials.json'));
 
 admin.initializeApp({
     credential: admin.credential.cert(credentials),
@@ -13,19 +15,16 @@ let server;
 const start = async () => {
     server = Hapi.server({
         port: 8000,
-        host: 'localhost',
+        host: '0.0.0.0',
         routes: {
-            cors: {
-                origin: ['*'],
-                additionalHeaders: ['Accept', 'Content-Type', 'Authorization']
-            }
+            cors: true
         }
     });
 
     routes.forEach(route => server.route(route));
 
     try {
-        await db.connect();
+        await db.connect(); 
         await server.start(); 
         console.log(`Server is listening on ${server.info.uri}`);
     } catch (err) {

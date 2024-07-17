@@ -1,10 +1,12 @@
+import path from 'path';
 import Hapi from '@hapi/hapi';
 import admin from 'firebase-admin';
 import routes from './routes/index.js';
 import { db } from './database.js';
 import fs from 'fs';
 
-const credentials = JSON.parse(fs.readFileSync('../credentials.json'));
+const credentialsPath = path.resolve(process.cwd(), 'credentials.json');
+const credentials = JSON.parse(fs.readFileSync(credentialsPath));
 
 admin.initializeApp({
     credential: admin.credential.cert(credentials),

@@ -3,7 +3,6 @@ import admin from 'firebase-admin';
 import routes from './routes/index.js';
 import { db } from './database.js';
 import credentials from '../credentials.json' assert { type: 'json' };
-import HapiCors from 'hapi-cors';
 
 admin.initializeApp({
     credential: admin.credential.cert(credentials),
@@ -16,15 +15,17 @@ const start = async () => {
         port: 8000,
         host: 'localhost',
         routes: {
-            cors: true
+            cors: {
+                origin: ['*'],
+                additionalHeaders: ['Accept', 'Content-Type', 'Authorization']
+            }
         }
     });
 
     routes.forEach(route => server.route(route));
 
     try {
-        await db.connect(); 
-        await server.register(HapiCors); 
+        await db.connect();
         await server.start(); 
         console.log(`Server is listening on ${server.info.uri}`);
     } catch (err) {

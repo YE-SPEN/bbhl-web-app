@@ -2,7 +2,7 @@ import Hapi from '@hapi/hapi';
 import admin from 'firebase-admin';
 import routes from './routes/index.js';
 import { db } from './database.js';
-import credentials from '../credentials.json' assert { type: 'json '};
+import credentials from '../credentials.json' assert { type: 'json' };
 //import HapiCors from 'hapi-cors';
 
 admin.initializeApp({

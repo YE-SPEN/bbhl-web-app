@@ -17,7 +17,8 @@
     "@hapi/hapi": "^21.3.2",
     "dotenv": "^16.4.5",
     "firebase-admin": "^11.9.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "mysql2": "^3.10.3"
   },
   "devDependencies": {
     "@babel/core": "^7.22.5",

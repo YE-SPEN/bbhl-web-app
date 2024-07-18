@@ -11,8 +11,6 @@ const connection = mysql.createConnection({
     port: process.env.DB_PORT || 25060,
 });
 
-console.log(process.env.DB_HOST, process.env.DB_NAME, process.env.DB_USER);
-
 export const db = {
     connect: () => connection.connect(),
     query: (queryString, escapedValues) => 

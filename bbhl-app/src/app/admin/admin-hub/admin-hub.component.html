@@ -34,7 +34,7 @@
             <select required id="game_id" name="selectedGame" [(ngModel)]="selectedGame" (change)="generateBoxscore()">
                 <option value="" selected disabled>Select...</option>
                 <option *ngFor="let game of upcomingGames" [ngValue]="game">
-                    {{ game.game_id }}: {{ game.home_team }} vs. {{ game.away_team }} ({{ game.formatted_date }} @ {{ game.time }})
+                    {{ game.game_id }}: {{ game.home_team }} vs. {{ game.away_team }} ({{ game.formatted_date }} &#64; {{ game.time }})
                 </option>
             </select>
         </div>
@@ -55,7 +55,7 @@
                 <tr>
                     <td  colspan="3" width="100%" align="center">
                         <h4>Game # {{ selectedGame.game_id }}<br>
-                            {{ selectedGame.formatted_date }} @ {{ selectedGame.time }}
+                            {{ selectedGame.formatted_date }} &#64; {{ selectedGame.time }}
                         </h4>
                     </td>
                 </tr>          

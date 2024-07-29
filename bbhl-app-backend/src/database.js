@@ -27,7 +27,7 @@ export const db = {
         try {
             const connection = await pool.getConnection();
             console.log('Connected to the database');
-            connection.release();
+            //connection.release();
         } catch (err) {
             console.error('Error connecting to the database:', err);
         }

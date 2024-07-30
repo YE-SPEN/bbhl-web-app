@@ -56,11 +56,6 @@ const start = async () => {
     }
 };
 
-server.events.on('response', (request) => {
-    console.log(`Request received: ${request.method.toUpperCase()} ${request.path} - Status: ${request.response.statusCode}`);
-});
-
-
 process.on('unhandledRejection', err => {
     console.log('Unhandled rejection:', err);
     process.exit(1);
@@ -83,3 +78,7 @@ process.on('SIGINT', async () => {
 // Start the server
 start();
 console.log('Server initialization script complete');
+
+server.events.on('response', (request) => {
+    console.log(`Request received: ${request.method.toUpperCase()} ${request.path} - Status: ${request.response.statusCode}`);
+});

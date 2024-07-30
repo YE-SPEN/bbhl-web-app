@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    apiUrl: 'https://dolphin-app-f5yuy.ondigitalocean.app',
+    apiUrl: 'http://localhost:4200',
     firebase: {
         apiKey: "AIzaSyDt_7IMc1GnWRZLy6Sxpw7uDGmveJsGbmk",
         authDomain: "bbhl-project.firebaseapp.com",

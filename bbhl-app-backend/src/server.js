@@ -5,8 +5,13 @@ import routes from './routes/index.js';
 import { db } from './database.js';
 import fs from 'fs';
 
+console.log('Starting server initialization...');
+
 const credentialsPath = path.resolve(process.cwd(), 'credentials.json');
+console.log(`Resolved credentials path: ${credentialsPath}`);
+
 const credentials = JSON.parse(fs.readFileSync(credentialsPath));
+console.log('Credentials loaded successfully');
 
 admin.initializeApp({
     credential: admin.credential.cert(credentials),
@@ -23,11 +28,19 @@ const start = async () => {
         }
     });
 
-    routes.forEach(route => server.route(route));
+    console.log('Server configuration set');
+
+    // Log each route being registered
+    routes.forEach(route => {
+        console.log(`Registering route: ${route.method.toUpperCase()} ${route.path}`);
+        server.route(route);
+    });
 
     try {
-        await db.connect(); 
-        await server.start(); 
+        await db.connect();
+        console.log('Database connected successfully');
+
+        await server.start();
         console.log(`Server is listening on ${server.info.uri}`);
     } catch (err) {
         console.error('Error starting server:', err);
@@ -36,7 +49,7 @@ const start = async () => {
 };
 
 process.on('unhandledRejection', err => {
-    console.log(err);
+    console.log('Unhandled rejection:', err);
     process.exit(1);
 });
 
@@ -45,7 +58,7 @@ process.on('SIGINT', async () => {
 
     try {
         await server.stop({ timeout: 10000 });
-        db.end(); // Close database connection
+        await db.end(); // Close database connection
         console.log('Server stopped');
     } catch (err) {
         console.error('Error stopping server:', err);
@@ -54,4 +67,6 @@ process.on('SIGINT', async () => {
     process.exit(0);
 });
 
+// Start the server
 start();
+console.log('Server initialization script complete');

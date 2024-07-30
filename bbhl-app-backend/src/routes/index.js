@@ -8,6 +8,8 @@ import { homeRoute } from "./home.js";
 import { bbhldokuRoute } from "./bbhldoku.js";
 import { bbhldokuAnswerRoute } from "./bbhldoku-answer.js";
 import { adminRoute } from "./admin.js";
+import { adminPlayerStatsRoute } from "./admin-player-stats.js";
+import { adminTeamStatsRoute } from "./admin-team-stats.js";
 import { newGameRoute } from "./newGame.js";
 import { draftSimRoute } from "./draftSim.js";
 
@@ -23,6 +25,8 @@ export default [
     bbhldokuRoute,
     bbhldokuAnswerRoute,
     adminRoute,
+    adminPlayerStatsRoute,
+    adminTeamStatsRoute,
     newGameRoute,
     draftSimRoute,
 ]

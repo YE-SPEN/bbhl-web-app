@@ -6,6 +6,7 @@ import { standingsRoute } from "./standings.js";
 import { teamRoute } from "./team.js";
 import { homeRoute } from "./home.js";
 import { bbhldokuRoute } from "./bbhldoku.js";
+import { bbhldokuAnswerRoute } from "./bbhldoku-answer.js";
 import { adminRoute } from "./admin.js";
 import { newGameRoute } from "./newGame.js";
 import { draftSimRoute } from "./draftSim.js";
@@ -20,6 +21,7 @@ export default [
     teamRoute,
     homeRoute,
     bbhldokuRoute,
+    bbhldokuAnswerRoute,
     adminRoute,
     newGameRoute,
     draftSimRoute,

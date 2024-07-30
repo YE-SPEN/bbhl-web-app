@@ -5,17 +5,21 @@ import routes from './routes/index.js';
 import { db } from './database.js';
 import fs from 'fs';
 
+// Log to verify that the script is running
 console.log('Starting server initialization...');
 
+// Resolve the credentials path and read the credentials file
 const credentialsPath = path.resolve(process.cwd(), 'credentials.json');
 console.log(`Resolved credentials path: ${credentialsPath}`);
 
 const credentials = JSON.parse(fs.readFileSync(credentialsPath));
 console.log('Credentials loaded successfully');
 
+// Initialize Firebase admin
 admin.initializeApp({
     credential: admin.credential.cert(credentials),
 });
+console.log('Firebase admin initialized');
 
 let server;
 
@@ -32,8 +36,12 @@ const start = async () => {
 
     // Log each route being registered
     routes.forEach(route => {
-        console.log(`Registering route: ${route.method.toUpperCase()} ${route.path}`);
-        server.route(route);
+        if (route.method && route.path) {
+            console.log(`Registering route: ${route.method.toUpperCase()} ${route.path}`);
+            server.route(route);
+        } else {
+            console.error('Invalid route object:', route);
+        }
     });
 
     try {

@@ -1,4 +1,5 @@
 export const environment = {
-    production: true
+    production: true,
+    apiUrl: 'https://dolphin-app-f5yuy.ondigitalocean.app'
   };
   

@@ -1,5 +1,6 @@
 import path from 'path';
 import Hapi from '@hapi/hapi';
+import Inert from '@hapi/inert';
 import admin from 'firebase-admin';
 import routes from './routes/index.js';
 import { db } from './database.js';
@@ -34,6 +35,9 @@ const start = async () => {
 
     console.log('Server configuration set');
 
+    // Register Inert to serve static files
+    await server.register(Inert);
+
     // Log each route being registered
     routes.forEach(route => {
         if (route.method && route.path) {
@@ -41,6 +45,27 @@ const start = async () => {
             server.route(route);
         } else {
             console.error('Invalid route object:', route);
+        }
+    });
+
+    // Serve static files from the dist directory
+    server.route({
+        method: 'GET',
+        path: '/{param*}',
+        handler: {
+            directory: {
+                path: path.join(process.cwd(), 'dist'),
+                index: ['index.html']
+            }
+        }
+    });
+
+    // Catch-all route to serve index.html for any other routes
+    server.route({
+        method: 'GET',
+        path: '/{any*}',
+        handler: (request, h) => {
+            return h.file(path.join(process.cwd(), 'dist/index.html'));
         }
     });
 

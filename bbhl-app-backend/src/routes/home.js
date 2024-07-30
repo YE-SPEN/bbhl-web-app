@@ -3,7 +3,7 @@ import { db } from '../database.js';
 
 export const homeRoute = {
     method: 'GET',
-    path: '/api/home',
+    path: '/home',
     handler: async (req, h) => {
         console.log('Handling request for /api/home');
         
@@ -48,7 +48,7 @@ export const homeRoute = {
             console.log('League leaders query successful:', leagueLeaders);
 
             return { recentGames, leagueLeaders, teamNames };
-            
+
         } catch (error) {
             console.error('Error handling /api/home request:', error);
             return h.response({ error: error.message }).code(500);

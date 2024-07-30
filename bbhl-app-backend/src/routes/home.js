@@ -25,14 +25,14 @@ export const homeRoute = {
                 LIMIT 3`
             );
             recentGames = recentGamesResult.results;
-            console.log('Recent games query successful:', recentGames);
+            console.log('Recent games query successful:');
             
             console.log('Querying team names');
             const teamNamesResult = await db.query(
                 `SELECT DISTINCT name FROM teams`
             );
             teamNames = teamNamesResult.results;
-            console.log('Team names query successful:', teamNames);
+            console.log('Team names query successful:');
             
             console.log('Querying league leaders');
             const leagueLeadersResult = await db.query(
@@ -45,7 +45,7 @@ export const homeRoute = {
                 LIMIT 10`
             );
             leagueLeaders = leagueLeadersResult.results;
-            console.log('League leaders query successful:', leagueLeaders);
+            console.log('League leaders query successful:');
 
             return { recentGames, leagueLeaders, teamNames };
 

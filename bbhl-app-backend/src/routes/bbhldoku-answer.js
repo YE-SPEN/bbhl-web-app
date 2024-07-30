@@ -9,7 +9,7 @@ export const bbhldokuAnswerRoute = {
 
         try {
             await db.query(
-                `INSERT INTO Doku_Answers (player, team_1, team_2)
+                `INSERT INTO doku_answers (player, team_1, team_2)
                     VALUES (?, ?, ?)
                     ON DUPLICATE KEY UPDATE guessed = guessed + 1`,
                     [player, team1, team2]

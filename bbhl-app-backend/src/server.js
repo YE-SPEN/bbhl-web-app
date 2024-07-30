@@ -55,18 +55,20 @@ const start = async () => {
         handler: {
             directory: {
                 path: path.join(process.cwd(), 'dist'),
-                index: ['index.html']
+                index: ['index.html'],
+                redirectToSlash: true,
+                listing: false
             }
         }
     });
 
-    // Catch-all route to serve index.html for any other routes
-    server.route({
-        method: 'GET',
-        path: '/{any*}',
-        handler: (request, h) => {
-            return h.file(path.join(process.cwd(), 'dist/index.html'));
+    // Fallback to serve index.html for Angular client-side routing
+    server.ext('onPreResponse', (request, h) => {
+        const response = request.response;
+        if (response.isBoom && response.output.statusCode === 404) {
+            return h.file(path.join(process.cwd(), 'dist', 'index.html'));
         }
+        return h.continue;
     });
 
     try {

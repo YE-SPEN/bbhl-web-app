@@ -38,7 +38,6 @@ const start = async () => {
     routes.forEach(route => {
         if (route.method && route.path) {
             console.log(`Registering route: ${route.method.toUpperCase()} ${route.path}`);
-            console.log(`${route.handler }`);
             server.route(route);
         } else {
             console.error('Invalid route object:', route);
@@ -48,7 +47,6 @@ const start = async () => {
     try {
         await db.connect();
         console.log('Database connected successfully');
-        console.log(db);
 
         await server.start();
         console.log(`Server is listening on ${server.info.uri}`);

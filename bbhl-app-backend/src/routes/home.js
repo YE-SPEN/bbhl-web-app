@@ -3,7 +3,7 @@ import { db } from '../database.js';
 
 export const homeRoute = {
     method: 'GET',
-    path: '/home',
+    path: '/api/home',
     handler: async (req, h) => {
         console.log('Handling request for /api/home');
         

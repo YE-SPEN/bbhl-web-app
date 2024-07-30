@@ -56,6 +56,11 @@ const start = async () => {
     }
 };
 
+server.events.on('response', (request) => {
+    console.log(`Request received: ${request.method.toUpperCase()} ${request.path} - Status: ${request.response.statusCode}`);
+});
+
+
 process.on('unhandledRejection', err => {
     console.log('Unhandled rejection:', err);
     process.exit(1);

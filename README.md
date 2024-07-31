@@ -2,7 +2,7 @@
 
  A personal project web application for experimenting with full-stack application development. The BBHL app features an interactive Draft Simulator & Sudoku Grid Guessing game and displays historical data for a hockey league including upcoming games schedules, team standings, player rosters, and player history. 
 
-Tools & Techniques used: Angular, TypeScript, Node.js, MySQL, Postman, VS Code, HTML5, Tailwind CSS 
+Tools & Techniques used: Angular, TypeScript, Node.js, MySQL, Hapi, Digital Ocean, Postman, VS Code, HTML5, Tailwind CSS 
 
  Current functionalities/modules:
  1. Draft Simulator allowing users to select their franchise and build a team

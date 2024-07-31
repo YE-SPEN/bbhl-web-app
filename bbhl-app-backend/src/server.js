@@ -1,6 +1,5 @@
 import path from 'path';
 import Hapi from '@hapi/hapi';
-import Inert from '@hapi/inert';
 import admin from 'firebase-admin';
 import routes from './routes/index.js';
 import { db } from './database.js';
@@ -26,7 +25,7 @@ let server;
 
 const start = async () => {
     server = Hapi.server({
-        port: process.env.PORT || 8000,
+        port: process.env.PORT || 8080,
         host: '0.0.0.0',
         routes: {
             cors: true
@@ -34,9 +33,6 @@ const start = async () => {
     });
 
     console.log('Server configuration set');
-
-    // Register Inert to serve static files
-    await server.register(Inert);
 
     // Log each route being registered
     routes.forEach(route => {
@@ -46,29 +42,6 @@ const start = async () => {
         } else {
             console.error('Invalid route object:', route);
         }
-    });
-
-    // Serve static files from the dist directory
-    server.route({
-        method: 'GET',
-        path: '/{param*}',
-        handler: {
-            directory: {
-                path: path.join(process.cwd(), 'dist'),
-                index: ['index.html'],
-                redirectToSlash: true,
-                listing: false
-            }
-        }
-    });
-
-    // Fallback to serve index.html for Angular client-side routing
-    server.ext('onPreResponse', (request, h) => {
-        const response = request.response;
-        if (response.isBoom && response.output.statusCode === 404) {
-            return h.file(path.join(process.cwd(), 'dist', 'index.html'));
-        }
-        return h.continue;
     });
 
     try {

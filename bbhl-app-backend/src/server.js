@@ -64,7 +64,9 @@ const start = async () => {
         if(response.isBoom && response.output.statusCode === 404) {
 
             console.log('replying with file')
-            console.log(fs.readdirSync('./'));
+            console.log(fs.readdirSync('../bbhl-app/'));
+            console.log(fs.readdirSync('../bbhl-app/dist'));
+            console.log(fs.readdirSync('../bbhl-app/dist/bbhl-app/'));
             return reply.file('../bbhl-app/dist/bbhl-app/index.html', {
                 confine: false
             });

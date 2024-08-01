@@ -22,6 +22,8 @@ admin.initializeApp({
 });
 console.log('Firebase admin initialized');
 
+const distDir = fs.existsSync('./dist') ? './dist' : '../bbhl-app/dist/bbhl-app';
+
 let server;
 
 const start = async () => {
@@ -51,7 +53,7 @@ const start = async () => {
         path: '/{param*}',
         handler:  {
             directory: {
-                path: '../bbhl-app/dist/bbhl-app',
+                path: distDir,
                 index: ['index.html'],
                 redirectToSlash: true
             }
@@ -62,14 +64,15 @@ const start = async () => {
         const {response} = request;
         console.log('onPreResponse')
         if(response.isBoom && response.output.statusCode === 404) {
-
-            console.log('replying with file')
-            console.log(fs.readdirSync('../bbhl-app/'));
-            console.log(fs.readdirSync('../bbhl-app/dist'));
-            console.log(fs.readdirSync('../bbhl-app/dist/bbhl-app/'));
-            return reply.file('../bbhl-app/dist/bbhl-app/index.html', {
+            console.log(distDir);
+            try {
+                
+            return reply.file(`${distDir}/bbhl-app/index.html`, {
                 confine: false
             });
+        }catch(e) {
+            console.log(e);
+        }
         }
         return reply.continue;
     })

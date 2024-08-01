@@ -49,16 +49,23 @@ const start = async () => {
     server.route({
         method: 'GET',
         path: '/{param*}',
-        config: {
-            auth: false
-        },
-        handler: {
+        handler:  {
             directory: {
-                path: ['dist/'],
-                listing: false,
-                index: ['index.html']
+                path: '../bbhl-app/dist/bbhl-app',
+                index: ['index.html'],
+                redirectToSlash: true
             }
         }
+    })
+
+    server.ext('onPreResponse', (request, reply) => {
+        const {response} = request;
+        if(response.isBoom && response.output.statusCode === 404) {
+            return reply.file('../bbhl-app/dist/bbhl-app/index.html', {
+                confine: false
+            });
+        }
+        return reply.continue;
     })
 
     try {

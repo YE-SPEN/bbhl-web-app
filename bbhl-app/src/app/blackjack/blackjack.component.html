@@ -1,1 +1,62 @@
-<p>blackjack works!</p>
+<div class="content-box">
+    <table width="100%">
+        <tr>
+            <td>
+                <h2>Blackjack Simulator</h2>
+                <p>Ever wondered how many hands it would take playing by the book to see real profit? Well now's your chance to take the house. Add chips to your pot and play as many hands as you want.</p>        
+            </td>
+        </tr>           
+    </table> 
+</div>
+<div>
+    <table>
+        <tr>
+            <td class="padding">
+                <h4>Number of players:
+                    <select required [(ngModel)]="numPlayers">
+                        <option [ngValue]="1">1</option>
+                        <option [ngValue]="2">2</option>
+                        <option [ngValue]="3">3</option>
+                        <option [ngValue]="4">4</option>
+                    </select>
+                </h4>                
+            </td>
+            <td class="padding">
+                <button class="btn" (click)="deal()">Deal Hand</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div>
+    <table class="main draftboard" width="100%" style="border: none">
+        <tr>
+            <td align="center">
+                <h3>Dealer</h3>
+                <div class="card-container">
+                  <div *ngFor="let card of dealer?.hand">
+                    <img [src]="card.img" width="100px" [alt]="card.card + ' of ' + card.suit">
+                  </div>
+                </div>
+            </td>              
+        </tr>
+        <tr>
+            <td align="center">
+                <h3>Player</h3>
+                <div class="card-container" align="center">
+                    <div *ngFor="let card of table[0]?.hand">
+                    <img [src]="card.img" width="100px" [alt]="card.card + ' of ' + card.suit">
+                    </div>
+                </div>
+                <button class="btn" (click)="hit()">Hit</button>&nbsp;&nbsp;&nbsp;
+                <button class="btn" (click)="stay()">Stay</button>&nbsp;&nbsp;&nbsp;
+                <button class="btn" (click)="double()">Double Down</button>
+            </td> 
+            <td>
+                <div *ngIf="table[0]?.handVal !== 0">
+                    <h1 style="text-align: left">{{ table[0].handVal }}</h1>
+                </div>
+            </td>
+        </tr>
+      </table>
+      
+</div>

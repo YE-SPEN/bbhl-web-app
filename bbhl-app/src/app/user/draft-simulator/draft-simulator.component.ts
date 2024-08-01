@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './draft-simulator.component.html',
   styleUrls: ['./draft-simulator.component.css']
 })
+
 export class DraftSimulatorComponent {
   status: 'Ready' | 'In Progress' | 'Complete' = 'Ready';
   displaying: 'Available' | 'Roster' = 'Available';
@@ -25,9 +26,9 @@ export class DraftSimulatorComponent {
   onTheClock: Drafter | null = null;
   draftingAs: Drafter | null = null;
   onDisplay: Drafter | null = null;
-  onDisplayD: Player[] = [];
-  onDisplayF: Player[] = [];
-  onDisplayG: Player[] = [];
+  onDisplayD: Player[] | null = [];
+  onDisplayF: Player[] | null = [];
+  onDisplayG: Player[] | null = [];
   draftLog: string[] = ['Click start draft to begin...'];
   sortColumn: string | null = 'points';
   sortDirection: 'asc' | 'desc' = 'desc';

@@ -202,64 +202,64 @@
                             </tr>
                             <tr>
                                 <td width="26%" class="roster-display">
-                                    {{ onDisplayF[0]?.name || '' }}
+                                    {{ onDisplayF?.[0]?.name ?? '' }}
                                 </td>
                                 <td width="26%" class="roster-display">
-                                    {{ onDisplayF[1]?.name || '' }}
+                                    {{ onDisplayF?.[1]?.name ?? '' }}
                                 </td>
                                 <td  width="26%" class="roster-display">
-                                    {{ onDisplayF[2]?.name || '' }}
+                                    {{ onDisplayF?.[2]?.name ?? '' }}
                                 </td>
                                 <td rowspan="3" align="right">
                                     <h4>
-                                        {{ onDisplayF.length }}/9 Forwards
+                                        {{ onDisplayF?.length ?? 0 }}/9 Forwards
                                     </h4>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="roster-display">
-                                    {{ onDisplayF[3]?.name || '' }}
+                                    {{ onDisplayF?.[3]?.name ?? '' }}
                                 </td>
                                 <td class="roster-display">
-                                    {{ onDisplayF[4]?.name || '' }}
+                                    {{ onDisplayF?.[4]?.name ?? '' }}
                                 </td>
                                 <td class="roster-display">
-                                    {{ onDisplayF[5]?.name || '' }}
+                                    {{ onDisplayF?.[5]?.name ?? '' }}
                                 </td>
                             </tr>
                             <tr>
                                 <td class="roster-display">
-                                    {{ onDisplayF[6]?.name || '' }}
+                                    {{ onDisplayF?.[6]?.name ?? '' }}
                                 </td>
                                 <td class="roster-display">
-                                    {{ onDisplayF[7]?.name || '' }}
+                                    {{ onDisplayF?.[7]?.name ?? '' }}
                                 </td>
                                 <td class="roster-display">
-                                    {{ onDisplayF[8]?.name || '' }}
+                                    {{ onDisplayF?.[8]?.name ?? '' }}
                                 </td>
                             </tr>
                             <tr>
                                 <td class="roster-display" style="padding-top: 25px;">
-                                    {{ onDisplayD[0]?.name || '' }}
+                                    {{ onDisplayD?.[0]?.name ?? '' }}
                                 </td>
                                 <td class="roster-display" style="padding-top: 25px;">
-                                    {{ onDisplayD[1]?.name || '' }}
+                                    {{ onDisplayD?.[1]?.name ?? '' }}
                                 </td>
                                 <td style="padding-top: 25px;">
 
                                 </td>
                                 <td rowspan="3" align="right" style="padding-top: 25px;">
                                     <h4>
-                                        {{ onDisplayD.length }}/5 Defensemen
+                                        {{ onDisplayD?.length ?? 0 }}/5 Defensemen
                                     </h4>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="roster-display">
-                                    {{ onDisplayD[2]?.name || '' }}
+                                    {{ onDisplayD?.[2]?.name ?? '' }}
                                 </td>
                                 <td class="roster-display">
-                                    {{ onDisplayD[3]?.name || '' }}
+                                    {{ onDisplayD?.[3]?.name ?? '' }}
                                 </td>
                                 <td>
 
@@ -267,21 +267,21 @@
                             </tr>
                             <tr>
                                 <td class="roster-display">
-                                    {{ onDisplayD[4]?.name || '' }}
+                                    {{ onDisplayD?.[4]?.name ?? '' }}
                                 </td>
                                 <td colspan="2">
                                 </td>
                             </tr>
                             <tr>
                                 <td class="roster-display">
-                                    {{ onDisplayG[0]?.name || '' }}
+                                    {{ onDisplayG?.[0]?.name ?? '' }}
                                 </td>
                                 <td colspan="2">
 
                                 </td>
                                 <td align="right">
                                     <h4>
-                                        {{ onDisplayG.length }}/1 Goalie
+                                        {{ onDisplayG?.length ?? 0 }}/1 Goalie
                                     </h4>
                                 </td>
                             </tr>

@@ -11,6 +11,7 @@ import { ScheduleFormComponent } from './forms/schedule-form/schedule-form.compo
 import { ResultsPageComponent } from './user/results-page/results-page.component';
 import { BbhldokuComponent } from './user/bbhldoku/bbhldoku.component';
 import { DraftSimulatorComponent } from './user/draft-simulator/draft-simulator.component';
+import { BlackjackComponent } from './blackjack/blackjack.component';
 
 const routes: Routes = [
   { path: 'home', component: HomePageComponent },
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'draft-sim', component: DraftSimulatorComponent, pathMatch: 'full' },
   { path: 'admin-hub', component: AdminHubComponent },
   { path: 'admin-hub/new-game', component: ScheduleFormComponent, pathMatch: 'full' },
+  { path: 'blackjack', component: BlackjackComponent, pathMatch: 'full' },
 ];
 
 @NgModule({

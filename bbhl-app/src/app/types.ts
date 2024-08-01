@@ -44,7 +44,7 @@ export interface Drafter extends Partial<Team> {
     numD: number,
     numF: number,
     numG: number,
-}
+};
 
 export interface Game {
     game_id: string,
@@ -61,3 +61,19 @@ export interface Game {
     away_score: number,
     hasBoxscore: boolean,
 };
+
+export interface Card {
+    card: string,
+    suit: string,
+    val: number,
+    img: string,
+};
+
+export interface Gambler {
+    seat: number,
+    chips: number,
+    bet: number,
+    action: string,
+    hand: Card[],
+    handVal: number,
+}

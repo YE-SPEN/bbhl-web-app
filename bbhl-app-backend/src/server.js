@@ -1,5 +1,6 @@
 import path from 'path';
 import Hapi from '@hapi/hapi';
+import Inert from '@hapi/inert';
 import admin from 'firebase-admin';
 import routes from './routes/index.js';
 import { db } from './database.js';
@@ -43,6 +44,22 @@ const start = async () => {
             console.error('Invalid route object:', route);
         }
     });
+
+    await server.register(Inert);
+    server.route({
+        method: 'GET',
+        path: '/{param*}',
+        config: {
+            auth: false
+        },
+        handler: {
+            directory: {
+                path: ['dist/'],
+                listing: false,
+                index: ['index.html']
+            }
+        }
+    })
 
     try {
         await db.connect();

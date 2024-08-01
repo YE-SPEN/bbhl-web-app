@@ -60,7 +60,11 @@ const start = async () => {
 
     server.ext('onPreResponse', (request, reply) => {
         const {response} = request;
+        console.log('onPreResponse')
         if(response.isBoom && response.output.statusCode === 404) {
+
+            console.log('replying with file')
+            console.log(fs.readdirSync('./'));
             return reply.file('../bbhl-app/dist/bbhl-app/index.html', {
                 confine: false
             });

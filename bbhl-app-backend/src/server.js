@@ -53,7 +53,7 @@ const start = async () => {
         path: '/{param*}',
         handler:  {
             directory: {
-                path: distDir,
+                path: `${distDir}/bbhl-app`,
                 index: ['index.html'],
                 redirectToSlash: true
             }
@@ -63,6 +63,10 @@ const start = async () => {
     server.ext('onPreResponse', (request, reply) => {
         const {response} = request;
         console.log('onPreResponse')
+        console.log(fs.readdirSync('./'));
+        if(fs.existsSync(distDir)) {
+            console.log(fs.readdirSync(distDir));
+        }
         if(response.isBoom && response.output.statusCode === 404) {
             console.log(distDir);
             try {

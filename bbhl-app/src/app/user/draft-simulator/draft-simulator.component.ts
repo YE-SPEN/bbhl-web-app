@@ -46,13 +46,11 @@ export class DraftSimulatorComponent {
       this.captains = response.captains;
       this.draftOrder = this.initializeDrafters(response.teams);
       this.generateOrder();
-      console.log(this.draftOrder);
     });
 
     this.playersService.getDraftPlayers()
     .subscribe(response => {
       this.available = response.players;
-      console.log(this.available);
     });
   }
 
@@ -126,16 +124,13 @@ export class DraftSimulatorComponent {
     this.teamService.getDraftTeams()
     .subscribe(response => {
       this.captains = response.captains;
-      this.draftOrder = this.initializeDrafters(response.teams);
-      this.generateOrder();
-      console.log(this.draftOrder);
+      this.draftOrder = this.initializeDrafters(response.teams);;
     });
     
     // fetch draft eligible players and assign to available array
     this.playersService.getDraftPlayers()
     .subscribe(response => {
       this.available = response.players;
-      console.log(this.available);
     });
     
     this.status = 'Ready';
@@ -294,6 +289,7 @@ export class DraftSimulatorComponent {
           // where no players remain in the available array, end the draft
           if (this.available.length === 0) {
             this.status = 'Complete';
+
             // display roster view after the draft is completed
             if (this.displaying === 'Available') {
               this.toggleDisplay();
@@ -322,15 +318,15 @@ export class DraftSimulatorComponent {
     if (this.available.length === 0) {
       return null;
     }
-    
+  
     let bpa = this.getBPA();
     let bpaSet = this.getAvailablePlayersByRank(bpa);
     bpaSet = this.validatePositions(bpaSet, onTheClock);
   
     while (bpaSet.length === 0 && bpa > 0) {
       bpa -= 0.25;
-      bpaSet = this.getAvailablePlayersByRank(bpa);
-      bpaSet = this.validatePositions(bpaSet, onTheClock)
+      bpaSet = this.getAvailablePlayersByRank(bpa); 
+      bpaSet = this.validatePositions(bpaSet, onTheClock);
     }
   
     const selection = Math.floor(Math.random() * bpaSet.length);
@@ -349,14 +345,16 @@ export class DraftSimulatorComponent {
 
   getAvailablePlayersByRank(rank: number): Player[] {
     const playerSet: Player[] = [];
-
+    const precision = 0.01;
+  
     for (let i = 0; i < this.available.length; i++) {
-      if (this.available[i].player_rank === rank) {
+      if (Math.abs(this.available[i].player_rank - rank) < precision) {
         playerSet.push(this.available[i]);
-      } 
+      }
     }
     return playerSet;
   }
+  
 
   validatePositions(players: Player[], drafter: Drafter): Player[] {
     return players.filter(player => {

@@ -181,7 +181,7 @@
                             <p>{{ player.ppg }}</p>
                             </td>
                             <td class="available-players">
-                                <button class="btn" (click)="userSelects(player)" [disabled]="onTheClock !== draftingAs || (player.position === 'Goalie' && draftingAs && draftingAs.numG > 0)">Draft</button>
+                                <button class="btn" (click)="userSelects(player)" [disabled]="onTheClock !== draftingAs || (player.position === 'Goalie' && draftingAs && draftingAs.numG > 0) || (currentRound === 14 && draftingAs && draftingAs.numG === 0 && player.position !== 'Goalie')">Draft</button>
                             </td>
                         </tr>
                         </table>

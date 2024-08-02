@@ -40,7 +40,6 @@ const start = async () => {
     // Log each route being registered
     routes.forEach(route => {
         if (route.method && route.path) {
-            console.log(`Registering route: ${route.method.toUpperCase()} ${route.path}`);
             server.route(route);
         } else {
             console.error('Invalid route object:', route);
@@ -62,7 +61,6 @@ const start = async () => {
 
     server.ext('onPreResponse', (request, reply) => {
         const {response} = request;
-        console.log('onPreResponse')
         console.log(fs.readdirSync('./'));
         if(fs.existsSync(distDir)) {
             console.log(fs.readdirSync(distDir));
@@ -74,7 +72,7 @@ const start = async () => {
             return reply.file(`${distDir}/bbhl-app/index.html`, {
                 confine: false
             });
-        }catch(e) {
+        } catch(e) {
             console.log(e);
         }
         }
@@ -83,7 +81,6 @@ const start = async () => {
 
     try {
         await db.connect();
-        console.log('Database connected successfully');
 
         await server.start();
         console.log(`Server is listening on ${server.info.uri}`);
@@ -103,7 +100,7 @@ process.on('SIGINT', async () => {
 
     try {
         await server.stop({ timeout: 10000 });
-        await db.end(); // Close database connection
+        await db.end(); 
         console.log('Server stopped');
     } catch (err) {
         console.error('Error stopping server:', err);

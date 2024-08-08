@@ -61,12 +61,9 @@ const start = async () => {
 
     server.ext('onPreResponse', (request, reply) => {
         const {response} = request;
-        console.log(fs.readdirSync('./'));
         if(fs.existsSync(distDir)) {
-            console.log(fs.readdirSync(distDir));
         }
         if(response.isBoom && response.output.statusCode === 404) {
-            console.log(distDir);
             try {
                 
             return reply.file(`${distDir}/bbhl-app/index.html`, {

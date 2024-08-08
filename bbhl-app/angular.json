@@ -25,6 +25,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/tailwind.css",
               "src/styles.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css"
             ],

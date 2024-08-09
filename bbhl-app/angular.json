@@ -99,6 +99,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/tailwind.css",
               "src/styles.css"
             ],
             "scripts": []

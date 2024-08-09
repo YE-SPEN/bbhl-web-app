@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Player, Team, Drafter } from '../../types';
-import { TeamsService } from '../../teams.service';
-import { PlayersService } from 'src/app/players.service';
-import { SortingService } from 'src/app/sorting.service';
+import { TeamsService } from '../../services/teams.service';
+import { PlayersService } from 'src/app/services/players.service';
+import { SortingService } from 'src/app/services/sorting.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

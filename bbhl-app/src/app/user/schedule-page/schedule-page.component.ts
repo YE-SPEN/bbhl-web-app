@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Game, Team } from '../../types';
-import { ScheduleService } from '../../schedule.service';
+import { ScheduleService } from '../../services/schedule.service';
 
 @Component({
   selector: 'app-schedule-page',

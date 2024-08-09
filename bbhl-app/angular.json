@@ -67,15 +67,15 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "bbhl-app:build",
+            "buildTarget": "bbhl-app:build",
             "proxyConfig": "proxy.config.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "bbhl-app:build:production"
+              "buildTarget": "bbhl-app:build:production"
             },
             "development": {
-              "browserTarget": "bbhl-app:build:development"
+              "buildTarget": "bbhl-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "bbhl-app:build"
+            "buildTarget": "bbhl-app:build"
           }
         },
         "test": {

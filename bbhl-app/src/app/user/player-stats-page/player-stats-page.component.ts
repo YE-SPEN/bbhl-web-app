@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Player } from '../../types';
-import { PlayersService } from '../../players.service';
+import { PlayersService } from '../../services/players.service';
 
 @Component({
   selector: 'app-player-stats-page',

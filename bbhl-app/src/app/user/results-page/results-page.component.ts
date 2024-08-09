@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ScheduleService } from 'src/app/schedule.service';
-import { SortingService } from 'src/app/sorting.service';
+import { ScheduleService } from 'src/app/services/schedule.service';
+import { SortingService } from 'src/app/services/sorting.service';
 import { Game, Team } from 'src/app/types';
 
 @Component({

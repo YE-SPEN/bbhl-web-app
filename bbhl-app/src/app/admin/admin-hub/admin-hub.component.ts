@@ -1,7 +1,7 @@
 import { Component, TemplateRef } from '@angular/core';
 import { Player, Team, Game } from '../../types'
-import { ScheduleService } from 'src/app/schedule.service';
-import { TeamsService } from 'src/app/teams.service';
+import { ScheduleService } from 'src/app/services/schedule.service';
+import { TeamsService } from 'src/app/services/teams.service';
 import { HttpClient } from '@angular/common/http';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 

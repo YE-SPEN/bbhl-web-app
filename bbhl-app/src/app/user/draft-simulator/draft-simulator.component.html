@@ -1,86 +1,109 @@
-<div class="content-box">
+<div>
     <table width="100%">
         <tr>
-            <td>
-                <h2>BBHL Draft Simulator</h2>
-                <p>Think you can can do what a BBHL captain does? Well now you can give it a try by drafting against this super smart simulator that knows everything about the BBHL. Choose your team, randomize the order, and build your BBHL champion.</p>        
+            <td class="py-10">
+                <h1 class="mb-4 font-bold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl sm:2xl dark:text-white">BBHL Draft Simulator</h1>
+                <p class="mb-6 text-base font-normal text-gray-500 lg:text-xl dark:text-gray-400">Think you can can do what a BBHL captain does? Well now you can give it a try by drafting against this super smart simulator that knows everything about the BBHL. Choose your team, randomize the order, and build your BBHL champion.</p>
             </td>
         </tr>           
     </table> 
 </div>
 <div>
-    <table class="auto-width">
+    <table class="auto-width py-5">
         <tr>
             <td class="padding">
-                <h4>Choose your team:
-                    <select required [(ngModel)]="draftingAs" (ngModelChange)="setDraftingAs($event)" [disabled]="status !== 'Ready'">
+                <div class="flex items-center">
+                    <label for="teams" class="text-lg font-semibold text-gray-900 dark:text-white mr-4">Choose your team:</label>
+                    <select 
+                        required 
+                        [(ngModel)]="draftingAs" 
+                        (ngModelChange)="setDraftingAs($event)" 
+                        [disabled]="status !== 'Ready'" 
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-[200px]">
                         <option *ngFor="let drafter of draftOrder" [ngValue]="drafter">
                             {{ drafter['team'].name }} 
                         </option>
                     </select>
-                </h4>
-            </td>
+                </div>
+            </td>                       
             <td class="padding">
-                <button class="btn" (click)="generateOrder()" [disabled]="status !== 'Ready'">Randomize Draft Order</button>
+                <div *ngIf="status === 'Ready'">
+                    <button type="button" (click)="generateOrder()" [disabled]="status !== 'Ready'" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:outline-none focus: font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-gray-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600">Randomize Draft Order</button>             
+                </div>
             </td>
             <td class="padding">
                 <div *ngIf="status === 'Ready'">
-                    <button class="btn" (click)="startDraft()" [disabled]="!draftingAs">Start draft</button>
-                </div>
-                
+                    <button 
+                        (click)="startDraft()" 
+                        [disabled]="!draftingAs" 
+                        [ngClass]="{
+                            'bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-red-300': draftingAs,
+                            'bg-red-400 cursor-not-allowed': !draftingAs
+                        }"
+                        type="button" 
+                        class="text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                        Start Draft
+                        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                        </svg>
+                    </button>      
+                </div>           
                 <div *ngIf="status === 'Complete'">
-                    <button class="btn" (click)="resetDraft()">Reset draft</button>
-                </div>
-                
+                    <button type="button" (click)="resetDraft()" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus: font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Reset Draft</button>
+                </div>             
             </td>
             <td class="expand">
-                <h1>{{ formatCountdown() }}</h1>
+                <h1 class="mb-4 text-4xl font-bold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-4xl dark:text-white">{{ formatCountdown() }}</h1>
             </td>
         </tr>
     </table>
 </div>
-<div>
-    <table class="main draftboard" width="100%">
-        <tr>
-          <td>
-            <h3 align="center">Round</h3>
-          </td>
-          <td *ngFor="let drafter of draftOrder; let i = index" 
-              
-              align="center" style="padding: 6px">
-            <img [src]="drafter['team'].logo" width="80px">
-            <h3>{{ drafter['team'].captain }}</h3>
-          </td>
-        </tr>
-        <tr *ngFor="let round of rounds; let i = index">
-          <td class="draftboard" style="text-align: center;">
-            <b>{{ (i + 1) }}</b>
-          </td>
-          <td *ngFor="let drafter of draftOrder; let j = index" 
-              class="draftboard" 
-              [ngClass]="{'highlight-column': drafter === draftingAs}" 
-              style="text-align: center;">
-            <ng-container *ngIf="drafter.roster[i+1]; else emptyCell">
-              <i>{{ drafter.roster[i+1].name }}</i>
-            </ng-container>
-            <ng-template #emptyCell></ng-template>
-          </td>
-        </tr>
-      </table>
-      
+<div class="py-4">
+    <table class="w-full table-fixed border-collapse">
+        <thead>
+            <tr>
+                <th class="w-20 text-center">
+                    <h3 class="text-base font-semibold">Round</h3>
+                </th>
+                <th *ngFor="let drafter of draftOrder" class="w-1/7 p-1">
+                    <div class="flex flex-col items-center">
+                        <img [src]="drafter['team'].logo" width="80px" class="mx-auto">
+                        <h3 class="py-3 font-semibold text-center">{{ drafter['team'].captain }}</h3>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let round of rounds; let i = index" class="h-10">
+                <td class="text-center font-medium w-20">
+                    <b>{{ (i + 1) }}</b>
+                </td>
+                <td *ngFor="let drafter of draftOrder"
+                    class="border border-gray-400 text-sm text-gray-900 w-1/7"
+                    [ngClass]="{'highlight-column': drafter === draftingAs}">
+                    <div class="flex justify-center items-center h-full">
+                        <ng-container *ngIf="drafter.roster[i+1]; else emptyCell">
+                            <i>{{ drafter.roster[i+1].name }}</i>
+                        </ng-container>
+                        <ng-template #emptyCell></ng-template>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>      
 </div>
 
-<div>
+<div class="py-10">
     <table width="100%">
         <tr>
             <td colspan="2">
-                <h2>Dashboard</h2>
-                <p><b>Draft Status:</b> {{ status }}<br>
-                    <b>Drafting As:</b> {{ draftingAs?.['team']?.name }}
-                </p>
+                <h2 class="text-2xl font-semibold py-2">Dashboard</h2>               
+                <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                    <div class="bg-red-600 h-2.5 rounded-full" [style.width.%]="progress"></div>
+                </div>
             </td>
             <td>
-                <h3 align="right">
+                <h3 align="right" class="text-base font-semibold">
                     Round {{ currentRound }}, Pick {{ pickOfRound }} ({{ nextPick }})<br>
                     On the clock: {{ onTheClock?.['team']?.name }}<br>   
                 </h3>
@@ -89,163 +112,268 @@
         <tr>
             <td width="30%">
                 <div *ngIf="displaying === 'Available'">
-                    <h3>Available players:</h3>   
+                    <h3 class="text-lg font-semibold">Available Players</h3>   
                 </div>
-                <div *ngIf="displaying === 'Roster'">
-                    <h3>View roster for:
-                        <select required [(ngModel)]="onDisplay" (ngModelChange)="setOnDisplay($event)" placeholder="Select...">
-                            <option *ngFor="let drafter of draftOrder" [ngValue]="drafter">
-                                {{ drafter['team'].name }} 
-                            </option>
-                        </select>
-                    </h3>
+                <div *ngIf="displaying === 'Roster'" class="flex items-center">
+                    <label for="teams" class="text-base font-semibold text-gray-900 dark:text-white">View roster for:</label>
+                    <select 
+                        required 
+                        [(ngModel)]="onDisplay" 
+                        (ngModelChange)="setOnDisplay($event)"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-[200px]">
+                        <option *ngFor="let drafter of draftOrder" [ngValue]="drafter">
+                            {{ drafter['team'].name }} 
+                        </option>
+                    </select>
                 </div>
             </td>
-            <td width="35%" align="right">
-                <div class="toggle-container">
-                    <span [ngClass]="{'bold': displaying === 'Available'}">View Available Players&nbsp;&nbsp;</span>
-                    <label class="switch">
-                        <input type="checkbox" [checked]="displaying === 'Roster'" (change)="toggleDisplay()" [disabled]="status === 'Complete'" />
-                        <span class="slider round"></span>
-                    </label>
-                    <span [ngClass]="{'bold': displaying === 'Roster'}">&nbsp;&nbsp;View Rosters</span>
-                </div> 
+            <td width="35%" align="right">                
+                <div class="py-5 inline-flex rounded-sm shadow-sm" role="group">
+                    <button (click)="setDisplay('Available')" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-red-700 focus:z-10 focus:ring-2 focus:ring-red-700 focus:text-red-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-red-500 dark:focus:text-white">
+                        <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+                        </svg>
+                        Players
+                    </button>
+                    <button (click)="setDisplay('Roster')" type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-red-700 focus:z-10 focus:ring-2 focus:ring-red-700 focus:text-red-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-red-500 dark:focus:text-white">
+                        <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                        </svg>
+                        Rosters
+                    </button>
+                </div>
             </td>
             <td>
-                <h3>Draft Log</h3>
+                <h3 class="px-5 text-lg font-semibold">Draft Log</h3>
             </td>
         </tr>
         <tr>
             <td colspan="2">
-                <div *ngIf="displaying === 'Available'">
-                    <div class="content-table available-players">
-                        <table class="main available-players" width="100%">
-                        <tr>
-                            <th class="clickable" (click)="toggleSort('draft_row')">
-                                #
-                                <span *ngIf="sortColumn === 'draft_row'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-                                </th>
-                            <th class="clickable" (click)="toggleSort('name')">
-                            Name
-                            <span *ngIf="sortColumn === 'name'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-                            </th>
-                            <th>
-                                Position
-                            </th>
-                            <th class="clickable" (click)="toggleSort('games_played')">
-                            GP
-                            <span *ngIf="sortColumn === 'games_played'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-                            </th>
-                            <th class="clickable" (click)="toggleSort('goals')">
-                            Goals
-                            <span *ngIf="sortColumn === 'goals'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-                            </th>
-                            <th class="clickable" (click)="toggleSort('assists')">
-                            Assists
-                            <span *ngIf="sortColumn === 'assists'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-                            </th>
-                            <th class="clickable" (click)="toggleSort('points')">
-                            Points
-                            <span *ngIf="sortColumn === 'points'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-                            </th>
-                            <th class="clickable" (click)="toggleSort('ppg')">
-                            PPG
-                            <span *ngIf="sortColumn === 'ppg'" [class]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-                            </th>
-                            <th>
-            
-                            </th>
-                        </tr>
-                        <tr *ngFor="let player of available">
-                            <td class="available-players" style="text-align: center;">
-                                {{ player.draft_row }}</td>
-                            <td class="available-players">
-                                <p><b>{{ player.name }}</b></p>
-                            </td>
-                            <td class="available-players">
-                                <p>{{ player.position }}</p>
-                            </td>
-                            <td class="available-players">
-                            <p>{{ player.games_played }}</p>
-                            </td>
-                            <td class="available-players">
-                            <p>{{ player.goals }}</p>
-                            </td>
-                            <td class="available-players">
-                            <p>{{ player.assists }}</p>
-                            </td>
-                            <td class="available-players">
-                            <p>{{ player.points }}</p>
-                            </td>
-                            <td class="available-players">
-                            <p>{{ player.ppg }}</p>
-                            </td>
-                            <td class="available-players">
-                                <button class="btn" (click)="userSelects(player)" [disabled]="onTheClock !== draftingAs || (player.position === 'Goalie' && draftingAs && draftingAs.numG > 0) || (currentRound === 14 && draftingAs && draftingAs.numG === 0 && player.position !== 'Goalie')">Draft</button>
-                            </td>
-                        </tr>
-                        </table>
-                    </div>
-                </div>
-                <div *ngIf="displaying === 'Roster'">
-                    <div class="content-box">
-                        <table width="100%">
+                <div *ngIf="displaying === 'Available'" class="relative overflow-x-auto shadow-md sm:rounded-lg rounded-lg max-h-96">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <td align="center">
-                                    <img [src]="onDisplay?.['team']?.logo" width="60px">
+                                <th scope="col" class="px-6 py-3">
+                                    <div class="flex items-center">
+                                        #
+                                        <a (click)="toggleSort('draft_row')">
+                                            <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
+                                                <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    <div class="flex items-center">
+                                        Name
+                                        <a (click)="toggleSort('name')">
+                                            <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
+                                                <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Position
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    <div class="flex items-center">
+                                        GP
+                                        <a (click)="toggleSort('games_played')">
+                                            <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
+                                                <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    <div class="flex items-center">
+                                        G
+                                        <a (click)="toggleSort('goals')">
+                                            <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
+                                                <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    <div class="flex items-center">
+                                        A
+                                        <a (click)="toggleSort('assists')">
+                                            <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
+                                                <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    <div class="flex items-center">
+                                        PTS
+                                        <a (click)="toggleSort('points')">
+                                            <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
+                                                <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    <div class="flex items-center">
+                                        PPG
+                                        <a (click)="toggleSort('ppg')">
+                                            <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
+                                                <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let player of available" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <td class="px-4 py-3">
+                                    {{ player.draft_row }}
                                 </td>
-                                <td colspan="3">
-                                    <h2>
-                                        <i>{{ onDisplay?.['team']?.name }}</i>
-                                    </h2>
+                                <td scope="row" class="px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ player.name }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    {{ player.position }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    {{ player.games_played }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    {{ player.goals }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    {{ player.assists }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    {{ player.points }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    {{ player.ppg }}
+                                </td>
+                                <td class="px-4 py-3 text-right">
+                                    <button type="button" 
+                                            class="px-3 py-1 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:outline-none dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                                            (click)="userSelects(player)" 
+                                            [disabled]="onTheClock !== draftingAs || (player.position === 'Goalie' && draftingAs && draftingAs.numG > 0) || (currentRound === 14 && draftingAs && draftingAs.numG === 0 && player.position !== 'Goalie')">
+                                        Draft
+                                    </button>
                                 </td>
                             </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="displaying === 'Roster'">
+                    <div class="w-full p-6 bg-gray-100 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                        <table>
                             <tr>
-                                <td width="26%" class="roster-display">
-                                    {{ onDisplayF?.[0]?.name ?? '' }}
+                                <td align="left">
+                                    <img [src]="onDisplay?.['team']?.logo" class="w-20 h-20 pb-2">
                                 </td>
-                                <td width="26%" class="roster-display">
-                                    {{ onDisplayF?.[1]?.name ?? '' }}
+                                <td>
+                                    <h2 class="text-2xl font-semibold py-2 px-2">
+                                        {{ onDisplay?.['team']?.name }}
+                                    </h2>
                                 </td>
-                                <td  width="26%" class="roster-display">
-                                    {{ onDisplayF?.[2]?.name ?? '' }}
+                            </tr>                            
+                        </table>
+                        <table width="100%">
+                            <tr>
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayF?.[0]?.name ?? '' }}
+                                    </div>
+                                </td>                                                                                 
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayF?.[1]?.name ?? '' }}
+                                    </div>
                                 </td>
-                                <td rowspan="3" align="right">
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayF?.[2]?.name ?? '' }}
+                                    </div>
+                                </td>
+                                <td rowspan="3" align="right" style="padding-top: 25px;">
                                     <h4>
                                         {{ onDisplayF?.length ?? 0 }}/9 Forwards
                                     </h4>
-                                </td>
+                                </td> 
                             </tr>
                             <tr>
-                                <td class="roster-display">
-                                    {{ onDisplayF?.[3]?.name ?? '' }}
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayF?.[3]?.name ?? '' }}
+                                    </div>
+                                </td>                                                                                 
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayF?.[4]?.name ?? '' }}
+                                    </div>
                                 </td>
-                                <td class="roster-display">
-                                    {{ onDisplayF?.[4]?.name ?? '' }}
-                                </td>
-                                <td class="roster-display">
-                                    {{ onDisplayF?.[5]?.name ?? '' }}
-                                </td>
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayF?.[5]?.name ?? '' }}
+                                    </div>
+                                </td> 
                             </tr>
                             <tr>
-                                <td class="roster-display">
-                                    {{ onDisplayF?.[6]?.name ?? '' }}
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayF?.[6]?.name ?? '' }}
+                                    </div>
+                                </td>                                                                                 
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayF?.[7]?.name ?? '' }}
+                                    </div>
                                 </td>
-                                <td class="roster-display">
-                                    {{ onDisplayF?.[7]?.name ?? '' }}
-                                </td>
-                                <td class="roster-display">
-                                    {{ onDisplayF?.[8]?.name ?? '' }}
-                                </td>
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayF?.[8]?.name ?? '' }}
+                                    </div>
+                                </td> 
                             </tr>
                             <tr>
-                                <td class="roster-display" style="padding-top: 25px;">
-                                    {{ onDisplayD?.[0]?.name ?? '' }}
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="mt-8 relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayD?.[0]?.name ?? '' }}
+                                    </div>
+                                </td>                                                                                 
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="mt-8 relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayD?.[1]?.name ?? '' }}
+                                    </div>
                                 </td>
-                                <td class="roster-display" style="padding-top: 25px;">
-                                    {{ onDisplayD?.[1]?.name ?? '' }}
-                                </td>
-                                <td style="padding-top: 25px;">
+                                <td class="w-1/4 ">
 
                                 </td>
                                 <td rowspan="3" align="right" style="padding-top: 25px;">
@@ -255,27 +383,43 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="roster-display">
-                                    {{ onDisplayD?.[2]?.name ?? '' }}
-                                </td>
-                                <td class="roster-display">
-                                    {{ onDisplayD?.[3]?.name ?? '' }}
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayD?.[2]?.name ?? '' }}
+                                    </div>
+                                </td>                                                                                 
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayD?.[3]?.name ?? '' }}
+                                    </div>
                                 </td>
                                 <td>
 
                                 </td>
                             </tr>
                             <tr>
-                                <td class="roster-display">
-                                    {{ onDisplayD?.[4]?.name ?? '' }}
-                                </td>
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayD?.[4]?.name ?? '' }}
+                                    </div>
+                                </td>  
                                 <td colspan="2">
                                 </td>
                             </tr>
                             <tr>
-                                <td class="roster-display">
-                                    {{ onDisplayG?.[0]?.name ?? '' }}
-                                </td>
+                                <td class="w-1/4 px-0.5">
+                                    <div
+                                        class="mt-8 relative block text-sm text-center text-gray-900 bg-white rounded-sm border border-gray-500 px-4 py-2.5 w-full dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                                        style="min-height: 2.5rem;">
+                                        {{ onDisplayG?.[0]?.name ?? '' }}
+                                    </div>
+                                </td>  
                                 <td colspan="2">
 
                                 </td>
@@ -290,15 +434,11 @@
                 </div>
             </td>
             <td valign="top" colspan="2">
-                <div class="draft-log">
-                    <table width="100%" class="draft-log">
-                        <tr *ngFor="let entry of draftLog; let i = index">
-                            <td width="100%" valign="top">
-                                <i>{{ draftLog[i] }}</i>
-                            </td>
-                        </tr>          
-                    </table>
-                </div>
+                <div class="draft-log px-5">
+                    <ul class="w-full text-sm font-medium text-gray-500 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <li *ngFor="let entry of draftLog; let i = index" class="w-full px-2 py-2 italic border-b border-gray-200 rounded-t-lg dark:border-gray-600">{{ draftLog[i] }}</li>
+                    </ul>  
+                </div>     
             </td>
         </tr>
     </table>

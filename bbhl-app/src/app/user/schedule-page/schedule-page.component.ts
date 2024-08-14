@@ -63,5 +63,9 @@ export class SchedulePageComponent implements OnInit {
       this.currentPage++;
     }
   }
+
+  setPage(page: number): void {
+    this.currentPage = page;
+  }
   
 }

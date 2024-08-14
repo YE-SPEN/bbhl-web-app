@@ -33,6 +33,7 @@
     "src/**/*.ts",
     "src/**/*.js",
     "src/**/*.mjs",
-    "src/hapi-cors.d.ts"
+    "src/hapi-cors.d.ts",
+    "tailwind.config.js",  
   ]
 }

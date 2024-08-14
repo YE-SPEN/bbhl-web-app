@@ -8,6 +8,10 @@ body {
     padding: 0;
 }
 
+html {
+  font-size: 80%;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -15,15 +19,6 @@ body {
 a {
     text-decoration: none;
     color: black;
-}
-
-a:hover {
-    color: #eb9234;
-    transition: color 0.2s;
-}
-
-div {
-    padding: 8px;
 }
 
 #page-wrap {
@@ -36,9 +31,8 @@ div {
 #max-width-column {
     background-color: white;
     margin: 0 auto;
-    max-width: 1300px;
+    max-width: 100%;
     min-height: 100vh;
-    padding: 16px;
     position: relative;
 }
 
@@ -50,15 +44,14 @@ div {
     margin-top: 0;
 }
 
-#my-listings-button {
-    position: absolute;
-    top: 16px;
-    right: 16px;
+#content-wrap {
+  max-width: 1400px;
+  width: auto;
+  margin: 0 auto; /* Centers the div horizontally */
+  display: flex;  /* Required for align-items */
+  align-items: center; /* Centers the content vertically if it's a flex container */
 }
 
-#content-wrap {
-    padding: 16px;
-}
 
 .auto-width {
   width: 100%; /* Ensure the table takes full width */
@@ -101,10 +94,10 @@ div {
   border: 1px solid #064D51;
 }
 .btn-secondary:focus {
-background-color: #dddddd;
-box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
-transition: box-shadow 0.5s ease;
-border: 1px solid #064D51;
+  background-color: #dddddd;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+  transition: box-shadow 0.5s ease;
+  border: 1px solid #064D51;
 }
 
 .content-box {
@@ -114,30 +107,6 @@ border: 1px solid #064D51;
     padding: 16px;
     position: relative;
     margin-bottom: 16px;
-}
-
-.content-box-doku {
-  background-color: #EEE;
-  border-radius: 8px;
-  border: 1px solid #eb9234;
-  padding: 16px;
-  position: relative;
-  margin-bottom: 0px;
-  min-height: 175px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #ccc;
-  text-align: center;
-  &:hover {
-    border: 2px solid #eb9234;
-    background-color: #e2e2e2;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-  }
-}
-
-.content-box-doku h2 {
-  margin: 0; /* Ensures there is no additional margin affecting alignment */
 }
 
 .player-image {
@@ -195,17 +164,12 @@ table.boxscore {
   text-align: center;
 }
 
-table.draftboard {
-  font-size: small;
-  border: 1px solid #A9A9A9;
-  background-color: #fff;
-}
-
 tr.main:hover {
     background-color: #DEDEDE;
     padding: 3px;
 }
 
+/*
 th {
     border-top: 8px solid #eb9234;
     background-color: #222222;
@@ -217,7 +181,6 @@ th {
     top: 0;
     z-index: 1;
   }
-
 th.clickable:hover{
   border-top: 8px solid #eb9234;
   background-color: #3d3d3d;
@@ -229,6 +192,7 @@ th.clicked {
   border-right: 1px solid #ffffff;
   background-color: #3d3d3d;
 }
+  */
 
 td.main {
   border-bottom: 1px solid #A9A9A9;
@@ -246,17 +210,6 @@ td.boxscore {
   border: 1px solid #A9A9A9;
 }
 
-td.draftboard {
-  border: 1px solid #A9A9A9;
-  padding: 10px 6px 10px 6px;
-}
-
-td.available-players {
-  border-bottom: 1px solid #A9A9A9;
-  padding: 0px 0px 0px 0px;
-  font-size: 1em;  
-}
-
 .boxscore input[type="number"] {
   border: none;
   background-color: transparent;
@@ -264,45 +217,6 @@ td.available-players {
   height: 100%;
   text-align: center;
   appearance: none;
-}
-
-/* CSS */
-.button-74 {
-  background-color: #fbeee0;
-  border: 2px solid #422800;
-  border-radius: 30px;
-  box-shadow: #422800 4px 4px 0 0;
-  color: #422800;
-  cursor: pointer;
-  display: inline-block;
-  font-weight: 600;
-  font-size: 18px;
-  padding: 0 18px;
-  line-height: 50px;
-  text-align: center;
-  text-decoration: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-}
-
-.secondary {
-  background-color: #422800;
-  border: 2px solid #fbeee0;
-  color: #fbeee0;
-}
-
-.button-74:hover {
-  background-color: #fff;
-}
-
-.secondary:hover {
-  background-color: #222222;
-}
-
-.button-74:active {
-  box-shadow: #422800 2px 2px 0 0;
-  transform: translate(2px, 2px);
 }
 
 @media (min-width: 768px) {
@@ -329,7 +243,7 @@ label {
   color: #222;
 }
 
-/* regular input */
+/* regular input 
 input[type=email], input[type=number], input[type=password], input[type=tel], input[type=text], input[type=url], select {
   display: inline-block;
   height: 34px;
@@ -352,6 +266,7 @@ input[type=email], input[type=number], input[type=password], input[type=tel], in
     box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
   }
 }
+*/
 /* checkbox */
 input[type=checkbox], input[type=radio] {
   -webkit-appearance: none;
@@ -501,7 +416,7 @@ input[type=checkbox], input[type=radio] {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #eb9234;
+  background-color: red;
   -webkit-transition: .4s;
   transition: .4s;
   border-radius: 34px;
@@ -521,58 +436,17 @@ input[type=checkbox], input[type=radio] {
 }
 
 input:checked + .slider {
-  background-color: #eb9234;
+  background-color: red;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #eb9234;
+  box-shadow: 0 0 1px red;
 }
 
 input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
-}
-
-/* Pagination */
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-  
-.pagination button {
-  background: none;
-  border: none;
-  padding: 36px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-  transition: color 0.3s;
-  position: relative;
-}
-
-.pagination button:hover {
-  color: #ff5500;
-  transition: color 0.3s;
-}
-
-.pagination button.prev::before {
-  content: "\2190";
-  margin-right: 4px;
-}
-
-.pagination button.next::after {
-  content: "\2192";
-  margin-left: 4px;
-}
-
-.pagination button:disabled {
-  color: #ccc;
-  cursor: not-allowed;
 }
 
 /* Draft Dashboard */
@@ -589,7 +463,7 @@ input:checked + .slider:before {
   padding: 4px 2px 4px 2px;
   overflow: auto;
   height: auto;
-  max-height: 400px;
+  max-height: 405px;
   vertical-align: text-top;
 }
 
@@ -609,7 +483,7 @@ table.available-players {
   position: relative;
   padding: 4px 2px 4px 2px;
   overflow: auto;
-  max-height: 400px;
+  max-height: 405px;
 }
 
 td.roster-display {
@@ -724,7 +598,7 @@ td.roster-display {
 .autocomplete-results {
   border: 1px solid #ccc;
   max-height: 150px;
-  max-width: 400px;
+  max-width: 405px;
   overflow-y: auto;
   position: absolute;
   width: calc(100% - 2px); /* Adjust width to match input field */

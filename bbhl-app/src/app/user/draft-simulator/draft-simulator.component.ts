@@ -20,6 +20,7 @@ export class DraftSimulatorComponent {
   currentRound = 1;
   pickOfRound = 1;
   nextPick = 1;
+  progress = 0;
   draftOrder: Drafter[] = [];
   available: Player[] = [];
   captains: Player[] = [];
@@ -133,6 +134,7 @@ export class DraftSimulatorComponent {
       this.available = response.players;
     });
     
+    this.balanceRoster();
     this.status = 'Ready';
   }
 
@@ -263,6 +265,7 @@ export class DraftSimulatorComponent {
 
   advancePick(): void {
     if (this.available.length > 0) {
+      this.progress = (this.nextPick / 98) * 100;
       this.nextPick++;
       this.pickOfRound++;
       
@@ -289,10 +292,11 @@ export class DraftSimulatorComponent {
           // where no players remain in the available array, end the draft
           if (this.available.length === 0) {
             this.status = 'Complete';
+            this.progress = 100;
 
             // display roster view after the draft is completed
             if (this.displaying === 'Available') {
-              this.toggleDisplay();
+              this.setDisplay('Roster');
             }
             else {
               this.balanceRoster();
@@ -309,7 +313,7 @@ export class DraftSimulatorComponent {
     if (this.status !== 'Complete') {
       this.startCountdown();
       if (this.displaying === 'Roster') {
-        this.toggleDisplay();
+        this.setDisplay('Available');
       }
     }
   }
@@ -412,8 +416,8 @@ export class DraftSimulatorComponent {
     this.sortTable(this.sortColumn, this.sortDirection);
   }
 
-  toggleDisplay(): void {
-    this.displaying = this.displaying === 'Roster' ? 'Available' : 'Roster';
+  setDisplay(type: "Available" | "Roster"): void {
+    this.displaying = type;
     this.onDisplay = this.draftingAs === null ? this.draftOrder[0] : this.draftingAs;
     this.balanceRoster();
   }

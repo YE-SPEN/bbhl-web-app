@@ -52,6 +52,10 @@ export class PlayerStatsPageComponent {
     }
   }
 
+  setPage(page: number): void {
+    this.currentPage = page;
+  }
+
   sortTable(column: string | null, direction: 'asc' | 'desc'): void {
     if (column) {
       this.players.sort((a, b) => {

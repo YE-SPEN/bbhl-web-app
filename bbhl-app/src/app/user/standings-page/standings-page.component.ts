@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Team } from '../../types';
-import { TeamsService } from '../../teams.service';
+import { TeamsService } from '../../services/teams.service';
 
 @Component({
   selector: 'app-standings-page',

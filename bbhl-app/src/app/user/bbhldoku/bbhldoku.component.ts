@@ -1,8 +1,8 @@
 import { Component, TemplateRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Player, Team } from '../../types'
-import { PlayersService } from 'src/app/players.service';
-import { TeamsService } from 'src/app/teams.service';
+import { PlayersService } from 'src/app/services/players.service';
+import { TeamsService } from 'src/app/services/teams.service';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 
 @Component({

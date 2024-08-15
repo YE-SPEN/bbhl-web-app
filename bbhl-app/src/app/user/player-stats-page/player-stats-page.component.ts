@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Player } from '../../types';
-import { PlayersService } from '../../players.service';
+import { PlayersService } from '../../services/players.service';
 
 @Component({
   selector: 'app-player-stats-page',
@@ -50,6 +50,10 @@ export class PlayerStatsPageComponent {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
     }
+  }
+
+  setPage(page: number): void {
+    this.currentPage = page;
   }
 
   sortTable(column: string | null, direction: 'asc' | 'desc'): void {

@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Player, Team, Drafter } from '../../types';
-import { TeamsService } from '../../teams.service';
-import { PlayersService } from 'src/app/players.service';
-import { SortingService } from 'src/app/sorting.service';
+import { TeamsService } from '../../services/teams.service';
+import { PlayersService } from 'src/app/services/players.service';
+import { SortingService } from 'src/app/services/sorting.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -20,6 +20,7 @@ export class DraftSimulatorComponent {
   currentRound = 1;
   pickOfRound = 1;
   nextPick = 1;
+  progress = 0;
   draftOrder: Drafter[] = [];
   available: Player[] = [];
   captains: Player[] = [];
@@ -32,6 +33,9 @@ export class DraftSimulatorComponent {
   draftLog: string[] = ['Click start draft to begin...'];
   sortColumn: string | null = 'points';
   sortDirection: 'asc' | 'desc' = 'desc';
+  @ViewChild('toastSuccess', { static: false }) toastSuccess!: ElementRef<HTMLDivElement>;
+  @ViewChild('toastWarning', { static: false }) toastWarning!: ElementRef<HTMLDivElement>;
+  toastMessage: string | null = null;
 
   constructor(
     private teamService: TeamsService,
@@ -133,6 +137,7 @@ export class DraftSimulatorComponent {
       this.available = response.players;
     });
     
+    this.balanceRoster();
     this.status = 'Ready';
   }
 
@@ -247,6 +252,7 @@ export class DraftSimulatorComponent {
       this.draftPlayer(selection, this.onTheClock);
       this.clearCountdown();
       this.advancePick();
+      this.showToast(selection.name);
       this.simToNextPick();
     }
   }
@@ -263,6 +269,7 @@ export class DraftSimulatorComponent {
 
   advancePick(): void {
     if (this.available.length > 0) {
+      this.progress = Number(((this.nextPick / 98) * 100).toFixed(2));
       this.nextPick++;
       this.pickOfRound++;
       
@@ -289,10 +296,11 @@ export class DraftSimulatorComponent {
           // where no players remain in the available array, end the draft
           if (this.available.length === 0) {
             this.status = 'Complete';
+            this.progress = 100;
 
             // display roster view after the draft is completed
             if (this.displaying === 'Available') {
-              this.toggleDisplay();
+              this.setDisplay('Roster');
             }
             else {
               this.balanceRoster();
@@ -308,8 +316,9 @@ export class DraftSimulatorComponent {
     // start countdown for user selections
     if (this.status !== 'Complete') {
       this.startCountdown();
+      this.showToast();
       if (this.displaying === 'Roster') {
-        this.toggleDisplay();
+        this.setDisplay('Available');
       }
     }
   }
@@ -412,10 +421,46 @@ export class DraftSimulatorComponent {
     this.sortTable(this.sortColumn, this.sortDirection);
   }
 
-  toggleDisplay(): void {
-    this.displaying = this.displaying === 'Roster' ? 'Available' : 'Roster';
+  setDisplay(type: "Available" | "Roster"): void {
+    this.displaying = type;
     this.onDisplay = this.draftingAs === null ? this.draftOrder[0] : this.draftingAs;
     this.balanceRoster();
+  }
+
+  showToast(playerName?: string): void {
+    let toast: HTMLElement | null = null;
+    
+    if (playerName) {
+      this.toastMessage = `${playerName} added to your roster.`;
+      toast = this.toastSuccess.nativeElement;
+    } else {
+      this.toastMessage = `You're on the clock!`;
+      toast = this.toastWarning.nativeElement;
+    }
+    
+    if (toast) {
+      toast.classList.add('show');
+      toast.classList.remove('hidden');
+      
+      setTimeout(() => {
+        this.dismissToast(toast);
+      }, 4500);
+    }
+  }
+
+  dismissToast(toast: HTMLElement): void {
+    if (toast) {
+      toast.classList.remove('show');
+      toast.classList.add('hidden');
+    }
+  }
+
+
+  isButtonDisabled(player: any): boolean {
+      if (this.onTheClock !== this.draftingAs || (player.position === 'Goalie' && this.draftingAs && this.draftingAs.numG > 0) || (this.currentRound === 14 && this.draftingAs && this.draftingAs.numG === 0 && player.position !== 'Goalie')) {
+        return true;
+      }
+      return false;
   }
 
 }

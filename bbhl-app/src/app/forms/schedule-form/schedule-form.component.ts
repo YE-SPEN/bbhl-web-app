@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Game, Team } from '../../types';
-import { ScheduleService } from '../../schedule.service';
+import { ScheduleService } from '../../services/schedule.service';
 
 @Component({
   selector: 'app-schedule-form',

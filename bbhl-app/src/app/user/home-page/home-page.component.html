@@ -1,79 +1,119 @@
-<div>
-    <table width="100%">
-        <tr>
-            <td>
-                <h2>Welcome to the BBHL Angular App</h2>
-                <p>This app has no affiliation with the real BBHL..... it is simply an excuse for me to learn some Angular. That being said, all the stats and results shown herein actually happened!</p>        
-            </td>
-        </tr>           
-    </table> 
+<div class="pt-10">
+    <h1 class="mb-4 font-bold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl sm:2xl dark:text-white">Welcome to the BBHL Angular App</h1>
+    <p class="mb-6 text-base font-normal text-gray-500 lg:text-xl dark:text-gray-400">This app has no affiliation with the real BBHL..... it is simply an excuse for me to learn some Angular. That being said, all the stats and results shown herein actually happened!</p>
 </div>
 
-<table width="100%">
-    <tr>
-        <td align="center" style="padding-right: 6px">
-            <div class="content-box">
-                <img src="https://i0.wp.com/thebbhl.ca/wp-content/uploads/2021/10/2022-BBHL-Draft.png?resize=1024%2C446&ssl=1" width="100%">
-                <h2>Try my Draft Simulator!</h2>
-                <p>Pick your BBHL franchise, randomize a draft order, and start picking. This fully functional simulator includes a dashboard to help you sort through the available players and visualize your lineup as you draft.</p>
+<ul class="flex flex-wrap justify-center">
+    <li class="w-full lg:w-1/2 p-4">
+        <div class="max-w-3xl bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a routerLink="/draft-sim">
+                <img src="https://i0.wp.com/thebbhl.ca/wp-content/uploads/2021/10/2022-BBHL-Draft.png?resize=1024%2C446&ssl=1" alt="" />
+            </a>
+            <div class="p-5">
                 <a routerLink="/draft-sim">
-                    <button class="btn-primary">Start a draft</button>
-                </a>    
-            </div>
-        </td>
-        <td width="50%" align="center" style="padding-left: 6px">
-            <div class="content-box">
-                <img src="https://images.dailyhive.com/20230708104619/puckdoku-hockey.jpg" width="84%">
-                <h2>Play some BBHLdoku</h2>
-                <p>Think you know everyone in league? Prove it in this PuckDoku inspired guessing game. Name players who've bounced around the league and get rewarded for more obscure guesses.</p>
-                <a routerLink="/bbhldoku">
-                    <button class="btn-primary">Play BBHLdoku</button>
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Try my Draft Simulator!</h5>
+                </a>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">This is why you're here. Pick your BBHL franchise, randomize a draft order, and start picking. This fully functional simulator includes a dashboard to help you sort through the available players and visualize your lineup as you draft.</p>
+                <a routerLink="/draft-sim" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                    Start drafting
+                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                    </svg>
                 </a>
             </div>
-        </td>
-    </tr>
-</table>  
+        </div>
+    </li>
+    <li class="w-full lg:w-1/2 p-4">
+        <div class="max-w-3xl bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a routerLink="/bbhldoku">
+                <img align="center" class="rounded-t-lg max-w-[84%]" src="https://images.dailyhive.com/20230708104619/puckdoku-hockey.jpg" alt="" />
+            </a>
+            <div class="p-5">
+                <a routerLink="/bbhldoku">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Play some BBHLdoku</h5>
+                </a>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">It's no draft sim but this game is pretty cool too! Think you know everyone in league? Prove it in this PuckDoku inspired guessing game. Name players who've bounced around the league and get rewarded for more obscure guesses. Please play it so it can learn from your guesses.</p>
+                <a routerLink="/bbhldoku" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                    Play now
+                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </li>
+</ul>
 
-<h2>Statistics & Results</h2>
-<p>Dive into the BBHL archives and see player stats and standings from years past. Check out game results and boxscores from last season, or put on your pretend admin hat and generate your own results and boxscores from the Admin hub.</p>
-<div>
-    <table width="90%" align="center">
-        <tr>
-            <td width="25%" align="center" style="padding: 6px">
-                    <div class="content-box">
-                        <img src="https://cdn4.iconfinder.com/data/icons/hockey-18/64/1_stick_puck_match_hockey_hockey_player_sport-1024.png" width="125px"><br><br>
-                        <a routerLink="/players">
-                            <button class="btn-primary">Player Stats</button>
-                        </a>
-                    </div>
-                </td>
-            <td width="25%" align="center" style="padding: 6px">
-                <div class="content-box">
-                    <img src="https://cdn2.iconfinder.com/data/icons/baseball-smooth-vol-2/256/STANDINGS-1024.png" width="125px"><br><br>
-                    <a routerLink="/standings">
-                        <button class="btn-primary">League Standings</button>
-                    </a>
-                </div>
-            </td>
-            <td width="25%" align="center" style="padding: 6px">
-                <div class="content-box">
-                    <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678116-calendar-1024.png" width="125px"><br><br>
-                    <a routerLink="/schedule">
-                        <button class="btn-primary">Schedule</button>
-                    </a>
-                </div>
-            </td>
-            <td width="25%" align="center" style="padding: 6px">
-                <div class="content-box">
-                    <img src="https://cdn0.iconfinder.com/data/icons/seo-marketing-flat-color-vol-1/52/admin__administration__setting__user__gear__account__profile-1024.png" width="125px"><br><br>
-                    <a routerLink="/admin-hub">
-                        <button class="btn-primary">Admin Hub</button>
-                    </a>
-                </div>
-            </td>
-        </tr>
-    </table>
+<div class="pt-10">
+    <h1 class="mb-4 font-bold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl sm:2xl dark:text-white">Statistics & Results</h1>
+    <p class="mb-6 text-base font-normal text-gray-500 lg:text-xl dark:text-gray-400">Dive into the BBHL archives and see player stats and standings from years past. Check out game results and boxscores from last season, or put on your pretend admin hat and generate your own results and boxscores from the Admin Hub.</p>
 </div>
 
+<ul class="flex flex-wrap justify-center pb-10">
+    <li class="w-full md:w-1/4 p-4">
+        <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a routerLink="/players">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Player Stats</h5>
+            </a>
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                See how many points TJ scored in 2018, if you're into that sort of thing. A couple of the covid seasons seem to be missing stats on the real website... don't blame me!
+            </p>
+            <a routerLink="/players" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                View Stats
+                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                </svg>
+            </a>
+        </div>
+    </li>
+    <li class="w-full lg:w-1/4 p-4">
+        <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a routerLink="/standings">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Team Standings</h5>
+            </a>
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                Revisit your favourite past teams and reminisce about players who are no longer in the league. Remember Umar Azam? Matt Fijal? The App remembers.
+            </p>
+            <a routerLink="/standings" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                View Standings
+                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                </svg>
+            </a>
+        </div>
+    </li>
+    <li class="w-full lg:w-1/4 p-4">
+        <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a routerLink="/schedule">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Schedule</h5>
+            </a>
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                There was no way I was going to enter every boxscore into this app, but I did all of last season in case you forgot what day Iano broke 2 sticks against the Punishers.
+            </p>
+            <a routerLink="/schedule" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                View Schedule
+                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                </svg>
+            </a>
+        </div>
+    </li>
+    <li class="w-full lg:w-1/4 p-4">
+        <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a routerLink="/admin-hub">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Admin Hub</h5>
+            </a>
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                Ok this part of the app is kind of useless but it was good practice for me to practice making post requests to my DB. Go play with the draft sim.
+            </p>
+            <a routerLink="/admin-hub" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                Log in
+                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                </svg>
+            </a>
+        </div>
+    </li>
+</ul>
 
     

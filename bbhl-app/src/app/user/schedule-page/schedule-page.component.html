@@ -1,131 +1,202 @@
 <div>
-    <table width="70%">
-        <tr>
-            <td>
-                <h1>Schedule & Results</h1>
-            </td>
-            <td>
-                <h4>Filter by team:
-                    <select id="teamFilter" [(ngModel)]="selectedTeam" (ngModelChange)="filterByTeam(selectedTeam)">
-                    <option value="">All Teams</option>
-                    <option *ngFor="let team of teamNames" [value]="team.name">{{ team.name }}</option>
-                    </select>
-                </h4>
-            </td>
-            <td>
-                <h4>Select Season:
-                    <select [(ngModel)]="selectedSeason" (ngModelChange)="getScheduleBySeason()">
-                        <option *ngFor="let season of seasons" [value]="season">{{ season }}</option>
-                    </select>
-                </h4>
-            </td>
-        </tr>           
-    </table>
+
+    <div>
+        <h1 class="mb-4 pt-8 font-bold text-4xl leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">Schedule & Results</h1>
+        
+        <ul class="flex flex-col items-center md:flex-row md:items-center gap-4 py-4">
+      
+          <!-- Select Season -->
+          <li class="w-full md:w-auto flex flex-col md:flex-row items-center justify-center md:justify-start">
+              <label for="teams" class="text-lg font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">Select season:</label>
+              <select required [(ngModel)]="selectedSeason" (ngModelChange)="getScheduleBySeason()" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-[200px]">
+                  <option *ngFor="let season of seasons" [value]="season">
+                      {{ season }}
+                  </option>
+              </select>
+          </li>
+      
+          <!-- Filter by Team -->
+          <li class="w-full md:w-auto flex flex-col md:flex-row items-center justify-center md:justify-start">
+              <label for="teams" class="text-lg font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">Sort by:</label>
+              <select id="teamFilter" [(ngModel)]="selectedTeam" (ngModelChange)="filterByTeam(selectedTeam)" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-[200px]">
+                <option value="">All Teams</option>  
+                <option *ngFor="let team of teamNames" [value]="team.name">
+                    {{ team.name }}
+                </option>
+              </select>
+          </li>
+      
+      </ul>            
+    </div>
 
     <div *ngIf="selectedSeason === 2024">
-        <h2>Upcoming Games</h2>
+        <h2 class="mb-4 pt-8 font-bold text-2xl leading-none tracking-tight text-gray-900 dark:text-white">Upcoming Games</h2>
         
-        <div class="content-table">    
-            <table class="main" width="100%">
-                <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th colspan="2">Home</th>
-                    <th colspan="2">Away</th>
-                </tr>
-                <tr class="tight" *ngFor="let game of filteredUpcomingGames">
-                    <td class="tight" style="padding-left: 8px;">
-                        <p>{{ game.formatted_date }}</p>
-                    </td>
-                    <td class="tight">
-                        <p>{{ game.time }}</p>
-                    </td>
-                    <td class="tight" style="text-align: right; padding: 10px;">
-                        <a [routerLink]="['/teams', game.home_team_id]">
-                            <p><b>{{ game.home_team }}</b></p>
-                        </a>
-                    </td>
-                    <td class="tight">
-                        <a [routerLink]="['/teams', game.home_team_id]">
-                            <img src="{{ game.home_team_logo }}" width="50">
-                        </a>
-                    </td>
-                    <td class="tight">
-                        <a [routerLink]="['/teams', game.away_team_id]">
-                            <img src="{{ game.away_team_logo }}" width="50">
-                        </a>
-                    </td>
-                    <td class="tight">
-                        <a [routerLink]="['/teams', game.away_team_id]">
-                            <p><b>{{ game.away_team }}</b></p>
-                        </a>
-                    </td>
-                </tr>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg rounded-lg max-h-[800px]">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-sm text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
+                    <tr class="sticky top-0 bg-gray-800">
+                        <th scope="col" class="px-6 py-3">
+                            <div class="flex items-center">
+                                Date
+                            </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            <div class="flex items-center">
+                                Time
+                            </div>
+                        </th>
+                        <th scope="col" colspan="5" class="px-6 py-3">
+                            <div class="flex items-center">
+                                
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let game of filteredUpcomingGames" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-base">
+                        <td class="px-4 py-3">
+                            {{ game.formatted_date }}
+                        </td>
+                        <td class="px-4 py-3">
+                            {{ game.time }}
+                        </td>
+                        <td scope="row" class="text-right px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                            <a [routerLink]="['/teams', game.home_team_id]" class="hover:font-semibold hover:text-gray-600">
+                                {{ game.home_team }}
+                            </a>  
+                        </td>
+                        <td class="px-4 py-3">
+                            <a [routerLink]="['/teams', game.home_team_id]">
+                                <img src="{{ game.home_team_logo }}" width="50">
+                            </a>
+                        </td>
+                        <td class="px4 px3 text-center">
+                            VS.
+                        </td>
+                        <td class="px-4 py-3">
+                            <a [routerLink]="['/teams', game.away_team_id]">
+                                <img src="{{ game.away_team_logo }}" width="50">
+                            </a>
+                        </td>
+                        <td class="px-4 py-3">
+                            <a [routerLink]="['/teams', game.away_team_id]" class="text-left px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ game.away_team }}
+                            </a> 
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
     
-    <table width="60%">
-        <tr>
-            <td>
-                <h2>Results</h2>
-            </td>
-        </tr>           
-    </table> 
-    
-    <div class="content-table">    
-        <table class="main" width="100%">
-            <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th colspan="2">Home</th>
-                <th>Result</th>
-                <th colspan="2">Away</th>
-                <th></th>
-            </tr>
-            <tr class="tight" *ngFor="let game of filteredPastGames  | slice:(currentPage - 1) * pageSize : currentPage * pageSize;">
-                <td class="tight" style="padding-left: 8px;">
-                    <p>{{ game.formatted_date }}</p>
-                </td>
-                <td class="tight">
-                    <p>{{ game.time }}</p>
-                </td>
-                <td class="tight" style="text-align: right; padding: 10px;">
-                    <a [routerLink]="['/teams', game.home_team_id]">
-                        <p><b>{{ game.home_team }}</b></p>
-                    </a>
-                </td>
-                <td class="tight">
-                    <a [routerLink]="['/teams', game.home_team_id]">
-                        <img src="{{ game.home_team_logo }}" width="50">
-                    </a>
-                </td>
-                <td class="tight">
-                    <p>{{ game.home_score }} - {{ game.away_score }}</p>
-                </td>
-                <td class="tight">
-                    <a [routerLink]="['/teams', game.away_team_id]">
-                        <img src="{{ game.away_team_logo }}" width="50">
-                    </a>
-                </td>
-                <td class="tight">
-                    <a [routerLink]="['/teams', game.away_team_id]">
-                        <p><b>{{ game.away_team }}</b></p>
-                    </a>
-                </td>
-                <td class="tight">
-                    <div *ngIf="game.hasBoxscore">
-                        <a [routerLink]="['/results', game.game_id]">
-                            <button class="btn-primary">View Boxscore</button>
-                        </a>                        
-                    </div>
-                </td>
-            </tr>
+    <h2 class="mb-4 pt-8 font-bold text-2xl leading-none tracking-tight text-gray-900 dark:text-white">Results</h2>   
+
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg rounded-lg max-h-[800px]">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-sm text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
+                <tr class="sticky top-0 bg-gray-800">
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            Date
+                        </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            Time
+                        </div>
+                    </th>
+                    <th scope="col" colspan="2" class="px-6 py-3 text-right">
+                        <div class="flex items-center">
+                            
+                        </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            Result
+                        </div>
+                    </th>
+                    <th scope="col" colspan="2" class="px-6 py-3">
+                        <div class="flex items-center">
+                            
+                        </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let game of filteredPastGames  | slice:(currentPage - 1) * pageSize : currentPage * pageSize;" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-base">
+                    <td class="px-4 py-3">
+                        {{ game.formatted_date }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ game.time }}
+                    </td>
+                    <td scope="row" class="text-right px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                        <a [routerLink]="['/teams', game.home_team_id]" class="hover:font-semibold hover:text-gray-600">
+                            {{ game.home_team }}
+                        </a>  
+                    </td>
+                    <td class="px-4 py-3">
+                        <a [routerLink]="['/teams', game.home_team_id]">
+                            <img src="{{ game.home_team_logo }}" width="50">
+                        </a>
+                    </td>
+                    <td class="px4 px3 text-center text-2xl">
+                        {{ game.home_score }} - {{ game.away_score }}
+                    </td>
+                    <td class="px-4 py-3 text-lg font-semibold">
+                        <a [routerLink]="['/teams', game.away_team_id]">
+                            <img src="{{ game.away_team_logo }}" width="50">
+                        </a>
+                    </td>
+                    <td class="px-4 py-3">
+                        <a [routerLink]="['/teams', game.away_team_id]" class="text-left px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ game.away_team }}
+                        </a> 
+                    </td>
+                    <td class="px-4 py-3">
+                        <div *ngIf="game.hasBoxscore">
+                            <a [routerLink]="['/results', game.game_id]">
+                                <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus: font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">View Boxscore</button>
+                            </a>                        
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
-    <div class="pagination">
-        <button class="prev" [disabled]="currentPage === 1" (click)="previousPage()">Previous</button>
-        <span style="font-size: 22px; font-weight: bold;">{{ currentPage }}</span>
-        <button class="next" [disabled]="currentPage === totalPages" (click)="nextPage()">Next</button>
-    </div>
+
+    <!-- Pagination -->
+    <div class="w-full px-10 py-10 flex items-center justify-center">
+        <nav>
+          <ul class="flex items-center justify-center -space-x-px h-10 text-base">
+            <li>
+              <button [disabled]="currentPage === 1" (click)="previousPage()" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                <span class="sr-only">Previous</span>
+                <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                </svg>
+              </button>
+            </li>
+            <li *ngFor="let page of [].constructor(totalPages); let i = index">
+              <button (click)="setPage(i+1)" 
+                      [class]="currentPage === i + 1 ? 'flex items-center justify-center px-4 h-10 leading-tight text-white bg-red-600 border border-gray-300 hover:bg-red-700 hover:text-white dark:bg-blue-800 dark:border-blue-700 dark:text-white dark:hover:bg-blue-900 dark:hover:text-white' : 'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'"
+                      >
+                {{ i + 1 }}
+              </button>
+            </li>
+            <li>
+              <button [disabled]="currentPage === totalPages" (click)="nextPage()" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                <span class="sr-only">Next</span>
+                <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                </svg>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
 </div>

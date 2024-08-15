@@ -1,12 +1,12 @@
 <div>
-    <div class="content-box">
+    <div>
         <table width="80%">
             <tr>
-                <td width="20%">
+                <td class="w-2/5 lg:w-[20%]">
                     <img src="{{ player.picture }}" width="175">
                 </td>
                 <td>
-                    <h2>{{ player.name }}</h2>
+                    <h1 class="mb-4 pt-8 font-bold text-2xl leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">{{ player.name }}</h1>
                     <h3><b>Position:</b> {{ player.position }}</h3>
                     <h3><b>Year Joined: </b> {{ year_joined }}</h3>
 
@@ -15,56 +15,98 @@
         </table> 
     </div>
 
-    <h2>Player History</h2>
-    <div class="content-table">
-        <table class="main" width="100%">
-            <tr>
-                <th style="padding-left: 8px;">Season</th>
-                <th colspan="2">Team</th>
-                <th>GP</th>
-                <th>Goals</th>
-                <th>Assists</th>
-                <th>Points</th>
-                <th>PPG</th>
-                <th>PIMS</th>
-                <th>GWG</th>
-            </tr>
-            <tr class="main" *ngFor="let season of stats">
-                <td class="main" style="padding-left: 8px;">
-                    <p>{{ season.season }}</p>
-                </td>
-                <td class="main" style="text-align: center;">
+    <h1 class="mb-4 pt-8 font-bold text-2xl leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">Player History</h1>
+
+    <!-- Player History Table -->
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg rounded-lg max-h-[800px]">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-sm text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
+              <tr class="sticky top-0 bg-gray-800">
+                <th scope="col" class="px-6 py-3">
+                    <div class="flex items-center">
+                        Year
+                    </div>
+                </th>
+                <th scope="col" class="px-6 py-3" colspan="2">
+                    <div class="flex items-center">
+                        Team
+                    </div>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    <div class="flex items-center">
+                        GP
+                    </div>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    <div class="flex items-center">
+                        G
+                    </div>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    <div class="flex items-center">
+                        A
+                    </div>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    <div class="flex items-center">
+                        PTS
+                    </div>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    <div class="flex items-center">
+                        PPG
+                    </div>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    <div class="flex items-center">
+                        PIMS
+                    </div>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  <div class="flex items-center">
+                      GWG
+                  </div>
+                </th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let season of stats" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-base">
+                  <td class="px-4 py-3">
+                    {{ season.season }}
+                  </td>
+                  <td scope="row" class="px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
                     <a [routerLink]="['/teams', season.id]">
                         <img src="{{ season.logo }}" width="40">
                     </a>
-                </td>
-                <td class="main">
+                  </td>
+                  <td class="px-4 py-3">
                     <a [routerLink]="['/teams', season.id]">
                         <p><b>{{ season.team }}</b></p>
                     </a>
-                </td>
-                <td class="main">
-                    <p>{{ season.games_played }}</p>
-                </td>
-                <td class="main">
-                    <p>{{ season.goals }}</p>
-                </td>
-                <td class="main">
-                    <p>{{ season.assists }}</p>
-                </td>
-                <td class="main">
-                    <p>{{ season.points }}</p>
-                </td>
-                <td class="main">
-                    <p>{{ season.ppg }}</p>
-                </td>
-                <td class="main">
-                    <p>{{ season.pims }}</p>
-                </td>
-                <td class="main">
-                    <p>{{ season.gwg }}</p>
-                </td>
-            </tr>
-        </table>
+                  </td>
+                  <td class="px-4 py-3">
+                      {{ season.games_played }}
+                  </td>
+                  <td class="px-4 py-3">
+                      {{ season.goals }}
+                  </td>
+                  <td class="px-4 py-3">
+                      {{ season.assists }}
+                  </td>
+                  <td class="px-4 py-3">
+                      {{ season.points }}
+                  </td>
+                  <td class="px-4 py-3">
+                      {{ season.ppg }}
+                  </td>
+                  <td class="px-4 py-3">
+                      {{ season.pims }}
+                  </td>
+                  <td class="px-4 py-3">
+                    {{ season.gwg }}
+                  </td>
+              </tr>
+          </tbody>
+      </table>
     </div>
 </div>

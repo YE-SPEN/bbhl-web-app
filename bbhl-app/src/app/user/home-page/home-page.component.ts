@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Game, Player } from '../../types';
-import { ScheduleService } from '../../schedule.service';
-import { PlayersService } from '../../players.service';
+import { ScheduleService } from '../../services/schedule.service';
+import { PlayersService } from '../../services/players.service';
 
 
 @Component({

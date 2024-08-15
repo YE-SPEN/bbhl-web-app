@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Card, Gambler } from '../types';
-import { CardService } from '../card.service';
+import { CardService } from '../services/card.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 

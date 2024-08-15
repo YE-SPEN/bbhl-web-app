@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Player, Team, Drafter } from '../../types';
 import { TeamsService } from '../../services/teams.service';
 import { PlayersService } from 'src/app/services/players.service';
@@ -33,6 +33,9 @@ export class DraftSimulatorComponent {
   draftLog: string[] = ['Click start draft to begin...'];
   sortColumn: string | null = 'points';
   sortDirection: 'asc' | 'desc' = 'desc';
+  @ViewChild('toastSuccess', { static: false }) toastSuccess!: ElementRef<HTMLDivElement>;
+  @ViewChild('toastWarning', { static: false }) toastWarning!: ElementRef<HTMLDivElement>;
+  toastMessage: string | null = null;
 
   constructor(
     private teamService: TeamsService,
@@ -249,6 +252,7 @@ export class DraftSimulatorComponent {
       this.draftPlayer(selection, this.onTheClock);
       this.clearCountdown();
       this.advancePick();
+      this.showToast(selection.name);
       this.simToNextPick();
     }
   }
@@ -265,7 +269,7 @@ export class DraftSimulatorComponent {
 
   advancePick(): void {
     if (this.available.length > 0) {
-      this.progress = (this.nextPick / 98) * 100;
+      this.progress = Number(((this.nextPick / 98) * 100).toFixed(2));
       this.nextPick++;
       this.pickOfRound++;
       
@@ -312,6 +316,7 @@ export class DraftSimulatorComponent {
     // start countdown for user selections
     if (this.status !== 'Complete') {
       this.startCountdown();
+      this.showToast();
       if (this.displaying === 'Roster') {
         this.setDisplay('Available');
       }
@@ -420,6 +425,42 @@ export class DraftSimulatorComponent {
     this.displaying = type;
     this.onDisplay = this.draftingAs === null ? this.draftOrder[0] : this.draftingAs;
     this.balanceRoster();
+  }
+
+  showToast(playerName?: string): void {
+    let toast: HTMLElement | null = null;
+    
+    if (playerName) {
+      this.toastMessage = `${playerName} added to your roster.`;
+      toast = this.toastSuccess.nativeElement;
+    } else {
+      this.toastMessage = `You're on the clock!`;
+      toast = this.toastWarning.nativeElement;
+    }
+    
+    if (toast) {
+      toast.classList.add('show');
+      toast.classList.remove('hidden');
+      
+      setTimeout(() => {
+        this.dismissToast(toast);
+      }, 4500);
+    }
+  }
+
+  dismissToast(toast: HTMLElement): void {
+    if (toast) {
+      toast.classList.remove('show');
+      toast.classList.add('hidden');
+    }
+  }
+
+
+  isButtonDisabled(player: any): boolean {
+      if (this.onTheClock !== this.draftingAs || (player.position === 'Goalie' && this.draftingAs && this.draftingAs.numG > 0) || (this.currentRound === 14 && this.draftingAs && this.draftingAs.numG === 0 && player.position !== 'Goalie')) {
+        return true;
+      }
+      return false;
   }
 
 }

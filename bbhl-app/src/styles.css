@@ -169,31 +169,6 @@ tr.main:hover {
     padding: 3px;
 }
 
-/*
-th {
-    border-top: 8px solid #eb9234;
-    background-color: #222222;
-    color: #ffffff;
-    padding: 8px;
-    text-align: left;
-    border-collapse: collapse;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-  }
-th.clickable:hover{
-  border-top: 8px solid #eb9234;
-  background-color: #3d3d3d;
-}
-
-th.clicked {
-  border-top: 8px solid #eb9234;
-  border-left: 1px solid #ffffff;
-  border-right: 1px solid #ffffff;
-  background-color: #3d3d3d;
-}
-  */
-
 td.main {
   border-bottom: 1px solid #A9A9A9;
   padding: 4px 2px 4px 2px;
@@ -243,30 +218,6 @@ label {
   color: #222;
 }
 
-/* regular input 
-input[type=email], input[type=number], input[type=password], input[type=tel], input[type=text], input[type=url], select {
-  display: inline-block;
-  height: 34px;
-  margin: 0px;
-  padding: 8px 8px;
-  background: #fff;
-  border: 1px solid #d9d9d9;
-  border-top: 1px solid #c0c0c0;
-  box-sizing: border-box;
-  border-radius: 1px;
-  width: auto;
-  &:hover {
-    border: 1px solid #b9b9b9;
-    border-top: 1px solid #a0a0a0;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-  }
-  &:focus {
-    outline: none;
-    border: 1px solid #4d90fe;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
-  }
-}
-*/
 /* checkbox */
 input[type=checkbox], input[type=radio] {
   -webkit-appearance: none;
@@ -298,79 +249,6 @@ input[type=checkbox], input[type=radio] {
 }
 .checkbox span{
   font-weight: normal;
-}
-
-/* button */
-.g-button {
-  display: inline-block;
-  min-width: 52px;
-  text-align: center;
-  color: #444;
-  font-size: 12px;
-  font-weight: bold;
-  height: auto;
-  padding: 0 8px;
-  line-height: 27px;
-  border-radius: 2px;
-  transition: (all 0.218s);
-  border: 1px solid #dcdcdc;
-  background-color: #f5f5f5;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  cursor: default;
-}
-
-/* BUBBLE */
-.jfk-bubble {
-  box-shadow: 0 1px 3px rgba(black,.2);
-  background-color: #fff;
-  border: 1px solid;
-  position: absolute;
-  z-index: 1201 !important;
-  border-color: #bbb #bbb #a8a8a8;
-  padding: 16px;
-  width: 255px;
-  line-height: 17px;
-  visibility: hidden; 
-  opacity: 0;
-  left: 16px; 
-  top: 48px; 
-  transition: (all 0.218s);
-  &.active {
-    visibility: visible; 
-    opacity: 1;
-  }
-}
-
-/* bubble arrow */
-.jfk-bubble-arrow {
-  position: absolute;
-  top: 20px;
-  &:before, &:after {
-    content: "";
-    display: block;
-    height: 0;
-    position: absolute;
-    width: 0;
-  }
-  &:before {
-    border: 9px solid;
-    border-color: transparent #bbb;
-    top: -9px;
-  }
-  &:after {
-    border: 8px solid;
-    border-color: transparent #fff;
-    top: -8px;
-  }
-}
-
-.jfk-bubble-arrowright {
-  right: 0;
-  &:before, &:after {
-    border-right-width: 0;
-  }
 }
 
 .clear {
@@ -499,13 +377,10 @@ td.roster-display {
 
 .percentage {
   position: absolute;
-  top: 5px; /* Adjust as needed for vertical positioning */
-  right: 5px; /* Adjust as needed for horizontal positioning */
-  background-color: rgba(255, 255, 255, 0.8);
+  top: 5px;
+  right: 5px; 
   padding: 2px 6px;
   border-radius: 4px;
-  font-size: 18px;
-  font-weight: bold;
 }
 
   /* Modal backdrop */
@@ -646,6 +521,98 @@ td.roster-display {
 .card-container div {
   display: inline-block;
 }
+
+/* Toast Container Position */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+/* Toast Slide-in Animation */
+.toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+/* Toast Slide-in Animation */
+.toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.table-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 0 auto;
+  flex-wrap: wrap; 
+}
+
+.table-col {
+  flex: 1;
+  min-width: 300px; 
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.table-col-full {
+  flex: 2;
+}
+
+@media (max-width: 768px) {
+  .table-container {
+      flex-direction: column;
+  }
+
+  .table-col {
+      width: 100%;
+      min-width: 0;
+  }
+}
+
+.gameboard-container {
+  /* Center the gameboard horizontally */
+  width: 100%;
+}
+
+.gameboard {
+  /* Default scale */
+  transform: scale(1);
+}
+
+@media (max-width: 1200px) {
+  .gameboard {
+    transform: scale(0.9); 
+  }
+}
+
+@media (max-width: 992px) {
+  .gameboard {
+    transform: scale(0.8); 
+  }
+}
+
+@media (max-width: 768px) {
+  .gameboard {
+    transform: scale(0.7); 
+  }
+}
+
+@media (max-width: 576px) {
+  .gameboard {
+    transform: scale(0.8); 
+  }
+}
+
+
+
 
 
   

@@ -4,7 +4,7 @@
         <li class="w-full md:w-auto flex flex-col md:flex-row items-center justify-center md:justify-start">
             <table>
                 <tr>
-                    <td width="15%">
+                    <td>
                         <img [src]="team.logo" width="150">
                     </td>
                     <td>
@@ -58,9 +58,6 @@
               <tr class="sticky top-0 bg-gray-800">
                   <th scope="col" class="px-6 py-3">
                       #
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                      
                   </th>
                   <th scope="col" class="px-6 py-3">
                       <div class="flex items-center">
@@ -153,7 +150,7 @@
                     {{ (i + 1) }}
                   </td>
                   <td scope="row" class="px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
-                    <a [routerLink]="['/players', player.id]" class="hover:font-semibold hover:text-gray-600">
+                    <a [routerLink]="['/players', player.player_id]" class="hover:font-semibold hover:text-gray-600">
                       {{ player.name }}
                     </a>  
                   </td>

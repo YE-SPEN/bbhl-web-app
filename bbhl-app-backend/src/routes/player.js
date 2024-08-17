@@ -6,6 +6,7 @@ export const playerRoute = {
     path: '/api/players/{id}',
     handler: async (req, h) => {
         const id = req.params.id;
+        
         const { results: playerInfo } = await db.query(
             `SELECT * FROM players
             WHERE id = ?`,

@@ -2,7 +2,7 @@ import Boom from '@hapi/boom';
 import fs from 'fs';
 import path from 'path';
 
-const uploadDirectory = path.join(process.cwd(), 'src/assets/player_pics');
+const uploadDirectory = path.join(process.cwd(), 'bbhl-app/src/assets/player_pics');
 
 // Ensure the upload directory exists
 if (!fs.existsSync(uploadDirectory)) {

@@ -12,14 +12,17 @@ export class PlayersService {
     private http: HttpClient,
   ) { }
 
-  getAllPlayers(year: number): Observable<Player[]> {
+  getAllPlayers(): Observable<{ allPlayers: Player[] }> {
+    return this.http.get<{ allPlayers: Player[] }>('api/admin-hub/edit-player');
+  }
+
+  getPlayersBySeason(year: number): Observable<Player[]> {
     const url = 'api/players';
     const params = { year: year.toString() };
     return this.http.get<Player[]>(url, { params });
   }
 
   getDraftPlayers(): Observable<{ players: Player[] }> {
-    const url = 'api/draft-sim';
     return this.http.get<{ players: Player[] }>('api/draft-sim');
   }
 

@@ -18,6 +18,7 @@ import { environment } from '../environments/environment';
 import { HomePageComponent } from './user/home-page/home-page.component';
 import { AdminHubComponent } from './admin/admin-hub/admin-hub.component';
 import { ScheduleFormComponent } from './forms/schedule-form/schedule-form.component';
+import { PlayerFormComponent } from './forms/player-form/player-form.component';
 import { BbhldokuComponent } from './user/bbhldoku/bbhldoku.component';
 import { DraftSimulatorComponent } from './user/draft-simulator/draft-simulator.component';
 import { ResultsPageComponent } from './user/results-page/results-page.component';
@@ -34,6 +35,7 @@ import { ResultsPageComponent } from './user/results-page/results-page.component
     HomePageComponent,
     AdminHubComponent,
     ScheduleFormComponent,
+    PlayerFormComponent,
     BbhldokuComponent,
     DraftSimulatorComponent,
     ResultsPageComponent,

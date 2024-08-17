@@ -1,35 +1,48 @@
-<form (ngSubmit)="onSubmit()" #formA="ngForm">
-    <div>
-      <label for="nameA">Date</label>
-      <input type="date" id="date" required [(ngModel)]="formData.date" name="name" />
-    </div>
-    <div>
-      <label for="time">Time</label>
-      <select required [(ngModel)]="formData.time" name="time">
-        <option value="16:00">4:00 PM</option>
-        <option value="17:00">5:00 PM</option>
-        <option value="18:00">6:00 PM</option>
+<div class="w-auto max-w-3xl">
+  <form (ngSubmit)="onSubmit()" #formA="ngForm">
+    <div class="grid gap-6 mb-6 md:grid-cols-2">
+      <div>        
+        <label for="time" class="text-lg font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">Date</label>
+        <div class="relative max-w-sm">
+          <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+            </svg>
+          </div>
+          <input datepicker id="default-datepicker" type="date" required [(ngModel)]="formData.date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+        </div>
+      </div>
+      <div>
+          <label for="time" class="text-lg font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">Time</label>
+          <select required [(ngModel)]="formData.time" name="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-[200px] w-full">
+            <option value="16:00">4:00 PM</option>
+            <option value="17:00">5:00 PM</option>
+            <option value="18:00">6:00 PM</option>
+          </select>
+      </div>
+      <div>
+          <label for="homeTeam" class="text-lg font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">Home Team</label>
+            <select required id="home" [(ngModel)]="formData.homeTeam" name="homeTeam" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-[200px] w-full">
+              <option value="">Select</option>
+              <option *ngFor="let team of teamNames" [value]="team.name">{{ team.name }}</option>
+          </select>
+      </div>
+      <div>
+        <label for="awayTeam" class="text-lg font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">Away Team</label>
+        <select required id="away" [(ngModel)]="formData.awayTeam" name="awayTeam" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-[200px] w-full">
+          <option value="">Select</option>
+          <option *ngFor="let team of teamNames" [value]="team.name">{{ team.name }}</option>
       </select>
-    </div>
-    <div>
-        <label for="homeTeam">Home Team</label>
-          <select required id="home" [(ngModel)]="formData.homeTeam" name="homeTeam">
-              <option value="">Select</option>
-              <option *ngFor="let team of teamNames" [value]="team.name">{{ team.name }}</option>
-          </select>
-    </div>
-    <div>
-        <label for="awayTeam">Away Team</label>
-          <select required id="away" [(ngModel)]="formData.awayTeam" name="awayTeam">
-              <option value="">Select</option>
-              <option *ngFor="let team of teamNames" [value]="team.name">{{ team.name }}</option>
-          </select>
+      </div>
     </div>
 
-    <button type="submit">Add to schedule</button>
+    <button type="submit" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Add to schedule</button>
   </form>
 
-  <div *ngIf="formSubmitted" class="popup-message">
-    New game added to the schedule!
-  </div>
+</div>
+
+<div *ngIf="formSubmitted" class="popup-message">
+  New game added to the schedule!
+</div>
+
   

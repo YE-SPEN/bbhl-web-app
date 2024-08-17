@@ -8,6 +8,7 @@ import { PlayerPageComponent } from './user/player-page/player-page.component';
 import { HomePageComponent } from './user/home-page/home-page.component';
 import { AdminHubComponent } from './admin/admin-hub/admin-hub.component';
 import { ScheduleFormComponent } from './forms/schedule-form/schedule-form.component';
+import { PlayerFormComponent } from './forms/player-form/player-form.component';
 import { ResultsPageComponent } from './user/results-page/results-page.component';
 import { BbhldokuComponent } from './user/bbhldoku/bbhldoku.component';
 import { DraftSimulatorComponent } from './user/draft-simulator/draft-simulator.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'draft-sim', component: DraftSimulatorComponent, pathMatch: 'full' },
   { path: 'admin-hub', component: AdminHubComponent },
   { path: 'admin-hub/new-game', component: ScheduleFormComponent, pathMatch: 'full' },
+  { path: 'admin-hub/edit-player', component: PlayerFormComponent, pathMatch: 'full' },
   { path: 'blackjack', component: BlackjackComponent, pathMatch: 'full' },
 ];
 

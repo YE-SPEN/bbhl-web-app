@@ -31,7 +31,7 @@ export class PlayerStatsPageComponent {
   }
 
   getPlayerStatsBySeason(): void {
-    this.playersService.getAllPlayers(this.selectedSeason)
+    this.playersService.getPlayersBySeason(this.selectedSeason)
       .subscribe(players => {
         this.players = players;
         this.filteredPlayers = players;

@@ -9,7 +9,7 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-admin-hub',
   templateUrl: './admin-hub.component.html',
-  styleUrls: ['./admin-hub.component.css']
+  styleUrls: ['./admin-hub.component.css'],
 })
 
 export class AdminHubComponent {

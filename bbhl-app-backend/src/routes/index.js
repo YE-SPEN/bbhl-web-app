@@ -11,6 +11,7 @@ import { adminRoute } from "./admin.js";
 import { adminPlayerStatsRoute } from "./admin-player-stats.js";
 import { adminTeamStatsRoute } from "./admin-team-stats.js";
 import { newGameRoute } from "./newGame.js";
+import { editPlayerRoute } from "./edit-player.js";
 import { draftSimRoute } from "./draftSim.js";
 import { blackjackRoute } from "./blackjack.js";
 
@@ -28,6 +29,7 @@ export default [
     adminRoute,
     adminPlayerStatsRoute,
     adminTeamStatsRoute,
+    editPlayerRoute,
     newGameRoute,
     draftSimRoute,
     blackjackRoute,

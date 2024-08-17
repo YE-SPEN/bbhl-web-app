@@ -12,8 +12,8 @@ export class PlayersService {
     private http: HttpClient,
   ) { }
 
-  getAllPlayers(): Observable<{ allPlayers: Player[] }> {
-    return this.http.get<{ allPlayers: Player[] }>('api/admin-hub/edit-player');
+  getAllPlayers(): Observable<Player[]> {
+    return this.http.get<Player[]>('api/edit-player');
   }
 
   getPlayersBySeason(year: number): Observable<Player[]> {

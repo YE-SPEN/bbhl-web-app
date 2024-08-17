@@ -73,18 +73,45 @@ export class PlayerFormComponent {
     this.filteredPlayers = [...this.allPlayers];
   }
 
+  uploadFile(event: any): boolean {
+    const file: File = event.target.files[0];
+
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      this.http.post('/api/admin-hub/upload', formData).subscribe(
+        (response: any) => {
+          console.log('File uploaded successfully:', response.fileUrl);
+          this.formData.picture = response.fileUrl;
+          return true;
+        },
+        (error) => {
+          console.error('File upload failed:', error);
+          return false;
+        }
+      );
+    }
+    return false;
+  }
+
+  generateID(name: string): string {
+    const id = name.toLowerCase().replace(/\s+/g, '');
+    return id;
+  }
   
   onSubmit() {
-    /*const submissionData = {
+    const submissionData = {
       oldName: this.playerToEdit?.name,
+      id: this.generateID(this.formData.name),
       name: this.formData.name,
       position: this.formData.position,
-      picture: this.savePicture(formData.picture)
+      picture: this.formData.picture
    };
 
-    this.http.post('/api/admin-hub/new-game', submissionData)
+    this.http.post('/api/admin-hub/new-player', submissionData)
       .subscribe(response => {
-        console.log('New game added to schedule.', response);
+        console.log('New player added to database.', response);
         this.formSubmitted = true;
         setTimeout(() => {
           this.formSubmitted = false;
@@ -93,7 +120,13 @@ export class PlayerFormComponent {
       }, error => {
         console.error('Error submitting form', error, submissionData);
       });
-      */
+  }
+
+  resetForm() {
+    this.formData.oldName = '';
+    this.formData.name = '';
+    this.formData.position = '';
+    this.formData.picture = '';
   }
 
 }

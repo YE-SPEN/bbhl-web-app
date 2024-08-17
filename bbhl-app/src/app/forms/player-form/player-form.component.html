@@ -19,6 +19,7 @@
           
         <!-- Search Bar -->
         <div *ngIf="action === 'edit'" class="mb-6">
+          <h2 class="mb-4 pt-8 font-bold text-2xl leading-none tracking-tight text-gray-900 dark:text-white">Edit Player Information</h2>
             <form class="mx-auto">   
                 <label for="player-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                 <div class="relative">
@@ -39,7 +40,11 @@
                     </li>
                 </ul>
             </form>  
-        </div>        
+        </div>
+        
+        <div *ngIf="action === 'add'" class="mb-6">
+          <h2 class="mb-4 pt-8 font-bold text-2xl leading-none tracking-tight text-gray-900 dark:text-white">Add New Player</h2>
+        </div>
     
         <!-- Main Form -->
         <div *ngIf="action !== null">
@@ -47,18 +52,18 @@
                 <div class="mb-6">
                     <div>        
                         <label for="name" class="text-lg font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">Name</label>
-                        <input type="text" id="first_name" [(ngModel)]="formData.name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" [placeholder]="action === 'edit' && playerToEdit ? playerToEdit?.name : ''" required />
+                        <input type="text" id="first_name" name="name" [(ngModel)]="formData.name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" [placeholder]="action === 'edit' && playerToEdit ? playerToEdit.name : ''" required />
                     </div>
                 </div>
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
                         <label for="picture" class="text-lg font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">Picture</label>
-                        <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
+                        <input (change)="uploadFile($event)" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
                         <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG (MAX. 1MB)</p>          
                     </div>
                     <div>
                         <label for="position" class="text-lg font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">Position</label>
-                        <select required [(ngModel)]="formData.position" name="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500 min-w-[200px] w-full">
+                        <select required [(ngModel)]="formData.position" name="position" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500 min-w-[200px] w-full">
                         <option value="Forward">Forward</option>
                         <option value="Defenseman">Defenseman</option>
                         <option value="Forward, Defenseman">Forward, Defenseman</option>

@@ -28,6 +28,8 @@ const routes: Routes = [
   { path: 'admin-hub', component: AdminHubComponent },
   { path: 'admin-hub/new-game', component: ScheduleFormComponent, pathMatch: 'full' },
   { path: 'admin-hub/edit-player', component: PlayerFormComponent, pathMatch: 'full' },
+  { path: 'admin-hub/new-player', component: PlayerFormComponent, pathMatch: 'full' },
+  { path: 'admin-hub/upload', component: PlayerFormComponent, pathMatch: 'full' },
   { path: 'blackjack', component: BlackjackComponent, pathMatch: 'full' },
 ];
 

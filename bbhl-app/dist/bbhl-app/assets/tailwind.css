@@ -1249,8 +1249,16 @@ input[type="range"]::-ms-fill-lower {
   max-width: 24rem !important;
 }
 
+.max-w-xl {
+  max-width: 36rem !important;
+}
+
 .max-w-xs {
   max-width: 20rem !important;
+}
+
+.max-w-\[150px\] {
+  max-width: 150px !important;
 }
 
 .flex-shrink-0 {
@@ -1380,6 +1388,10 @@ input[type="range"]::-ms-fill-lower {
 
 .whitespace-nowrap {
   white-space: nowrap !important;
+}
+
+.rounded {
+  border-radius: 0.25rem !important;
 }
 
 .rounded-full {
@@ -1650,6 +1662,11 @@ input[type="range"]::-ms-fill-lower {
   padding-bottom: 1.25rem !important;
 }
 
+.py-6 {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
 .pb-10 {
   padding-bottom: 2.5rem !important;
 }
@@ -1812,6 +1829,11 @@ input[type="range"]::-ms-fill-lower {
 
 .tracking-tight {
   letter-spacing: -0.025em !important;
+}
+
+.text-blue-600 {
+  --tw-text-opacity: 1 !important;
+  color: rgb(28 100 242 / var(--tw-text-opacity)) !important;
 }
 
 .text-gray-300 {
@@ -2070,11 +2092,6 @@ table.boxscore {
   border: 1px solid #A9A9A9;
   padding: 4px 4px 4px 4px;
   text-align: center;
-}
-
-tr.main:hover {
-  background-color: #DEDEDE;
-  padding: 3px;
 }
 
 td.main {
@@ -2874,6 +2891,10 @@ td.roster-display {
   color: rgb(156 163 175 / var(--tw-placeholder-opacity)) !important;
 }
 
+.dark\:ring-offset-gray-800:is(.dark *) {
+  --tw-ring-offset-color: #1F2937 !important;
+}
+
 .dark\:hover\:bg-blue-900:hover:is(.dark *) {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(35 56 118 / var(--tw-bg-opacity)) !important;
@@ -2922,6 +2943,11 @@ td.roster-display {
 .dark\:focus\:ring-blue-500:focus:is(.dark *) {
   --tw-ring-opacity: 1 !important;
   --tw-ring-color: rgb(63 131 248 / var(--tw-ring-opacity)) !important;
+}
+
+.dark\:focus\:ring-blue-600:focus:is(.dark *) {
+  --tw-ring-opacity: 1 !important;
+  --tw-ring-color: rgb(28 100 242 / var(--tw-ring-opacity)) !important;
 }
 
 .dark\:focus\:ring-red-500:focus:is(.dark *) {

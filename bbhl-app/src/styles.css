@@ -164,11 +164,6 @@ table.boxscore {
   text-align: center;
 }
 
-tr.main:hover {
-    background-color: #DEDEDE;
-    padding: 3px;
-}
-
 td.main {
   border-bottom: 1px solid #A9A9A9;
   padding: 4px 2px 4px 2px;

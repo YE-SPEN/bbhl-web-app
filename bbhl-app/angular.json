@@ -30,7 +30,7 @@
               "src/assets/flowbite.min.css"
             ],
             "scripts": [
-              "node_modules/flowbite/dist/flowbite.min.js"
+              "src/assets/flowbite.min.js"
             ]
           },
           "configurations": {

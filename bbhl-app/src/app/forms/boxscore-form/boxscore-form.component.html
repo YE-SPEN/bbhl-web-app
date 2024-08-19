@@ -1,0 +1,114 @@
+
+    <div class="w-auto max-w-xl py-6">
+        <label for="selectedGame" class="text-lg font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">Select game</label>
+        <select required id="game_id" [(ngModel)]="selectedGame" name="selectedGame" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-[200px] w-full">
+            <option value="" selected disabled>Select...</option>
+            <option *ngFor="let game of upcomingGames" [ngValue]="game">
+                {{ game.game_id }}: {{ game.home_team }} vs. {{ game.away_team }} ({{ game.formatted_date }} &#64; {{ game.time }})
+            </option>
+        </select>
+    </div>
+    <div *ngIf="selectedGame !== null">
+        <div>
+            <table width="80%" align="center">
+                <tr>
+                    <td align="right">
+                        <img [src]="matchup[0].logo" class="max-w-[150px]">
+                    </td>
+                   <td align="center">
+                        <h1 class="text-4xl">VS.</h1>
+                   </td>
+                    <td align="left">
+                        <img [src]="matchup[1].logo" class="max-w-[150px]">
+                    </td>
+                </tr>
+                <tr>
+                    <td  colspan="3" width="100%" align="center">
+                        <h4 class="text-lg font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">Game # {{ selectedGame.game_id }}<br>
+                            {{ selectedGame.formatted_date }} &#64; {{ selectedGame.time }}
+                        </h4>
+                    </td>
+                </tr>          
+            </table> 
+        </div>
+    
+        <h2 class="mb-4 pt-8 font-bold text-2xl leading-none tracking-tight text-gray-900 dark:text-white">Rosters</h2>
+        <p class="mb-6 text-base font-normal text-gray-500 lg:text-xl dark:text-gray-400">Enter stats in the table below and submit your gamesheet when ready.</p>
+        
+        <!-- Start of Boxscore Section -->
+        <div class="w-full p-3 md:p-6 bg-white rounded-md shadow-md">
+            <div class="grid gap-6 mb-6 md:grid-cols-2" *ngFor="let team of matchup; let i = index">
+                <table class="main" width="100%">
+                    <thead class="text-sm text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th>#</th>
+                            <th width="35%">
+                                Name
+                            </th>
+                            <th>
+                                Goals
+                            </th>
+                            <th>
+                                Assists
+                            </th>
+                            <th>
+                                PIMS
+                            </th>
+                            <th>
+                                GWG
+                            </th>
+                            <th>
+                                Absent?
+                            </th>
+                        </tr>
+                    </thead>
+                    <tr class="main" *ngFor="let player of matchup[i].roster; let j = index">
+                        <td class="boxscore" style="text-align: center;">
+                            {{ (j+1) }}
+                        </td>
+                        <td class="boxscore" style="padding-left: 8px; text-align: left;">
+                            <p class="font-semibold text-gray-900 whitespace-nowrap dark:text-white">{{ player.name }}</p>
+                        </td>
+                        <td class="boxscore">
+                            <input class="boxscore" type="number" (change)="statChange(player, matchup[i], $event, 'goals')">
+                        </td>
+                        <td class="boxscore">
+                            <input class="boxscore" type="number" (change)="statChange(player, matchup[i], $event, 'assists')">
+                        </td>
+                        <td class="boxscore">
+                            <input class="boxscore" type="number" step="2" (change)="statChange(player, matchup[i], $event, 'pims')">
+                        </td>
+                        <td class="boxscore">
+                            <input class="boxscore" type="number" (change)="statChange(player, matchup[i], $event, 'gwg')">
+                        </td>
+                        <td>
+                            <div class="flex items-center mb-4">
+                                <input id="default-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: right">
+                            <h3>Totals:</h3>
+                        </td>
+                        <td>
+                            <h3>{{ getStatTotal('goals', i) }}</h3>
+                        </td>
+                        <td>
+                            <h3>{{ getStatTotal('assists', i) }}</h3>
+                        </td>
+                        <td>
+                            <h3>{{ getStatTotal('pims', i) }}</h3>
+                        </td>
+                        <td>
+                            <h3>{{ getStatTotal('gwg', i) }}</h3>
+                        </td>
+                        <td>
+    
+                        </td>                     
+                    </tr>
+                </table>
+            </div>    
+            <button (click)="finalizeGame(); openModal(gamesheetModal)" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Submit Gamesheet</button>
+        </div>
+    </div>

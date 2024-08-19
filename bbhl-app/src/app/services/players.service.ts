@@ -16,10 +16,16 @@ export class PlayersService {
     return this.http.get<Player[]>('api/edit-player');
   }
 
-  getPlayersBySeason(year: number): Observable<Player[]> {
+  getPlayersBySeason(year: number): Observable<{ players: Player[] }> {
     const url = 'api/players';
     const params = { year: year.toString() };
-    return this.http.get<Player[]>(url, { params });
+    return this.http.get<{ players: Player[] }>(url, { params });
+  }
+
+  getGoaliesBySeason(year: number): Observable<{ goalies: Player[] }> {
+    const url = 'api/players';
+    const params = { year: year.toString() };
+    return this.http.get<{ goalies: Player[] }>(url, { params });
   }
 
   getDraftPlayers(): Observable<{ players: Player[] }> {

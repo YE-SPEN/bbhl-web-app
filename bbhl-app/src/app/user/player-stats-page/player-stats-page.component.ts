@@ -10,6 +10,7 @@ import { PlayersService } from '../../services/players.service';
 
 export class PlayerStatsPageComponent {
   players: Player[] = [];
+  goalies: Player[] = [];
   filteredPlayers: Player[] = [];
   seasons: number[] = [2024, 2023, 2020, 2018, 2017];
   selectedSeason!: number;
@@ -32,12 +33,17 @@ export class PlayerStatsPageComponent {
 
   getPlayerStatsBySeason(): void {
     this.playersService.getPlayersBySeason(this.selectedSeason)
-      .subscribe(players => {
-        this.players = players;
-        this.filteredPlayers = players;
+      .subscribe(response => {
+        this.players = response.players;
+        this.filteredPlayers = response.players;
         this.sortTable(this.sortColumn, this.sortDirection);
         this.totalPages = Math.ceil(this.players.length / this.pageSize);
       });
+    
+    this.playersService.getGoaliesBySeason(this.selectedSeason)
+      .subscribe(response => {
+        this.goalies = response.goalies;
+      })
   }
   
   previousPage(): void {

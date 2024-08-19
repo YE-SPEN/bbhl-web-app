@@ -2238,6 +2238,11 @@ input:checked + .toggle-bg {
   color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
 }
 
+.text-red-600 {
+  --tw-text-opacity: 1 !important;
+  color: rgb(224 36 36 / var(--tw-text-opacity)) !important;
+}
+
 .opacity-0 {
   opacity: 0 !important;
 }
@@ -3436,6 +3441,11 @@ td.roster-display {
 .dark\:focus\:ring-red-900:focus:is(.dark *) {
   --tw-ring-opacity: 1 !important;
   --tw-ring-color: rgb(119 29 29 / var(--tw-ring-opacity)) !important;
+}
+
+.dark\:focus\:ring-red-600:focus:is(.dark *) {
+  --tw-ring-opacity: 1 !important;
+  --tw-ring-color: rgb(224 36 36 / var(--tw-ring-opacity)) !important;
 }
 
 .peer:focus ~ .peer-focus\:dark\:text-red-500:is(.dark *) {

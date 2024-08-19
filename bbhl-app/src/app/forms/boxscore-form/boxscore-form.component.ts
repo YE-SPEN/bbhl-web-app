@@ -3,6 +3,7 @@ import { Player, Team, Game } from 'src/app/types';
 import { ScheduleService } from 'src/app/services/schedule.service';
 import { TeamsService } from 'src/app/services/teams.service';
 import { HttpClient } from '@angular/common/http';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-boxscore-form',
@@ -14,12 +15,21 @@ export class BoxscoreFormComponent {
   selectedGame: Game | null = null;
   upcomingGames: Game[] = [];
   matchup: Team[] = [];
+  modalRef!: BsModalRef;
 
   constructor(
     private http: HttpClient,
     private scheduleService: ScheduleService,
     private teamService: TeamsService,
+    private modalService: BsModalService,
   ) { }
+
+  ngOnInit(): void {
+    this.scheduleService.getUpcomingGames()
+    .subscribe(response => {
+      this.upcomingGames = response.upcomingGames;
+    });
+  }
 
   generateBoxscore(): void {
     if (this.selectedGame != null) {
@@ -50,13 +60,30 @@ export class BoxscoreFormComponent {
 
   initializeStats(): void {
     for (let i = 0; i < this.matchup.length; ++i) {
+      this.matchup[i].shots = 0;
       for (let j = 0; j < this.matchup[i].roster.length; ++j) {
         this.matchup[i].roster[j].goals = 0;
         this.matchup[i].roster[j].assists = 0;
         this.matchup[i].roster[j].points = 0;
         this.matchup[i].roster[j].gwg = 0;
         this.matchup[i].roster[j].pims = 0;
+        this.matchup[i].roster[j].isAbsent = false;
       } 
+    }
+  }
+
+  incrementShots(index: number): void {
+    if (this.matchup[index].shots == null) {
+        this.matchup[index].shots = 0;
+    }
+    this.matchup[index].shots += 1;
+    console.log(this.selectedGame);
+  }
+
+  decrementShots(index: number): void {
+    if (this.matchup[index].shots > 0) {
+        this.matchup[index].shots -= 1;
+        console.log(this.selectedGame);
     }
   }
 
@@ -141,6 +168,11 @@ export class BoxscoreFormComponent {
     return false;
   }
 
+  toggleAbsent(player: any): void {
+    player.isAbsent = !player.isAbsent;
+    console.log(player);
+  }
+
   recordPlayerStats(player: Player, game_id: string) {
     const stats = {
       game_id: game_id,
@@ -164,7 +196,9 @@ export class BoxscoreFormComponent {
     const stats = {
       game_id: this.selectedGame?.game_id,
       home_score: this.selectedGame?.home_score,
-      away_score: this.selectedGame?.away_score
+      home_shots: this.selectedGame?.home_shots,
+      away_score: this.selectedGame?.away_score,
+      away_shots: this.selectedGame?.away_shots
     }
     
     this.http.post('/api/admin-hub/team-stats', stats)
@@ -184,6 +218,16 @@ export class BoxscoreFormComponent {
       }
       this.recordTeamStats();
     }
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  closeModal() {
+    this.modalRef.hide();
+    //this.action = '';
+    this.selectedGame = null;
   }
 
 }

@@ -1,7 +1,7 @@
 
-    <div class="w-auto max-w-xl py-6">
+    <div class="w-auto max-w-xl py-6 pb-10">
         <label for="selectedGame" class="text-lg font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">Select game</label>
-        <select required id="game_id" [(ngModel)]="selectedGame" name="selectedGame" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-[200px] w-full">
+        <select required id="game_id" [(ngModel)]="selectedGame" (ngModelChange)="generateBoxscore()" name="selectedGame" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-[200px] w-full">
             <option value="" selected disabled>Select...</option>
             <option *ngFor="let game of upcomingGames" [ngValue]="game">
                 {{ game.game_id }}: {{ game.home_team }} vs. {{ game.away_team }} ({{ game.formatted_date }} &#64; {{ game.time }})
@@ -37,19 +37,44 @@
         
         <!-- Start of Boxscore Section -->
         <div class="w-full p-3 md:p-6 bg-white rounded-md shadow-md">
-            <div class="grid gap-6 mb-6 md:grid-cols-2" *ngFor="let team of matchup; let i = index">
-                <table class="main" width="100%">
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+                <div *ngFor="let team of matchup; let i = index" class="flex items-center space-x-4 text-right">
+                    <h3 class="font-bold text-xl leading-none tracking-tight text-gray-900 dark:text-white">
+                        Shots on Goal
+                    </h3>
+                    <form class="flex items-center">
+                        <div class="relative flex items-center max-w-[8rem]">
+                            <button type="button" (click)="decrementShots(i)" class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                </svg>
+                            </button>
+                            <input type="text" [(ngModel)]="team.shots" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="{{ team.shots }}" required />
+                            <button type="button" (click)="incrementShots(i)" class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+
+            <!-- Main Boxscore Table -->
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+                <table class="w-full text-center" *ngFor="let team of matchup; let i = index">
                     <thead class="text-sm text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th>#</th>
-                            <th width="35%">
+                            <th>
                                 Name
                             </th>
                             <th>
-                                Goals
+                                G
                             </th>
                             <th>
-                                Assists
+                                A
                             </th>
                             <th>
                                 PIMS
@@ -66,8 +91,8 @@
                         <td class="boxscore" style="text-align: center;">
                             {{ (j+1) }}
                         </td>
-                        <td class="boxscore" style="padding-left: 8px; text-align: left;">
-                            <p class="font-semibold text-gray-900 whitespace-nowrap dark:text-white">{{ player.name }}</p>
+                        <td class="boxscore w-1/4" style="padding-left: 8px; text-align: left;">
+                            <p class="font-semibold text-sm text-gray-900 whitespace-nowrap dark:text-white">{{ player.name }}</p>
                         </td>
                         <td class="boxscore">
                             <input class="boxscore" type="number" (change)="statChange(player, matchup[i], $event, 'goals')">
@@ -81,30 +106,32 @@
                         <td class="boxscore">
                             <input class="boxscore" type="number" (change)="statChange(player, matchup[i], $event, 'gwg')">
                         </td>
-                        <td>
-                            <div class="flex items-center mb-4">
-                                <input id="default-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            </div>
+                        <td class="boxscore">
+                            <input 
+                                (click)="toggleAbsent(player)" 
+                                id="default-checkbox-{{j}}"
+                                [checked]="player.isAbsent" 
+                                type="checkbox" 
+                                value="" 
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            >                     
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="text-align: right">
-                            <h3>Totals:</h3>
+                        <td colspan="2">
+                            <h3 class="text-md text-right font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">Totals:</h3>
                         </td>
                         <td>
-                            <h3>{{ getStatTotal('goals', i) }}</h3>
+                            <h3 class="text-md font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">{{ getStatTotal('goals', i) }}</h3>
                         </td>
                         <td>
-                            <h3>{{ getStatTotal('assists', i) }}</h3>
+                            <h3 class="text-md font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">{{ getStatTotal('assists', i) }}</h3>
                         </td>
                         <td>
-                            <h3>{{ getStatTotal('pims', i) }}</h3>
+                            <h3 class="text-md font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">{{ getStatTotal('pims', i) }}</h3>
                         </td>
                         <td>
-                            <h3>{{ getStatTotal('gwg', i) }}</h3>
-                        </td>
-                        <td>
-    
+                            <h3 class="text-md font-semibold text-gray-900 dark:text-white mr-4 mb-2 md:mb-0">{{ getStatTotal('gwg', i) }}</h3>
                         </td>                     
                     </tr>
                 </table>
@@ -112,3 +139,19 @@
             <button (click)="finalizeGame(); openModal(gamesheetModal)" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Submit Gamesheet</button>
         </div>
     </div>
+
+    <ng-template #gamesheetModal>
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title pull-left">Game Results Recorded!</h3>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+                <span aria-hidden="true"><b>X</b></span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" (click)="closeModal()">Back to Admin Hub</button>
+            </div>
+          </div>
+        </div>
+    </ng-template>

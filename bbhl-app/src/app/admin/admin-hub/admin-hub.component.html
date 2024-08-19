@@ -60,22 +60,6 @@
     <app-boxscore-form></app-boxscore-form>
 </div>
 
-<ng-template #gamesheetModal>
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title pull-left">Game Results Recorded!</h3>
-          <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
-            <span aria-hidden="true"><b>X</b></span>
-          </button>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" (click)="closeModal()">Back to Admin Hub</button>
-        </div>
-      </div>
-    </div>
-</ng-template>
-
 <div *ngIf="action === 'editPlayer'">
     <app-player-form></app-player-form>
 </div>

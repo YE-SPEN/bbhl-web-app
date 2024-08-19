@@ -14,16 +14,9 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 
 export class AdminHubComponent {
   action: '' | 'addToSchedule' | 'recordResult' | 'editPlayer' = '';
-  selectedGame: Game | null = null;
-  upcomingGames: Game[] = [];
-  matchup: Team[] = [];
-  modalRef!: BsModalRef;
 
   constructor(
     private http: HttpClient,
-    private scheduleService: ScheduleService,
-    private teamService: TeamsService,
-    private modalService: BsModalService,
   ) { }
 
   ngOnInit(): void {
@@ -32,24 +25,6 @@ export class AdminHubComponent {
 
   setAction(newAction: '' | 'addToSchedule' | 'recordResult' | 'editPlayer'): void {
     this.action = newAction;
-
-    switch (this.action) {
-      case 'recordResult':
-        this.scheduleService.getUpcomingGames()
-        .subscribe(response => {
-          this.upcomingGames = response.upcomingGames;
-        });
-    }
-  }
-
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
-
-  closeModal() {
-    this.modalRef.hide();
-    this.action = '';
-    this.selectedGame = null;
   }
   
 }

@@ -18,7 +18,8 @@ export interface Player {
     logo: string,
     uniqueness: number,
     player_rank: number,
-    draft_row: number
+    draft_row: number,
+    isAbsent: boolean
 };
 
 export interface Team {
@@ -36,6 +37,7 @@ export interface Team {
     goals_for: number,
     goals_against: number,
     differential: number,
+    shots: number,
     season: number,
 };
 
@@ -58,7 +60,9 @@ export interface Game {
     away_team_logo: string,
     away_team_id: string,
     home_score: number,
+    home_shots: number,
     away_score: number,
+    away_shots: number,
     hasBoxscore: boolean,
 };
 

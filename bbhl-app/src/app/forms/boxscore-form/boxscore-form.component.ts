@@ -196,9 +196,9 @@ export class BoxscoreFormComponent {
     const stats = {
       game_id: this.selectedGame?.game_id,
       home_score: this.selectedGame?.home_score,
-      home_shots: this.selectedGame?.home_shots,
+      home_shots: this.matchup[0].shots,
       away_score: this.selectedGame?.away_score,
-      away_shots: this.selectedGame?.away_shots
+      away_shots: this.matchup[1].shots
     }
     
     this.http.post('/api/admin-hub/team-stats', stats)

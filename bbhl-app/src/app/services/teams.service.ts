@@ -27,10 +27,10 @@ export class TeamsService {
     return this.http.get<{ seasons: Team[] }>(url);
   } 
   
-  getTeamBySeason(teamID: string, year: number): Observable<{ team: Team, roster: Player[] }> {
+  getTeamBySeason(teamID: string, year: number): Observable<{ team: Team, roster: Player[], goalies: Player[] }> {
     const url = `api/teams/${teamID}`;
     const params = new HttpParams().set('year', year);
-    return this.http.get<{ team: Team, roster: Player[] }>(url, { params });
+    return this.http.get<{ team: Team, roster: Player[], goalies: Player[] }>(url, { params });
   }
 
   getMatchup(gameID: string): Observable<{ teams: Team[], rosters: Player[] }> {

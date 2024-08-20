@@ -18,7 +18,9 @@ export class PlayerStatsPageComponent {
   totalPages!: number;
   pageSize = 25;
   sortColumn: string | null = 'points';
+  sortColumnG: string | null = 'wins';
   sortDirection: 'asc' | 'desc' = 'desc';
+  sortDirectionG: 'asc' | 'desc' = 'desc';
   searchTerm: string = '';
 
 
@@ -36,7 +38,7 @@ export class PlayerStatsPageComponent {
       .subscribe(response => {
         this.players = response.players;
         this.filteredPlayers = response.players;
-        this.sortTable(this.sortColumn, this.sortDirection);
+        this.sortTable('players', this.sortColumn, this.sortDirection);
         this.totalPages = Math.ceil(this.players.length / this.pageSize);
       });
     
@@ -62,9 +64,21 @@ export class PlayerStatsPageComponent {
     this.currentPage = page;
   }
 
-  sortTable(column: string | null, direction: 'asc' | 'desc'): void {
-    if (column) {
+  sortTable(table: 'players' | 'goalies', column: string | null, direction: 'asc' | 'desc'): void {
+    if (table === 'players' && column) {
       this.players.sort((a, b) => {
+        const valueA = a[column];
+        const valueB = b[column];
+        if (direction === 'asc') {
+          return valueA > valueB ? 1 : -1;
+        } else {
+          return valueA < valueB ? 1 : -1;
+        }
+      });
+    }
+
+    if (table === 'goalies' && column) {
+      this.goalies.sort((a, b) => {
         const valueA = a[column];
         const valueB = b[column];
         if (direction === 'asc') {
@@ -76,15 +90,27 @@ export class PlayerStatsPageComponent {
     }
   }  
 
-  toggleSort(column: string): void {
-    if (column === this.sortColumn) {
-      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-    } else {
-      this.sortColumn = column;
-      this.sortDirection = 'desc';
+  toggleSort(table: 'players' | 'goalies', column: string): void {
+    if (table === 'players') { 
+      if (column === this.sortColumn) {
+        this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        this.sortColumn = column;
+        this.sortDirection = 'desc';
+      }
+      this.currentPage = 1;
+      this.sortTable('players', this.sortColumn, this.sortDirection);
     }
-    this.currentPage = 1;
-    this.sortTable(this.sortColumn, this.sortDirection);
+
+    if (table === 'goalies') { 
+      if (column === this.sortColumnG) {
+        this.sortDirectionG = this.sortDirectionG === 'asc' ? 'desc' : 'asc';
+      } else {
+        this.sortColumnG = column;
+        this.sortDirectionG = 'desc';
+      }
+      this.sortTable('goalies', this.sortColumnG, this.sortDirectionG);
+    }
   }
   
   searchPlayers(): void {

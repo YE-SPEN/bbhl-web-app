@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class TeamRosterPageComponent implements OnInit {
   roster: Player[] = [];
+  goalies: Player[] =[];
   team!: Team;
   seasons: number[] = [];
   selectedSeason: number = 0;
@@ -49,6 +50,7 @@ export class TeamRosterPageComponent implements OnInit {
           console.log('Received response:', response);
           this.team = response.team[0];
           this.roster = response.roster;
+          this.goalies = response.goalies;
           console.log(this.team, this.roster);
         },
         error: error => {

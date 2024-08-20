@@ -1,4 +1,4 @@
-CREATE TABLE Team_Stats (
+CREATE TABLE team_stats (
 	team VARCHAR(30) REFERENCES Teams(team),
     games_played INT(2),
     wins INT(2),
@@ -12,7 +12,7 @@ CREATE TABLE Team_Stats (
     PRIMARY KEY(team, season)
 );
 
-INSERT INTO Team_Stats (team, games_played, wins, losses, ties, points, goals_for, goals_against, differential, season) VALUES 
+INSERT INTO team_stats (team, games_played, wins, losses, ties, points, goals_for, goals_against, differential, season) VALUES 
 ('Blades of Steel', '16', '5', '11', '0', '10', '46', '63', '-17', '2024'),
 ('Blades of Steel', '16', '3', '11', '2', '8', '47', '63', '-16', '2023'),
 ('Blades of Steel', '10', '10', '0', '0', '20', '54', '13', '41', '2022'),

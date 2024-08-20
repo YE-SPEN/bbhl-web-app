@@ -1,4 +1,4 @@
-CREATE TABLE Schedule (
+CREATE TABLE schedule (
     date DATE,
     time VARCHAR(10),
     game_id VARCHAR(8) PRIMARY KEY,
@@ -11,7 +11,7 @@ CREATE TABLE Schedule (
     hasBoxscore BOOLEAN DEFAULT FALSE
 );
 
-INSERT INTO Schedule (date, time, game_id, home_team, home_score, away_score, away_team, season, status) VALUES 
+INSERT INTO schedule (date, time, game_id, home_team, home_score, away_score, away_team, season, status) VALUES 
 ('2022-10-08', '4:00 PM', '4-100822', 'Ducks', '1', '5', 'Easy Company', '2023', 'complete'),
 ('2022-10-08', '6:00 PM', '6-100822', 'Punishers', '5', '3', 'P.C. United', '2023', 'complete'),
 ('2022-10-08', '5:00 PM', '5-100822', 'Blazers', '4', '2', 'The Irish', '2023', 'complete'),

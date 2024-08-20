@@ -9,11 +9,11 @@ export const adminPlayerStatsRoute = {
 
         try {
             await db.query(
-                `INSERT INTO Boxscores (game_id, player, goals, assists, points, pims, gwg)
+                `INSERT INTO boxscores (game_id, player, goals, assists, points, pims, gwg)
                     VALUES (?, ?, ?, ?, ?, ?, ?)`,
                     [game_id, player, goals, assists, points, pims, gwg]
             );
-            return { message: 'Boxscore successfully recorded'};
+            return { message: 'Player Boxscore successfully recorded'};
         } catch (error) {
             return h.response({ error: error.message }).code(500);
         }

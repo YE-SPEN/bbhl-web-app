@@ -6,6 +6,7 @@ export const adminRoute = {
     path: '/api/admin-hub',
     handler: async (req, h) => {
         const gameID = req.query.id;
+        const year = req.query.year;
 
         const { results: upcomingGames } = await db.query(
             `SELECT s.*, DATE_FORMAT(s.date, '%m-%d-%Y') AS formatted_date
@@ -17,11 +18,11 @@ export const adminRoute = {
         );
 
         const { results: rosters } = await db.query( 
-            `SELECT ps.name, p.id, t.name AS team
+            `SELECT ps.name, p.id, p.position, t.name AS team
             FROM player_stats ps, players p, teams t
             WHERE t.name = ps.team
                 AND ps.name = p.name
-                AND ps.season = 2024
+                AND ps.season = ?
                 AND t.name IN (SELECT home_team AS teams
                                 FROM schedule
                                     WHERE game_id = ?
@@ -29,7 +30,7 @@ export const adminRoute = {
                                 SELECT away_team AS teams
                                 FROM schedule
                                     WHERE game_id = ?)`,
-            [gameID, gameID]
+            [year, gameID, gameID]
         );
 
         const { results: teams } = await db.query( 

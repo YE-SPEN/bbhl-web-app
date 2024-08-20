@@ -1,4 +1,4 @@
-CREATE TABLE Goalie_Stats (
+CREATE TABLE goalie_stats (
 	name VARCHAR(90) REFERENCES players(name),
     team VARCHAR(30) REFERENCES teams(team),
     games_played INT(2),

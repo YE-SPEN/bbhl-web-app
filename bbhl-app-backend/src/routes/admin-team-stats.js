@@ -9,7 +9,7 @@ export const adminTeamStatsRoute = {
 
         try {
             await db.query(
-                `UPDATE Schedule
+                `UPDATE schedule
                 SET home_score = ?,
                     away_score = ?,
                     status = 'complete',

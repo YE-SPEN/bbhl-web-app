@@ -1,11 +1,11 @@
-CREATE TABLE Teams (
+CREATE TABLE teams (
 	id VARCHAR(30) PRIMARY KEY,
 	name VARCHAR(30),
 	captain VARCHAR(90) REFERENCES Players(name),
 	logo VARCHAR(255)
 );
 
-INSERT INTO Teams (id, name, captain, logo) VALUES 
+INSERT INTO teams (id, name, captain, logo) VALUES 
 ('bladesofsteel', 'Blades of Steel', 'Tyler Watt', 'https://i0.wp.com/www.thebbhl.ca/wp-content/uploads/2022/10/BOS.png?fit=128%2C118&ssl=1'),
 ('blazers', 'Blazers', 'Danny Andrzejewski', 'https://i0.wp.com/www.thebbhl.ca/wp-content/uploads/2022/10/Blazers.png?fit=128%2C118&ssl=1'),
 ('ducks', 'Ducks', 'Lucas Scullion', 'https://i0.wp.com/www.thebbhl.ca/wp-content/uploads/2022/10/MDucks.png?fit=128%2C120&ssl=1'),

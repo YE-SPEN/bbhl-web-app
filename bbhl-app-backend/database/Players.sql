@@ -1,4 +1,4 @@
-CREATE TABLE Players (
+CREATE TABLE players (
     id VARCHAR(90) PRIMARY KEY,
     name VARCHAR(90),
     position VARCHAR(30),
@@ -6,7 +6,7 @@ CREATE TABLE Players (
     picture VARCHAR(255) DEFAULT 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png'
 );
 
-INSERT INTO Players (id, name, position, player_rank, picture) VALUES 
+INSERT INTO players (id, name, position, player_rank, picture) VALUES 
 ('adamguillemette', 'Adam Guillemette', 'Forward', 8.5, 'https://i0.wp.com/thebbhl.ca/wp-content/uploads/2016/09/GuillemetteAdam.png?resize=273%2C300&ssl=1'),
 ('adammcsweeny', 'Adam McSweeny', 'Forward', 7.5, 'https://i0.wp.com/thebbhl.ca/wp-content/uploads/2016/09/McSweenyAdam-e1476498982245.png?resize=252%2C300&ssl=1'),
 ('adamstrumas', 'Adam Strumas', 'Defenseman', 8.5, 'https://i0.wp.com/thebbhl.ca/wp-content/uploads/2018/09/Capture-1.png?resize=300%2C297&ssl=1'),

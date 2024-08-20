@@ -9,8 +9,8 @@ export const newGameRoute = {
             const { date, time, homeTeam, awayTeam, gameID } = req.payload;
 
             const query = `
-                INSERT INTO schedule (date, time, home_team, away_team, game_id, status, season)
-                VALUES (?, ?, ?, ?, ?, 'scheduled', 2024)
+                INSERT INTO schedule (date, time, home_team, away_team, game_id, home_score, away_score, status, season)
+                VALUES (?, ?, ?, ?, ?, 0, 0, 'scheduled', 2025)
                 `;
             const result = await db.query(query, [date, time, homeTeam, awayTeam, gameID]);
 

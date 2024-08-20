@@ -1,4 +1,4 @@
-CREATE TABLE Doku_Answers (
+CREATE TABLE doku_answers (
     player VARCHAR(90),
     team_1 VARCHAR(30),
     team_2 VARCHAR(30),

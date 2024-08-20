@@ -1,4 +1,4 @@
-CREATE TABLE Player_Stats (
+CREATE TABLE player_stats (
 	name VARCHAR(90) REFERENCES players(name),
     team VARCHAR(30) REFERENCES teams(team),
     games_played INT(2),
@@ -12,7 +12,7 @@ CREATE TABLE Player_Stats (
     PRIMARY KEY(name, season)
 );
 
-INSERT INTO Player_Stats (name, team, games_played, goals, assists, points, ppg, pims, gwg, season) VALUES 
+INSERT INTO player_stats (name, team, games_played, goals, assists, points, ppg, pims, gwg, season) VALUES 
 ('Adam Guillemette', 'Blades of Steel', '11', '5', '11', '16', '1.45', '0', '0', '2023'),
 ('Adam Guillemette', 'Punishers', '13', '6', '10', '16', '1.23', '2', '0', '2024'),
 ('Adam Guillemette', 'Blades of Steel', '13', '4', '8', '12', '0.92', '2', '1', '2020'),

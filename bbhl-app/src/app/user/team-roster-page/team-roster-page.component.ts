@@ -51,7 +51,7 @@ export class TeamRosterPageComponent implements OnInit {
           this.team = response.team[0];
           this.roster = response.roster;
           this.goalies = response.goalies;
-          console.log(this.team, this.roster);
+          console.log(this.team, this.roster, this.goalies);
         },
         error: error => {
           console.error('Error fetching team data:', error);

@@ -1,21 +1,21 @@
 <div class="pt-10">
     <table width="80%" align="center">
         <tr>
-            <td align="right">
-                <img [src]="matchup[0].logo" class="max-w-[100px]">
-            </td>
-           <td align="center">
-                <h1 class="text-4xl">VS.</h1>
-           </td>
-            <td align="left">
-                <img [src]="matchup[1].logo" class="max-w-[100px]">
-            </td>
-        </tr>
-        <tr>
             <td  colspan="3" width="100%" align="center">
                 <p class="mb-6 text-base font-normal text-gray-500 lg:text-xl dark:text-gray-400">Game # {{ game?.game_id }}<br>
                     {{ game?.formatted_date }} &#64; {{ game?.time }}
                 </p>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <img [src]="matchup[0].logo" class="max-w-[100px]">
+            </td>
+           <td align="center">
+                <h1 class="text-6xl">{{ game?.home_score }} - {{ game?.away_score }}</h1>
+           </td>
+            <td align="left">
+                <img [src]="matchup[1].logo" class="max-w-[100px]">
             </td>
         </tr>          
     </table> 

@@ -30,9 +30,9 @@ export class ScheduleService {
     return this.http.get<{ teamNames: Team[] }>('api/schedule');
   }
 
-  getBoxscore(game_id: string): Observable<{ game: Game, boxscore: Player[], teams: Team[] }> {
+  getBoxscore(game_id: string): Observable<{ game: Game, boxscore: Player[], goalieStats: Player[], teams: Team[] }> {
     const url = `api/results/${game_id}`;
-    return this.http.get<{ game: Game, boxscore: Player[], teams: Team[] }>(url);
+    return this.http.get<{ game: Game, boxscore: Player[], goalieStats: Player[], teams: Team[] }>(url);
   }
 
 }

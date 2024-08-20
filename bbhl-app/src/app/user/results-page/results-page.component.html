@@ -1,86 +1,145 @@
-<div class="content-box">
+<div class="pt-10">
     <table width="80%" align="center">
         <tr>
-            <td colspan="3" width="100%" align="center">
-                <h3>Game # {{ game?.game_id }}<br>
-                    {{ game?.formatted_date }} &#64; {{ game?.time }}
-                </h3>
-            </td>
-        </tr> 
-        <tr>
             <td align="right">
-                <img [src]="matchup[0].logo" width="175">
+                <img [src]="matchup[0].logo" class="max-w-[100px]">
             </td>
-            <td align="center">
-                <h1 style="font-size: 7.2em">{{ game?.home_score }} – {{ game?.away_score }}</h1>
-            </td>
+           <td align="center">
+                <h1 class="text-4xl">VS.</h1>
+           </td>
             <td align="left">
-                <img [src]="matchup[1].logo" width="175">
+                <img [src]="matchup[1].logo" class="max-w-[100px]">
             </td>
-        </tr>         
+        </tr>
+        <tr>
+            <td  colspan="3" width="100%" align="center">
+                <p class="mb-6 text-base font-normal text-gray-500 lg:text-xl dark:text-gray-400">Game # {{ game?.game_id }}<br>
+                    {{ game?.formatted_date }} &#64; {{ game?.time }}
+                </p>
+            </td>
+        </tr>          
     </table> 
 </div>
 
-<h2>Boxscore</h2>
-<div>
-    <table width="100%">
-        <tr>
-            <td width="50%" *ngFor="let team of matchup; let i = index">
-                <table class="main boxscore" width="100%">
-                    <tr>
-                        <th>#</th>
-                        <th class="clickable" (click)="toggleSort('name', i)">
-                            Name
-                            <span *ngIf="sortData[i].column === 'name'" [class]="sortData[i].direction === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-                          </th>
-                          <th class="clickable" (click)="toggleSort('goals', i)">
-                            Goals
-                            <span *ngIf="sortData[i].column === 'goals'" [class]="sortData[i].direction === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-                          </th>
-                          <th class="clickable" (click)="toggleSort('assists', i)">
-                            Assists
-                            <span *ngIf="sortData[i].column === 'assists'" [class]="sortData[i].direction === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-                          </th>
-                          <th class="clickable" (click)="toggleSort('points', i)">
-                            Points
-                            <span *ngIf="sortData[i].column === 'points'" [class]="sortData[i].direction === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-                          </th>
-                          <th class="clickable" (click)="toggleSort('pims', i)">
-                            PIMS
-                            <span *ngIf="sortData[i].column === 'pims'" [class]="sortData[i].direction === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-                          </th>
-                          <th class="clickable" (click)="toggleSort('gwg', i)">
-                            GWG
-                            <span *ngIf="sortData[i].column === 'gwg'" [class]="sortData[i].direction === 'asc' ? 'arrow-up' : 'arrow-down'"></span>
-                          </th>
-                    </tr>
-                    <tr class="main" *ngFor="let player of matchup[i].roster; let j = index">
-                        <td class="boxscore" style="text-align: center;">
-                            {{ (j+1) }}
-                        </td>
-                        <td class="boxscore" style="padding-left: 8px; text-align: left;">
-                            <a [routerLink]="['/players', player.id]">
-                                <p><b>{{ player.name }}</b></p>
-                            </a>
-                        </td>
-                        <td class="boxscore">
-                            {{ player.goals }}
-                        </td>
-                        <td class="boxscore">
-                            {{ player.assists }}
-                        </td>
-                        <td class="boxscore">
-                            {{ player.points}}
-                        </td>
-                        <td class="boxscore">
-                            {{ player.pims }}
-                        </td>
-                        <td class="boxscore">
-                            {{ player.gwg }}
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+<h2 class="mb-4 pt-8 font-bold text-2xl leading-none tracking-tight text-gray-900 dark:text-white">Boxscore</h2>
+
+<div>    
+    <!-- Main Boxscore Table -->
+    <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <table class="w-full text-center" *ngFor="let team of matchup; let i = index">
+            <thead class="text-sm text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th>#</th>
+                    <th class="clickable" (click)="toggleSort('name', i)">
+                        Name
+                    </th>
+                    <th class="clickable" (click)="toggleSort('goals', i)">
+                        G
+                    </th>
+                    <th class="clickable" (click)="toggleSort('assists', i)">
+                        A
+                    </th>
+                    <th class="clickable" (click)="toggleSort('points', i)">
+                        PTS
+                    </th>
+                    <th class="clickable" (click)="toggleSort('pims', i)">
+                        PIMS
+                    </th>
+                    <th class="clickable" (click)="toggleSort('gwg', i)">
+                        GWG
+                    </th>
+                </tr>
+            </thead>
+            <tr class="main" *ngFor="let player of matchup[i].roster; let j = index">
+                <td class="boxscore" style="text-align: center;">
+                    {{ (j+1) }}
+                </td>
+                <td class="boxscore w-1/4" style="padding-left: 8px; text-align: left;">
+                    <a [routerLink]="['/players', player.id]">
+                        <p class="font-semibold text-sm text-gray-900 whitespace-nowrap dark:text-white">{{ player.name }}</p>
+                    </a>
+                </td>
+                <td class="boxscore">
+                    {{ player.goals }}
+                </td>
+                <td class="boxscore">
+                    {{ player.assists }}
+                </td>
+                <td class="boxscore">
+                    {{ player.points }}
+                </td>
+                <td class="boxscore">
+                    {{ player.pims }}
+                </td>
+                <td class="boxscore">
+                    {{ player.gwg }}
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+    <!-- Goalie Table -->
+    <div class="grid gap-6 mb-6 md:grid-cols-2">
+        <table class="w-full text-center" *ngFor="let team of matchup; let i = index">
+            <thead class="text-sm text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th>#</th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        W
+                    </th>
+                    <th>
+                        L
+                    </th>
+                    <th>
+                        T
+                    </th>
+                    <th>
+                        GA
+                    </th>
+                    <th>
+                        SA
+                    </th>
+                    <th>
+                        SV
+                    </th>
+                    <th>
+                        SO
+                    </th>
+                </tr>
+            </thead>
+            <tr class="main">
+                <td class="boxscore" style="text-align: center;">
+                    1
+                </td>
+                <td class="boxscore w-1/4" style="padding-left: 8px; text-align: left;">
+                    <p class="font-semibold text-sm text-gray-900 whitespace-nowrap dark:text-white">{{ matchup[i].goalie.name }}</p>
+                </td>
+                <td class="boxscore">
+                    {{ matchup[i].goalie.wins }}
+                </td>
+                <td class="boxscore">
+                    {{ matchup[i].goalie.losses }}
+                </td>
+                <td class="boxscore">
+                    {{ matchup[i].goalie.ties }}
+                </td>
+                <td class="boxscore">
+                    {{ matchup[i].goalie.goals_against }}
+                </td>
+                <td class="boxscore">
+                    {{ matchup[i].goalie.shots_against }}
+                </td>
+                <td class="boxscore">
+                    {{ matchup[i].goalie.saves }}
+                </td>
+                <td class="boxscore">
+                    {{ matchup[i].goalie.shutouts }}
+                </td>
+            </tr>
+        </table>
+    </div>  
+
 </div>

@@ -42,9 +42,23 @@ export class ResultsPageComponent implements OnInit {
               console.log('Matchup Info:', this.matchup);
 
               if (response.boxscore) {
-                this.matchup[0].roster = response.boxscore.filter(player => player.team === response.game.home_team);
-                this.matchup[1].roster = response.boxscore.filter(player => player.team === response.game.away_team);
+                this.matchup[0].roster = response.boxscore.filter(player => player.team === response.game.home_team && player.position !== 'Goalie');
+                this.matchup[1].roster = response.boxscore.filter(player => player.team === response.game.away_team && player.position !== 'Goalie');
               }
+
+              const homeGoalie = response.goalieStats.find(goalie => goalie.team === response.game.home_team && goalie.position === 'Goalie');
+              const awayGoalie = response.goalieStats.find(goalie => goalie.team === response.game.away_team && goalie.position === 'Goalie');
+
+              if (homeGoalie && awayGoalie) {
+                this.matchup[0].goalie = homeGoalie;
+                this.matchup[1].goalie = awayGoalie;
+                console.log('Home Goalie: ', homeGoalie);
+                console.log('Away Goalie: ', awayGoalie);
+              }
+              else {
+                console.error('Missing Goalie in roster set.');
+              }
+
             } else {
               console.error('Teams not found in response:', response.teams);
             }

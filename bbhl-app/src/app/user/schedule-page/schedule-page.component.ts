@@ -8,7 +8,7 @@ import { ScheduleService } from '../../services/schedule.service';
   styleUrls: ['./schedule-page.component.css']
 })
 export class SchedulePageComponent implements OnInit {
-  seasons: number[] = [2024, 2023];
+  seasons: number[] = [2025, 2024, 2023];
   selectedSeason: number = 2024;
   allGames: Game[] = [];
   pastGames: Game[] = [];

@@ -10,6 +10,7 @@ import { bbhldokuAnswerRoute } from "./bbhldoku-answer.js";
 import { adminRoute } from "./admin.js";
 import { adminPlayerStatsRoute } from "./admin-player-stats.js";
 import { adminTeamStatsRoute } from "./admin-team-stats.js";
+import { adminGoalieStatsRoute } from "./admin-goalie-stats.js";
 import { newGameRoute } from "./newGame.js";
 import { newPlayerRoute } from "./new-player.js";
 import { uploadFileRoute } from "./upload.js";
@@ -30,6 +31,7 @@ export default [
     bbhldokuAnswerRoute,
     adminRoute,
     adminPlayerStatsRoute,
+    adminGoalieStatsRoute,
     adminTeamStatsRoute,
     editPlayerRoute,
     newGameRoute,

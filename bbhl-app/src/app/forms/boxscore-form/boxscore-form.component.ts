@@ -276,6 +276,8 @@ export class BoxscoreFormComponent {
       saves: player.saves,
       shutouts: player.shutouts
     };
+
+    console.log('Sending the following payload to backend: ', stats)
   
     this.http.post('/api/admin-hub/goalie-stats', stats)
       .subscribe({

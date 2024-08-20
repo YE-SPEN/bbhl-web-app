@@ -37,11 +37,22 @@ export const teamRoute = {
                         AND ps.name = p.name
                         AND ps.season = ?
                         AND t.id = ?
+                        AND p.position <> 'Goalie'
                     ORDER BY ps.points DESC, ps.goals DESC`,
                  [year, teamID]
             );
 
-            return { team, seasons, roster };
+            const { results: goalies } = await db.query( 
+                `SELECT gs.*, p.position, p.id AS player_id FROM goalie_stats gs, teams t, players p
+                    WHERE t.name = gs.team
+                        AND gs.name = p.name
+                        AND gs.season = ?
+                        AND t.id = ?
+                    ORDER BY gs.wins DESC`,
+                 [year, teamID]
+            );
+
+            return { team, seasons, roster, goalies };
 
         } catch (err) {
             console.error(err);

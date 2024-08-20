@@ -182,4 +182,98 @@
           </tbody>
       </table>
     </div>
+
+    <!-- Goalie Table -->
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg rounded-lg max-h-[800px]">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-sm text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
+                <tr class="sticky top-0 bg-gray-800">
+                    <th scope="col" class="px-6 py-3">
+                        #
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Name
+                        </th>
+                    <th scope="col" class="px-6 py-3">
+                        Position
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        GP
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        W
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        L
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        T
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        GA
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        SA
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        SV
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        GAA
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        SV%
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        SO
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let goalie of goalies; let i = index" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-base">
+                    <td class="px-4 py-3">
+                    {{ (i + 1) }}
+                    </td>
+                    <td scope="row" class="px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                    <a [routerLink]="['/players', goalie.player_id]" class="hover:font-semibold hover:text-gray-600">
+                        {{ goalie.name }}
+                    </a>  
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ goalie.position }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ goalie.games_played }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ goalie.wins }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ goalie.losses }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ goalie.ties }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ goalie.goals_against }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ goalie.shots_against }}
+                    </td>
+                    <td class="px-4 py-3">
+                    {{ goalie.saves }}
+                    </td>
+                    <td class="px-4 py-3">
+                    {{ goalie.gaa }}
+                    </td>
+                    <td class="px-4 py-3">
+                    {{ goalie.sv_percentage }}
+                    </td>
+                    <td class="px-4 py-3">
+                    {{ goalie.shutouts }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

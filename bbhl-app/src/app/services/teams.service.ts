@@ -33,10 +33,11 @@ export class TeamsService {
     return this.http.get<{ team: Team, roster: Player[], goalies: Player[] }>(url, { params });
   }
 
-  getMatchup(gameID: string): Observable<{ teams: Team[], rosters: Player[] }> {
+  getMatchup(gameID: string, year: number): Observable<{ teams: Team[], rosters: Player[] }> {
     const url = 'api/admin-hub';
     const params = new HttpParams()
-      .set('id', gameID);
+      .set('id', gameID)
+      .set('year', year.toString());
     return this.http.get<{ teams: Team[], rosters: Player[] }>(url, { params });
   }
 

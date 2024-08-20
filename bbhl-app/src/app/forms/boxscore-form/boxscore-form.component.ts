@@ -16,6 +16,7 @@ export class BoxscoreFormComponent {
   upcomingGames: Game[] = [];
   matchup: Team[] = [];
   modalRef!: BsModalRef;
+  isFinal: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -28,14 +29,16 @@ export class BoxscoreFormComponent {
     this.scheduleService.getUpcomingGames()
     .subscribe(response => {
       this.upcomingGames = response.upcomingGames;
+      console.log(this.upcomingGames);
     });
   }
 
   generateBoxscore(): void {
     if (this.selectedGame != null) {
         const gameID = this.selectedGame.game_id;
+        const year = this.selectedGame.season;
 
-        this.teamService.getMatchup(gameID)
+        this.teamService.getMatchup(gameID, year)
         .subscribe(response => {
             if (response.teams) {
                 const homeTeam = response.teams.find(team => team.name === this.selectedGame?.home_team);
@@ -46,8 +49,19 @@ export class BoxscoreFormComponent {
                     this.matchup[1] = awayTeam;
 
                     if (response.rosters) {
-                        this.matchup[0].roster = response.rosters.filter(player => player.team === this.selectedGame?.home_team);
-                        this.matchup[1].roster = response.rosters.filter(player => player.team === this.selectedGame?.away_team);
+                        this.matchup[0].roster = response.rosters.filter(player => player.team === this.selectedGame?.home_team && player.position !== 'Goalie');
+                        this.matchup[1].roster = response.rosters.filter(player => player.team === this.selectedGame?.away_team && player.position !== 'Goalie');
+
+                        const homeGoalie = response.rosters.find(goalie => goalie.team === this.selectedGame?.home_team && goalie.position === 'Goalie');
+                        const awayGoalie = response.rosters.find(goalie => goalie.team === this.selectedGame?.away_team && goalie.position === 'Goalie');
+
+                        if (homeGoalie && awayGoalie) {
+                          this.matchup[0].goalie = homeGoalie;
+                          this.matchup[1].goalie = awayGoalie;
+                        }
+                        else {
+                          console.error('Missing Goalie in roster set.');
+                        }
                         this.initializeStats();
                     }
                 } else {
@@ -61,6 +75,18 @@ export class BoxscoreFormComponent {
   initializeStats(): void {
     for (let i = 0; i < this.matchup.length; ++i) {
       this.matchup[i].shots = 0;
+
+      // Initialize Goalie Stats
+      this.matchup[i].goalie.wins = 0;
+      this.matchup[i].goalie.losses = 0;
+      this.matchup[i].goalie.ties = 0;
+      this.matchup[i].goalie.goals_against = 0;
+      this.matchup[i].goalie.shots_against = 0;
+      this.matchup[i].goalie.saves = 0;
+      this.matchup[i].goalie.shutouts = 1;
+      this.matchup[i].goalie.isAbsent = false;
+
+      // Initialize Player Stats
       for (let j = 0; j < this.matchup[i].roster.length; ++j) {
         this.matchup[i].roster[j].goals = 0;
         this.matchup[i].roster[j].assists = 0;
@@ -73,29 +99,98 @@ export class BoxscoreFormComponent {
   }
 
   incrementShots(index: number): void {
+    
     if (this.matchup[index].shots == null) {
         this.matchup[index].shots = 0;
     }
     this.matchup[index].shots += 1;
-    console.log(this.selectedGame);
+    this.matchup[(index + 1) % 2].goalie.shots_against +=1;
+    this.matchup[(index + 1) % 2].goalie.saves = this.matchup[(index + 1) % 2].goalie.shots_against - this.matchup[(index + 1) % 2].goalie.goals_against;
   }
 
   decrementShots(index: number): void {
     if (this.matchup[index].shots > 0) {
         this.matchup[index].shots -= 1;
-        console.log(this.selectedGame);
+        this.matchup[(index + 1) % 2].goalie.shots_against -=1;
+        this.matchup[(index + 1) % 2].goalie.saves = this.matchup[(index + 1) % 2].goalie.shots_against - this.matchup[(index + 1) % 2].goalie.goals_against;
     }
   }
 
-  updateScore(team: Team): void {
-    if (this.selectedGame) {
-      if (team.name === this.selectedGame.home_team) {
-        this.selectedGame.home_score = this.totalScore(team);
-      }
-      else {
-        this.selectedGame.away_score = this.totalScore(team);
+  updateStat(player: Player, team: Team, value: number, stat: string): boolean {
+    for (let i = 0; i < team.roster.length; i++) {
+      if (team.roster[i].name === player.name) {
+        switch (stat) {
+          case 'goals':
+            team.roster[i].goals = value;
+            team.roster[i].points = team.roster[i].goals + team.roster[i].assists;
+            this.updateScore();
+            console.log(this.selectedGame);
+            break;
+          case 'assists':
+            team.roster[i].assists = value;
+            team.roster[i].points = team.roster[i].goals + team.roster[i].assists;
+            break;
+          case 'gwg':
+            team.roster[i].gwg = value;
+            break;
+          case 'pims':
+            team.roster[i].pims = value;
+            break;
+          default:
+            console.error('Invalid stat type');
+        }
+        return true;
       }
     }
+    return false;
+  }
+
+  updateGoalieStats(): void {
+    if (this.selectedGame) {
+      this.clearGoalieStats();
+      
+      // assign win/loss/ties
+      if (this.selectedGame.home_score > this.selectedGame.away_score) {
+        this.matchup[0].goalie.wins++;
+        this.matchup[1].goalie.losses++;
+      }
+      if (this.selectedGame.home_score < this.selectedGame.away_score) {
+        this.matchup[1].goalie.wins++;
+        this.matchup[0].goalie.losses++;
+      }
+      if (this.selectedGame.home_score === this.selectedGame.away_score) {
+        this.matchup[0].goalie.ties++;
+        this.matchup[1].goalie.ties++;
+      }
+
+      // assign shutouts
+      if (this.selectedGame.home_score > 0) { this.matchup[1].goalie.shutouts = 0 };
+      if (this.selectedGame.away_score > 0) { this.matchup[0].goalie.shutouts = 0 };
+
+    }
+  }
+
+  clearGoalieStats(): void {
+    for (let i = 0; i < this.matchup.length; ++i) {
+      this.matchup[i].goalie.wins = 0;
+      this.matchup[i].goalie.losses = 0;
+      this.matchup[i].goalie.ties = 0;
+    }
+  }
+ 
+  updateScore(): void {
+    if (this.selectedGame) {
+        // home team
+        this.selectedGame.home_score = this.totalScore(this.matchup[0]);
+        this.matchup[0].goalie.goals_against = this.totalScore(this.matchup[1]);
+        this.matchup[0].goalie.saves = this.matchup[0].goalie.shots_against - this.matchup[0].goalie.goals_against;
+
+        // away team
+        this.selectedGame.away_score = this.totalScore(this.matchup[1]);
+        this.matchup[1].goalie.goals_against = this.totalScore(this.matchup[0]);
+        this.matchup[1].goalie.saves = this.matchup[1].goalie.shots_against - this.matchup[1].goalie.goals_against;
+    }
+    this.updateGoalieStats();
   }
 
   totalScore(team: Team): number {
@@ -139,35 +234,6 @@ export class BoxscoreFormComponent {
     this.updateStat(player, team, value, stat);
   }
 
-  updateStat(player: Player, team: Team, value: number, stat: string): boolean {
-    for (let i = 0; i < team.roster.length; i++) {
-      if (team.roster[i].name === player.name) {
-        switch (stat) {
-          case 'goals':
-            team.roster[i].goals = value;
-            team.roster[i].points = team.roster[i].goals + team.roster[i].assists;
-            this.updateScore(team);
-            break;
-          case 'assists':
-            team.roster[i].assists = value;
-            team.roster[i].points = team.roster[i].goals + team.roster[i].assists;
-            break;
-          case 'gwg':
-            team.roster[i].gwg = value;
-            break;
-          case 'pims':
-            team.roster[i].pims = value;
-            break;
-          default:
-            console.error('Invalid stat type');
-        }
-        console.log(player, this.selectedGame);
-        return true;
-      }
-    }
-    return false;
-  }
-
   toggleAbsent(player: any): void {
     player.isAbsent = !player.isAbsent;
     console.log(player);
@@ -185,10 +251,43 @@ export class BoxscoreFormComponent {
     };
 
     this.http.post('/api/admin-hub/player-stats', stats)
-      .subscribe(response => {
-        console.log(response);
-      }, error => {
-        console.error('Error Recording Player Stats', error);
+      .subscribe({
+        next: response => {
+          console.log(response);
+        },
+        error: error => {
+          console.error('Error recording player stats for ' + player.name, error);
+        },
+        complete: () => {
+          console.log('Player stats recorded successfully for ' + player.name);
+        }
+      });
+  }
+
+  recordGoalieStats(player: Player, game_id: string) {
+    const stats = {
+      game_id: this.selectedGame?.game_id,
+      player: player.name,
+      wins: player.wins,
+      losses: player.losses,
+      ties: player.ties,
+      goals_against: player.goals_against,
+      shots_against: player.shots_against,
+      saves: player.saves,
+      shutouts: player.shutouts
+    };
+  
+    this.http.post('/api/admin-hub/goalie-stats', stats)
+      .subscribe({
+        next: response => {
+          console.log(response);
+        },
+        error: error => {
+          console.error('Error recording goalie stats for ' + player.name, error);
+        },
+        complete: () => {
+          console.log('Goalie stats recorded successfully for ' + player.name);
+        }
       });
   }
 
@@ -199,24 +298,46 @@ export class BoxscoreFormComponent {
       home_shots: this.matchup[0].shots,
       away_score: this.selectedGame?.away_score,
       away_shots: this.matchup[1].shots
-    }
-    
+    };
+  
     this.http.post('/api/admin-hub/team-stats', stats)
-      .subscribe(response => {
-        console.log(response);
-      }, error => {
-        console.error('Error recording team stats', error);
+      .subscribe({
+        next: response => {
+          console.log(response);
+        },
+        error: error => {
+          console.error('Error recording team stats', error);
+        },
+        complete: () => {
+          console.log('Team stats recorded successfully');
+        }
       });
+  }
+
+  validateGamesheet(): void {
+
   }
 
   finalizeGame(): void {
     if (this.selectedGame) {
       for (let i = 0; i < this.matchup.length; ++i) {
+        
+        // record player stats
         for (let j = 0; j < this.matchup[i].roster.length; ++j) {
-          this.recordPlayerStats(this.matchup[i].roster[j], this.selectedGame?.game_id);
-        } 
+          if (!this.matchup[i].roster[j].isAbsent) {
+            this.recordPlayerStats(this.matchup[i].roster[j], this.selectedGame?.game_id);
+          }
+        }
+        
+        // record goalie stats
+        if (!this.matchup[i].goalie.isAbsent) {
+          this.recordGoalieStats(this.matchup[i].goalie, this.selectedGame?.game_id); 
+        }
       }
       this.recordTeamStats();
+      
+      this.closeModal();
+      this.selectedGame = null;
     }
   }
 
@@ -226,8 +347,6 @@ export class BoxscoreFormComponent {
 
   closeModal() {
     this.modalRef.hide();
-    //this.action = '';
-    this.selectedGame = null;
   }
 
 }

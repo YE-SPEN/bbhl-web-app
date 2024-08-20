@@ -16,7 +16,7 @@ export const resultsRoute = {
         const game = gameInfo[0];
         
         const { results: boxscore } = await db.query( 
-            `SELECT p.name, p.id, b.goals, b.assists, b.points, b.gwg, b.pims, ps.team
+            `SELECT p.name, p.position, p.id, b.goals, b.assists, b.points, b.gwg, b.pims, ps.team
             FROM players p
                 JOIN boxscores b 
                     ON b.player = p.name
@@ -25,7 +25,21 @@ export const resultsRoute = {
                 JOIN player_stats ps
                     ON ps.name = p.name
             WHERE b.game_id = ?
-                AND ps.season = 2024`,
+                AND ps.season = s.season`,
+            [gameID]
+        );
+
+        const { results: goalieStats } = await db.query( 
+            `SELECT p.name, p.position, p.id, gb.wins, gb.losses, gb.ties, gb.goals_against, gb.shots_against, gb.saves, gb.shutouts, gs.team
+            FROM players p
+                JOIN goalie_boxscores gb 
+                    ON gb.player = p.name
+                JOIN schedule s
+                    ON gb.game_ID = s.game_ID
+                JOIN goalie_stats gs
+                    ON gs.name = p.name
+            WHERE gb.game_id = ?
+                AND gs.season = s.season`,
             [gameID]
         );
 
@@ -42,6 +56,6 @@ export const resultsRoute = {
             [gameID, gameID]
         );
 
-        return { game, boxscore, teams };
+        return { game, boxscore, goalieStats, teams };
     }
 }

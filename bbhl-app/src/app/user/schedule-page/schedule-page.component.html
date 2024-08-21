@@ -32,7 +32,7 @@
     <div *ngIf="upcomingGames.length > 0">
         <h2 class="mb-4 pt-8 font-bold text-2xl leading-none tracking-tight text-gray-900 dark:text-white">Upcoming Games</h2>
         
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg rounded-lg max-h-[800px]">
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg rounded-lg max-h-[800px] max-w-4xl">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-sm text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
                     <tr class="sticky top-0 bg-gray-800">
@@ -46,9 +46,19 @@
                                 Time
                             </div>
                         </th>
-                        <th scope="col" colspan="5" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3 text-right">
+                            <div class="flex items-center ">
+                                Home
+                            </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                             <div class="flex items-center">
                                 
+                            </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            <div class="flex items-center">
+                                Away
                             </div>
                         </th>
                     </tr>
@@ -62,27 +72,39 @@
                             {{ game.time }}
                         </td>
                         <td scope="row" class="text-right px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
-                            <a [routerLink]="['/teams', game.home_team_id]" class="hover:font-semibold hover:text-gray-600">
-                                {{ game.home_team }}
-                            </a>  
-                        </td>
-                        <td class="px-4 py-3">
-                            <a [routerLink]="['/teams', game.home_team_id]">
-                                <img src="{{ game.home_team_logo }}" width="50">
-                            </a>
+                            <table align="right">
+                                <tr>
+                                    <td align="right" class="px-3">
+                                        <a [routerLink]="['/teams', game.home_team_id]" class="hover:font-semibold hover:text-gray-600">
+                                            {{ game.home_team }}
+                                        </a> 
+                                    </td>
+                                    <td align="right">
+                                        <a [routerLink]="['/teams', game.home_team_id]">
+                                            <img src="{{ game.home_team_logo }}" class="max-w-[50px]">
+                                        </a>
+                                    </td>
+                                </tr>                            
+                            </table>   
                         </td>
                         <td class="px4 px3 text-center">
                             VS.
                         </td>
-                        <td class="px-4 py-3">
-                            <a [routerLink]="['/teams', game.away_team_id]">
-                                <img src="{{ game.away_team_logo }}" width="50">
-                            </a>
-                        </td>
-                        <td class="px-4 py-3">
-                            <a [routerLink]="['/teams', game.away_team_id]" class="text-left px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ game.away_team }}
-                            </a> 
+                        <td scope="row" class="text-right px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                            <table>
+                                <tr>
+                                    <td align="left">
+                                        <a [routerLink]="['/teams', game.away_team_id]">
+                                            <img src="{{ game.away_team_logo }}" class="max-w-[50px]">
+                                        </a>
+                                    </td>
+                                    <td class="px-3">
+                                        <a [routerLink]="['/teams', game.away_team_id]" class="hover:font-semibold hover:text-gray-600">
+                                            {{ game.away_team }}
+                                        </a> 
+                                    </td>
+                                </tr>                            
+                            </table>   
                         </td>
                     </tr>
                 </tbody>
@@ -107,9 +129,9 @@
                                 Time
                             </div>
                         </th>
-                        <th scope="col" colspan="2" class="px-6 py-3 text-right">
-                            <div class="flex items-center">
-                                
+                        <th scope="col" class="px-6 py-3 text-right">
+                            <div class="flex items-center text-right">
+                                Home
                             </div>
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -117,9 +139,9 @@
                                 Result
                             </div>
                         </th>
-                        <th scope="col" colspan="2" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3">
                             <div class="flex items-center">
-                                
+                                Away
                             </div>
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -136,27 +158,39 @@
                             {{ game.time }}
                         </td>
                         <td scope="row" class="text-right px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
-                            <a [routerLink]="['/teams', game.home_team_id]" class="hover:font-semibold hover:text-gray-600">
-                                {{ game.home_team }}
-                            </a>  
-                        </td>
-                        <td class="px-4 py-3">
-                            <a [routerLink]="['/teams', game.home_team_id]">
-                                <img src="{{ game.home_team_logo }}" width="50">
-                            </a>
+                            <table align="right">
+                                <tr>
+                                    <td align="right" class="px-3">
+                                        <a [routerLink]="['/teams', game.home_team_id]" class="hover:font-semibold hover:text-gray-600">
+                                            {{ game.home_team }}
+                                        </a> 
+                                    </td>
+                                    <td align="right">
+                                        <a [routerLink]="['/teams', game.home_team_id]">
+                                            <img src="{{ game.home_team_logo }}" class="max-w-[50px]">
+                                        </a>
+                                    </td>
+                                </tr>                            
+                            </table>   
                         </td>
                         <td class="px4 px3 text-center text-2xl">
                             {{ game.home_score }} - {{ game.away_score }}
                         </td>
-                        <td class="px-4 py-3 text-lg font-semibold">
-                            <a [routerLink]="['/teams', game.away_team_id]">
-                                <img src="{{ game.away_team_logo }}" width="50">
-                            </a>
-                        </td>
-                        <td class="px-4 py-3">
-                            <a [routerLink]="['/teams', game.away_team_id]" class="text-left px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ game.away_team }}
-                            </a> 
+                        <td scope="row" class="text-right px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                            <table>
+                                <tr>
+                                    <td align="left">
+                                        <a [routerLink]="['/teams', game.away_team_id]">
+                                            <img src="{{ game.away_team_logo }}" class="max-w-[50px]">
+                                        </a>
+                                    </td>
+                                    <td class="px-3">
+                                        <a [routerLink]="['/teams', game.away_team_id]" class="hover:font-semibold hover:text-gray-600">
+                                            {{ game.away_team }}
+                                        </a> 
+                                    </td>
+                                </tr>                            
+                            </table>   
                         </td>
                         <td class="px-4 py-3">
                             <div *ngIf="game.hasBoxscore">

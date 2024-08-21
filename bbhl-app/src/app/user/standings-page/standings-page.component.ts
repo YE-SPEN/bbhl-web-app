@@ -9,7 +9,7 @@ import { TeamsService } from '../../services/teams.service';
 })
 export class StandingsPageComponent {
   teams: Team[] = [];
-  seasons: number[] = [2024, 2023, 2022, 2020, 2019, 2018, 2017];
+  seasons: number[] = [2025, 2024, 2023, 2022, 2020, 2019, 2018, 2017];
   selectedSeason: number = 2024;
   sortColumn: string | null = 'points';
   sortDirection: 'asc' | 'desc' = 'desc';

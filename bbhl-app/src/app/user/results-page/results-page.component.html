@@ -56,7 +56,7 @@
                 </td>
                 <td class="boxscore w-1/4" style="padding-left: 8px; text-align: left;">
                     <a [routerLink]="['/players', player.id]">
-                        <p class="font-semibold text-sm text-gray-900 whitespace-nowrap dark:text-white">{{ player.name }}</p>
+                        <p class="font-semibold text-sm text-gray-900 whitespace-nowrap dark:text-white hover:text-gray-600">{{ player.name }}</p>
                     </a>
                 </td>
                 <td class="boxscore">
@@ -115,7 +115,9 @@
                     1
                 </td>
                 <td class="boxscore w-1/4" style="padding-left: 8px; text-align: left;">
-                    <p class="font-semibold text-sm text-gray-900 whitespace-nowrap dark:text-white">{{ matchup[i].goalie.name }}</p>
+                    <a [routerLink]="['/players', matchup[i].goalie.id]">
+                        <p class="font-semibold text-sm text-gray-900 whitespace-nowrap dark:text-white hover:text-gray-600">{{ matchup[i].goalie.name }}</p>
+                    </a>
                 </td>
                 <td class="boxscore">
                     {{ matchup[i].goalie.wins }}

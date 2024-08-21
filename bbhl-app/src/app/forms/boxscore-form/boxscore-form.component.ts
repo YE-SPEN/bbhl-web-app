@@ -98,15 +98,18 @@ export class BoxscoreFormComponent {
     }
   }
 
-  incrementShots(index: number): void {
-    
-    if (this.matchup[index].shots == null) {
-        this.matchup[index].shots = 0;
-    }
-    this.matchup[index].shots += 1;
-    this.matchup[(index + 1) % 2].goalie.shots_against +=1;
+  setShots(index: number, value: number): void {
+    this.matchup[index].shots = value;
+    this.matchup[(index + 1) % 2].goalie.shots_against = value;
     this.matchup[(index + 1) % 2].goalie.saves = this.matchup[(index + 1) % 2].goalie.shots_against - this.matchup[(index + 1) % 2].goalie.goals_against;
   }
+
+  incrementShots(index: number): void {
+    this.matchup[index].shots = Number(this.matchup[index].shots) + 1;
+    this.matchup[(index + 1) % 2].goalie.shots_against = Number(this.matchup[(index + 1) % 2].goalie.shots_against) + 1;
+    this.matchup[(index + 1) % 2].goalie.saves = Number(this.matchup[(index + 1) % 2].goalie.shots_against) - this.matchup[(index + 1) % 2].goalie.goals_against;
+  }
+  
 
   decrementShots(index: number): void {
     if (this.matchup[index].shots > 0) {

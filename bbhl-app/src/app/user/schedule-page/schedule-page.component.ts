@@ -19,18 +19,18 @@ export class SchedulePageComponent implements OnInit {
   selectedTeam = '';
   currentPage = 1;
   totalPages!: number;
-  pageSize = 15;
+  pageSize = 16;
 
   constructor(
     private scheduleService: ScheduleService,
   ) { }
 
   ngOnInit(): void {
-    this.getScheduleBySeason();
+    this.getScheduleBySeason(this.selectedSeason);
   }
 
-  getScheduleBySeason(): void {
-    this.scheduleService.getSchedule(this.selectedSeason)
+  getScheduleBySeason(season: number): void {
+    this.scheduleService.getSchedule(season)
       .subscribe(response => {
         this.allGames = response.schedule;
         this.teamNames = response.teamNames;
@@ -50,6 +50,7 @@ export class SchedulePageComponent implements OnInit {
       game.home_team.toLowerCase().includes(teamName.toLowerCase()) ||
       game.away_team.toLowerCase().includes(teamName.toLowerCase())
     );
+    this.totalPages = Math.ceil(this.filteredPastGames.length / this.pageSize);
   }
 
   previousPage(): void {

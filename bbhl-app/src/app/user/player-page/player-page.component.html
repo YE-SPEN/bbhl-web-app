@@ -79,9 +79,9 @@
                         <img src="{{ season.logo }}" width="40">
                     </a>
                   </td>
-                  <td class="px-4 py-3">
-                    <a [routerLink]="['/teams', season.id]">
-                        <p><b>{{ season.team }}</b></p>
+                  <td class="px-4 py-3 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                    <a [routerLink]="['/teams', season.id]" class="hover:font-semibold hover:text-gray-600">
+                        {{ season.team }}
                     </a>
                   </td>
                   <td class="px-4 py-3">

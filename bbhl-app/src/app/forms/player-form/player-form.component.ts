@@ -9,7 +9,7 @@ import { PlayersService } from 'src/app/services/players.service';
   styleUrl: './player-form.component.css'
 })
 export class PlayerFormComponent {
-  action: 'add' | 'edit' | null = null;
+  action: 'add' | 'edit' = 'edit';
   formSubmitted: boolean = false;
   allPlayers: Player[] = [];
   filteredPlayers: Player[] = [];
@@ -36,7 +36,7 @@ export class PlayerFormComponent {
       });
   }
 
-  setAction(action: 'add' | 'edit' | null): void {
+  setAction(action: 'add' | 'edit'): void {
     this.action = action;
   }
 

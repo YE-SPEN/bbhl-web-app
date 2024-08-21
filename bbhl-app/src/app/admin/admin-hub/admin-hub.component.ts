@@ -1,10 +1,15 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Player, Team, Game } from '../../types'
 import { ScheduleService } from 'src/app/services/schedule.service';
 import { TeamsService } from 'src/app/services/teams.service';
 import { HttpClient } from '@angular/common/http';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
+interface ActionCompletedEvent {
+  message: string;
+  success: boolean;
+}
 
 @Component({
   selector: 'app-admin-hub',
@@ -14,6 +19,9 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 
 export class AdminHubComponent {
   action: '' | 'addToSchedule' | 'recordResult' | 'editPlayer' = '';
+  @ViewChild('toastSuccess', { static: false }) toastSuccess!: ElementRef<HTMLDivElement>;
+  @ViewChild('toastError', { static: false }) toastError!: ElementRef<HTMLDivElement>;
+  toastMessage: string | null = null;
 
   constructor(
     private http: HttpClient,
@@ -25,6 +33,35 @@ export class AdminHubComponent {
 
   setAction(newAction: '' | 'addToSchedule' | 'recordResult' | 'editPlayer'): void {
     this.action = newAction;
+  }
+
+  showToast(message: string, success: boolean): void {
+    let toast: HTMLElement | null = success ? this.toastSuccess.nativeElement : this.toastError.nativeElement;
+    
+    if (toast) {
+      this.toastMessage = message;
+      toast.classList.add('show');
+      toast.classList.remove('hidden');
+      
+      setTimeout(() => {
+        this.dismissToast(toast);
+      }, 3500);
+    }
+  }
+
+  dismissToast(toast: HTMLElement): void {
+    if (toast) {
+      toast.classList.remove('show');
+      toast.classList.add('hidden');
+    }
+  }
+
+  onActionCompleted(event: ActionCompletedEvent): void {
+    if (event.success) {
+      this.showToast(event.message, true);
+    } else {
+      this.showToast(event.message, false);
+    }
   }
   
 }

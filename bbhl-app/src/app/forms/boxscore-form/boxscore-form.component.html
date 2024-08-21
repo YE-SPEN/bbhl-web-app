@@ -88,7 +88,7 @@
                             <th>
                                 GWG
                             </th>
-                            <th>
+                            <th class="px-3">
                                 Absent?
                             </th>
                         </tr>
@@ -120,7 +120,7 @@
                                 checked 
                                 type="checkbox" 
                                 value="" 
-                                class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                class="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >                     
                         </td>
                     </tr>
@@ -174,7 +174,7 @@
                             <th>
                                 SO
                             </th>
-                            <th>
+                            <th class="w-1/6">
                                 Absent?
                             </th>
                         </tr>
@@ -211,12 +211,11 @@
                             <input 
                                 (click)="toggleAbsent(matchup[i].goalie)" 
                                 id="default-checkbox"
-                                [checked]="matchup[i].goalie.isAbsent"
-                                checked 
+                                [checked]="matchup[i].goalie.isAbsent" 
                                 type="checkbox" 
                                 value="" 
-                                class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                            >                     
+                                class="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            >                    
                         </td>
                     </tr>
                 </table>

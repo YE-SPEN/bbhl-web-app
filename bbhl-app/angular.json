@@ -26,11 +26,10 @@
             ],
             "styles": [
               "src/assets/tailwind.css",
-              "src/styles.css",
-              "src/assets/flowbite.min.css"
+              "src/styles.css"
             ],
             "scripts": [
-              "src/assets/flowbite.min.js"
+              
             ]
           },
           "configurations": {

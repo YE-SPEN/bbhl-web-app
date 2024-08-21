@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Player } from 'src/app/types';
 import { PlayersService } from 'src/app/services/players.service';
@@ -9,6 +9,7 @@ import { PlayersService } from 'src/app/services/players.service';
   styleUrl: './player-form.component.css'
 })
 export class PlayerFormComponent {
+  @Output() actionCompleted = new EventEmitter<{ message: string, success: boolean }>();
   action: 'add' | 'edit' = 'edit';
   formSubmitted: boolean = false;
   allPlayers: Player[] = [];
@@ -112,6 +113,9 @@ export class PlayerFormComponent {
     this.http.post('/api/admin-hub/new-player', submissionData)
       .subscribe(response => {
         console.log('New player added to database.', response);
+        const message = submissionData.name + 'added to the BBHL Database';
+        this.completeAction(message, true);
+
         this.formSubmitted = true;
         setTimeout(() => {
           this.formSubmitted = false;
@@ -119,6 +123,7 @@ export class PlayerFormComponent {
         this.resetForm();
       }, error => {
         console.error('Error submitting form', error, submissionData);
+        this.completeAction('Error Submitting Player Form', false);
       });
   }
 
@@ -127,6 +132,10 @@ export class PlayerFormComponent {
     this.formData.name = '';
     this.formData.position = '';
     this.formData.picture = '';
+  }
+
+  completeAction(message: string, success: boolean): void {
+    this.actionCompleted.emit({ message, success });
   }
 
 }

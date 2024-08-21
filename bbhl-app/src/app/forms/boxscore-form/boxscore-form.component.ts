@@ -1,4 +1,4 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component, TemplateRef, EventEmitter, Output } from '@angular/core';
 import { Player, Team, Game } from 'src/app/types';
 import { ScheduleService } from 'src/app/services/schedule.service';
 import { TeamsService } from 'src/app/services/teams.service';
@@ -12,6 +12,7 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 })
 
 export class BoxscoreFormComponent {
+  @Output() actionCompleted = new EventEmitter<{ message: string, success: boolean }>();
   selectedGame: Game | null = null;
   upcomingGames: Game[] = [];
   matchup: Team[] = [];
@@ -259,7 +260,8 @@ export class BoxscoreFormComponent {
           console.log(response);
         },
         error: error => {
-          console.error('Error recording player stats for ' + player.name, error);
+          const message = 'Error recording player stats for ' + player.name;
+          this.completeAction(message, false);
         },
         complete: () => {
           console.log('Player stats recorded successfully for ' + player.name);
@@ -279,8 +281,6 @@ export class BoxscoreFormComponent {
       saves: player.saves,
       shutouts: player.shutouts
     };
-
-    console.log('Sending the following payload to backend: ', stats)
   
     this.http.post('/api/admin-hub/goalie-stats', stats)
       .subscribe({
@@ -288,7 +288,8 @@ export class BoxscoreFormComponent {
           console.log(response);
         },
         error: error => {
-          console.error('Error recording goalie stats for ' + player.name, error);
+          const message = 'Error recording goalie stats for ' + player.name;
+          this.completeAction(message, false);
         },
         complete: () => {
           console.log('Goalie stats recorded successfully for ' + player.name);
@@ -312,6 +313,8 @@ export class BoxscoreFormComponent {
         },
         error: error => {
           console.error('Error recording team stats', error);
+          this.completeAction('Error Recording Team Stats', false);
+          return false;
         },
         complete: () => {
           console.log('Team stats recorded successfully');
@@ -340,10 +343,16 @@ export class BoxscoreFormComponent {
         }
       }
       this.recordTeamStats();
-      
+
+      const message = 'Boxscore Submitted for Game #' + this.selectedGame.game_id;
+      this.completeAction(message, true);
       this.closeModal();
       this.selectedGame = null;
     }
+  }
+
+  completeAction(message: string, success: boolean): void {
+    this.actionCompleted.emit({ message, success });
   }
 
   openModal(template: TemplateRef<any>) {

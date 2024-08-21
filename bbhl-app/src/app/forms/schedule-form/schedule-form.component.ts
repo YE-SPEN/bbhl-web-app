@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Game, Team } from '../../types';
 import { ScheduleService } from '../../services/schedule.service';
@@ -10,6 +10,7 @@ import { ScheduleService } from '../../services/schedule.service';
 })
 
 export class ScheduleFormComponent {
+  @Output() actionCompleted = new EventEmitter<{ message: string, success: boolean }>();
   formSubmitted: boolean = false;
   teamNames: Team[] = []
   formData = {
@@ -43,6 +44,9 @@ export class ScheduleFormComponent {
     this.http.post('/api/admin-hub/new-game', submissionData)
       .subscribe(response => {
         console.log('New game added to schedule.', response);
+        const message = 'Game #' + submissionData.gameID + ' added to the schedule.';
+        this.completeAction(message, true);
+
         this.formSubmitted = true;
         setTimeout(() => {
           this.formSubmitted = false;
@@ -50,6 +54,7 @@ export class ScheduleFormComponent {
         this.resetForm();
       }, error => {
         console.error('Error submitting form', error, submissionData);
+        this.completeAction('Error Submitting Form', false);
       });
   }
 
@@ -79,5 +84,9 @@ export class ScheduleFormComponent {
     this.formData.time = '';
     this.formData.homeTeam = '';
     this.formData.awayTeam = '';
+  }
+
+  completeAction(message: string, success: boolean): void {
+    this.actionCompleted.emit({ message, success });
   }
 }

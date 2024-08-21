@@ -19,9 +19,10 @@
     "@angular/platform-browser": "^18.1.4",
     "@angular/platform-browser-dynamic": "^18.1.4",
     "@angular/router": "^18.1.4",
+    "@tailwindcss/forms": "^0.5.7",
     "firebase": "^10.12.2",
     "flowbite": "^2.5.1",
-    "ngx-bootstrap": "^12.0.0",
+    "ngx-bootstrap": "^18.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.0"

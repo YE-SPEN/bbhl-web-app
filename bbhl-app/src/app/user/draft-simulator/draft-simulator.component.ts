@@ -444,7 +444,7 @@ export class DraftSimulatorComponent {
       
       setTimeout(() => {
         this.dismissToast(toast);
-      }, 4500);
+      }, 3500);
     }
   }
 

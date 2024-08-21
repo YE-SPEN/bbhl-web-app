@@ -18,7 +18,7 @@ CREATE TRIGGER "schedule_AFTER_UPDATE" AFTER UPDATE ON "schedule" FOR EACH ROW B
     DECLARE away_team_won BOOLEAN;
     DECLARE tie_game BOOLEAN;
 
-    IF OLD.status = 'scheduled' AND NEW.status = 'completed' THEN
+    IF OLD.status = 'scheduled' AND NEW.status = 'complete' THEN
         -- Determine the result of the game
         SET home_team_won = (NEW.home_score > NEW.away_score);
         SET away_team_won = (NEW.away_score > NEW.home_score);

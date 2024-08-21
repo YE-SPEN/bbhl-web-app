@@ -11,6 +11,52 @@ CREATE TABLE schedule (
     hasBoxscore BOOLEAN DEFAULT FALSE
 );
 
+DELIMITER //
+
+CREATE TRIGGER "schedule_AFTER_UPDATE" AFTER UPDATE ON "schedule" FOR EACH ROW BEGIN
+    DECLARE home_team_won BOOLEAN;
+    DECLARE away_team_won BOOLEAN;
+    DECLARE tie_game BOOLEAN;
+
+    IF OLD.status = 'scheduled' AND NEW.status = 'completed' THEN
+        -- Determine the result of the game
+        SET home_team_won = (NEW.home_score > NEW.away_score);
+        SET away_team_won = (NEW.away_score > NEW.home_score);
+        SET tie_game = (NEW.home_score = NEW.away_score);
+
+        -- Update home team stats
+        UPDATE team_stats
+        SET 
+            games_played = games_played + 1,
+            wins = wins + IF(home_team_won, 1, 0),
+            losses = losses + IF(away_team_won, 1, 0),
+            ties = ties + IF(tie_game, 1, 0),
+            points = points + IF(home_team_won, 2, IF(tie_game, 1, 0)),
+            goals_for = goals_for + NEW.home_score,
+            goals_against = goals_against + NEW.away_score,
+            differential = differential + (NEW.home_score - NEW.away_score)
+        WHERE team = NEW.home_team
+        AND season = NEW.season;
+
+        -- Update away team
+        UPDATE team_stats
+        SET 
+            games_played = games_played + 1,
+            wins = wins + IF(away_team_won, 1, 0),
+            losses = losses + IF(home_team_won, 1, 0),
+            ties = ties + IF(tie_game, 1, 0),
+            points = points + IF(away_team_won, 2, IF(tie_game, 1, 0)),
+            goals_for = goals_for + NEW.away_score,
+            goals_against = goals_against + NEW.home_score,
+            differential = differential + (NEW.away_score - NEW.home_score)
+        WHERE team = NEW.away_team
+        AND season = NEW.season;
+    END IF;
+
+END //
+
+DELIMITER ;
+
 INSERT INTO schedule (date, time, game_id, home_team, home_score, away_score, away_team, season, status) VALUES 
 ('2022-10-08', '4:00 PM', '4-100822', 'Ducks', '1', '5', 'Easy Company', '2023', 'complete'),
 ('2022-10-08', '6:00 PM', '6-100822', 'Punishers', '5', '3', 'P.C. United', '2023', 'complete'),

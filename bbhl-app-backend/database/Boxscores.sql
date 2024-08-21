@@ -7,5 +7,5 @@ CREATE TABLE boxscores (
     pims INT(3),
     gwg INT(3),
     PRIMARY KEY (game_id, player),
-    FOREIGN KEY (game_id) REFERENCES schedule(game_id)
+    FOREIGN KEY (game_id) REFERENCES schedule(game_id) ON DELETE CASCADE
 );

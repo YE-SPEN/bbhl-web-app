@@ -7,7 +7,7 @@ CREATE TABLE goalie_boxscores (
     goals_against INT(3),
     shots_against INT(3),
     saves INT(3),
-    shutouts: INT(3),
+    shutouts INT(3),
     PRIMARY KEY (game_id, player),
-    FOREIGN KEY (game_id) REFERENCES schedule(game_id)
+    FOREIGN KEY (game_id) REFERENCES schedule(game_id) ON DELETE CASCADE
 );

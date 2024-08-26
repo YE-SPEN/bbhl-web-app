@@ -24,8 +24,17 @@ export const playerRoute = {
             ORDER BY ps.season DESC`,
             [id],
         );
-        const stats = playerStats;
+        //const stats = playerStats;
 
-        return { player, stats };
+        const { results: goalieStats } = await db.query(
+            `SELECT gs.*, t.id, t.logo FROM players p, goalie_stats gs, teams t
+            WHERE p.name = gs.name
+                AND t.name = gs.team
+                AND p.id = ?
+            ORDER BY gs.season DESC`,
+            [id],
+        );
+
+        return { player, playerStats, goalieStats };
     }
 }

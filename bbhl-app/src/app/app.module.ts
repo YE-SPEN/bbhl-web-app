@@ -23,6 +23,7 @@ import { BoxscoreFormComponent } from './forms/boxscore-form/boxscore-form.compo
 import { BbhldokuComponent } from './user/bbhldoku/bbhldoku.component';
 import { DraftSimulatorComponent } from './user/draft-simulator/draft-simulator.component';
 import { ResultsPageComponent } from './user/results-page/results-page.component';
+import { LoginComponent } from './admin/login/login.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ResultsPageComponent } from './user/results-page/results-page.component
     BbhldokuComponent,
     DraftSimulatorComponent,
     ResultsPageComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

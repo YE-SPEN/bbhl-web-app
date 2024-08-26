@@ -18,7 +18,7 @@
     <h2 class="mb-4 pt-8 font-bold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">Player History</h2>
 
     <!-- Player History Table -->
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg rounded-lg max-h-[800px]">
+    <div *ngIf="playerStats.length > 0" class="relative overflow-x-auto shadow-md sm:rounded-lg rounded-lg max-h-[800px]">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead class="text-sm text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
               <tr class="sticky top-0 bg-gray-800">
@@ -70,7 +70,7 @@
               </tr>
           </thead>
           <tbody>
-              <tr *ngFor="let season of stats" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-base">
+              <tr *ngFor="let season of playerStats" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-base">
                   <td class="px-4 py-3">
                     {{ season.season }}
                   </td>
@@ -109,4 +109,123 @@
           </tbody>
       </table>
     </div>
+
+    <!-- Goalie History Table-->
+    <div *ngIf="goalieStats.length > 0" class="relative overflow-x-auto shadow-md sm:rounded-lg rounded-lg max-h-[800px]">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-sm text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
+                <tr class="sticky top-0 bg-gray-800">
+                    <th scope="col" class="px-6 py-3">
+                        #
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            Name
+                        </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            GP
+                        </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            W
+                        </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            L
+                        </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            T
+                        </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            GA
+                        </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            SA
+                        </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            SV
+                        </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            GAA
+                        </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            SV%
+                        </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            SO
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let season of goalieStats; let i = index" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-base">
+                    <td class="px-4 py-3">
+                        {{ i + 1 }}
+                    </td>
+                    <td class="px-4 py-3">
+                        <img src="{{ season.logo }}" width="40">
+                    </td>
+                    <td scope="row" class="px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                        <a [routerLink]="['/players', season.id]" class="hover:font-semibold hover:text-gray-600">
+                        {{ season.name }}
+                        </a>  
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.games_played }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.wins }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.losses }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.ties }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.goals_against }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.shots_against }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.saves }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.gaa }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.sv_percentage }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.shutouts }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
 </div>

@@ -10,7 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PlayerPageComponent {
   player!: Player;
-  stats: Player[] = [];
+  playerStats: Player[] = [];
+  goalieStats: Player[] = [];
   year_joined = 2024;
 
   constructor(
@@ -24,9 +25,19 @@ export class PlayerPageComponent {
     if (playerId) {
       this.playersService.getPlayer(playerId).subscribe(response => {
         this.player = response.player;
-        this.stats = response.stats;
-        this.year_joined = this.stats[this.stats.length-1].season;
+        this.playerStats = response.playerStats;
+        this.year_joined = this.playerStats[this.playerStats.length-1].season;
+        console.log(this.player);
+        console.log(this.playerStats);
       });
+      this.playersService.getGoalie(playerId).subscribe(response => {
+        this.goalieStats = response.goalieStats;
+        const goalie_year_joined = this.goalieStats[this.goalieStats.length-1].season;
+        if (goalie_year_joined < this.year_joined) {
+          this.year_joined = goalie_year_joined;
+          console.log(this.goalieStats);
+        }
+      })
     }
   }
 }

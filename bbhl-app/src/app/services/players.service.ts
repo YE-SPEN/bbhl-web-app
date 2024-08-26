@@ -32,9 +32,14 @@ export class PlayersService {
     return this.http.get<{ players: Player[] }>('api/draft-sim');
   }
 
-  getPlayer(playerName: string): Observable<{ player: Player, stats: Player[] }> {
+  getPlayer(playerName: string): Observable<{ player: Player, playerStats: Player[] }> {
     const url = `api/players/${playerName}`;
-    return this.http.get<{ player: Player, stats: Player[] }>(url);
+    return this.http.get<{ player: Player, playerStats: Player[] }>(url);
+  }
+
+  getGoalie(goalieName: string): Observable<{ goalie: Player, goalieStats: Player[] }> {
+    const url = `api/players/${goalieName}`;
+    return this.http.get<{ goalie: Player, goalieStats: Player[] }>(url);
   }
 
   getLeaders(): Observable<{ leagueLeaders: Player[] }> {

@@ -13,6 +13,7 @@ import { BoxscoreFormComponent } from './forms/boxscore-form/boxscore-form.compo
 import { ResultsPageComponent } from './user/results-page/results-page.component';
 import { BbhldokuComponent } from './user/bbhldoku/bbhldoku.component';
 import { DraftSimulatorComponent } from './user/draft-simulator/draft-simulator.component';
+import { LoginComponent } from './admin/login/login.component';
 import { BlackjackComponent } from './blackjack/blackjack.component';
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'teams/:id', component: TeamRosterPageComponent },
   { path: 'bbhldoku', component: BbhldokuComponent, pathMatch: 'full' },
   { path: 'draft-sim', component: DraftSimulatorComponent, pathMatch: 'full' },
+  { path: 'login', component: LoginComponent, pathMatch: 'full' },
   { path: 'admin-hub', component: AdminHubComponent },
   { path: 'admin-hub/player-stats', component: BoxscoreFormComponent },
   { path: 'admin-hub/team-stats', component: BoxscoreFormComponent },

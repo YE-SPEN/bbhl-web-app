@@ -1,10 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { Player, Team, Game } from '../../types'
-import { ScheduleService } from 'src/app/services/schedule.service';
-import { TeamsService } from 'src/app/services/teams.service';
 import { HttpClient } from '@angular/common/http';
-import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import { Action } from 'rxjs/internal/scheduler/Action';
+
 
 interface ActionCompletedEvent {
   message: string;
@@ -45,7 +41,7 @@ export class AdminHubComponent {
       
       setTimeout(() => {
         this.dismissToast(toast);
-      }, 3500);
+      }, 5000);
     }
   }
 

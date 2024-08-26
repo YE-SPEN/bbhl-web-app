@@ -113,7 +113,7 @@ export class PlayerFormComponent {
     this.http.post('/api/admin-hub/new-player', submissionData)
       .subscribe(response => {
         console.log('New player added to database.', response);
-        const message = submissionData.name + 'added to the BBHL Database';
+        const message = submissionData.name + ' added to the BBHL Database';
         this.completeAction(message, true);
 
         this.formSubmitted = true;

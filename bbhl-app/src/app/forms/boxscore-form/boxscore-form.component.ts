@@ -5,6 +5,11 @@ import { TeamsService } from 'src/app/services/teams.service';
 import { HttpClient } from '@angular/common/http';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 
+interface Warning {
+  message: string,
+  isRed: boolean
+}
+
 @Component({
   selector: 'app-boxscore-form',
   templateUrl: './boxscore-form.component.html',
@@ -18,6 +23,7 @@ export class BoxscoreFormComponent {
   matchup: Team[] = [];
   modalRef!: BsModalRef;
   isFinal: boolean = false;
+  warnings: Warning[] = [];
 
   constructor(
     private http: HttpClient,
@@ -240,7 +246,6 @@ export class BoxscoreFormComponent {
 
   toggleAbsent(player: any): void {
     player.isAbsent = !player.isAbsent;
-    console.log(player);
   }
 
   recordPlayerStats(player: Player, game_id: string) {
@@ -323,7 +328,84 @@ export class BoxscoreFormComponent {
   }
 
   validateGamesheet(): void {
+    this.warnings = [];
 
+    // check if goals exceed shots for either team
+    if (this.matchup[0].goalie.saves < 0) {
+      const message = 'Goals Scored Exceed Shots Taken by ' + this.matchup[1].name;
+      const warning = { message: message, isRed: true };
+      this.warnings.push(warning);
+    }
+    if (this.matchup[1].goalie.saves < 0) {
+      const message = 'Goals Scored Exceed Shots Taken by ' + this.matchup[0].name;
+      const warning = { message: message, isRed: true };
+      this.warnings.push(warning);
+    }
+
+    // check gwg recorded for winning team
+    if (this.selectedGame?.home_score !== this.selectedGame?.away_score) {
+      if (this.getStatTotal('gwg', 0) === 0 && this.getStatTotal('gwg', 1) === 0) {
+        const message = 'No GWG Recorded for the Winning Team.';
+        const warning = { message: message, isRed: true };
+        this.warnings.push(warning);
+      }
+    }
+
+    // check shots have been entered for both teams
+    for (let team in this.matchup) {
+      if (this.matchup[team].shots === 0) {
+        const message = 'No Shots Recorded for the ' + this.matchup[team].name + '.';
+        const warning = { message: message, isRed: true };
+        this.warnings.push(warning);
+      }
+    }
+
+    // check that only 1 gwg is recorded or none in case of tie
+    if (this.selectedGame?.home_score !== this.selectedGame?.away_score) {
+      const sum = this.getStatTotal('gwg', 0) + this.getStatTotal('gwg', 1);
+      if (sum > 1) {
+        const message = 'Too many GWGs recorded.';
+        const warning = { message: message, isRed: true };
+        this.warnings.push(warning);
+      }
+    }
+    if (this.selectedGame?.home_score === this.selectedGame?.away_score) {
+      if (this.getStatTotal('gwg', 0) > 0 || this.getStatTotal('gwg', 1) > 0) {
+        const message = 'GWG recorded in a Tie Game.';
+        const warning = { message: message, isRed: true };
+        this.warnings.push(warning);
+      }
+    }
+
+    // check if any absences have been recorded for both teams or if absent players are credited with points
+    for (let team in this.matchup) {
+      let hasAbsence = false;
+      for (let player of this.matchup[team].roster) {
+        if (player.isAbsent) { 
+          hasAbsence = true; 
+          if (player.points > 0 || player.pims > 0) {
+            const message = player.name + ' (' + this.matchup[team].name + ') is credited with statistics but is marked absent.';
+            const warning = { message: message, isRed: true };
+            this.warnings.push(warning);
+          }
+        }
+      }
+      if (!hasAbsence) {
+        const message = 'No Absences Recorded for ' + this.matchup[team].name + '.';
+        const warning = { message: message, isRed: false };
+        this.warnings.push(warning);
+      }
+    }
+
+  }
+
+  hasRed(): boolean {
+    for (let warning of this.warnings) {
+      if (warning.isRed === true) {
+        return true;
+      }
+    }
+    return false;
   }
 
   finalizeGame(): void {

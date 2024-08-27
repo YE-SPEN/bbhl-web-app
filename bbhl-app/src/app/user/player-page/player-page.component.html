@@ -18,7 +18,7 @@
     <h2 class="mb-4 pt-8 font-bold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">Player History</h2>
 
     <!-- Player History Table -->
-    <div *ngIf="playerStats.length > 0" class="relative overflow-x-auto shadow-md sm:rounded-lg rounded-lg max-h-[800px]">
+    <div *ngIf="playerStats.length > 0" class="pb-10 relative overflow-x-auto shadow-md sm:rounded-lg rounded-lg max-h-[800px]">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead class="text-sm text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
               <tr class="sticky top-0 bg-gray-800">
@@ -70,42 +70,44 @@
               </tr>
           </thead>
           <tbody>
-              <tr *ngFor="let season of playerStats" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-base">
-                  <td class="px-4 py-3">
-                    {{ season.season }}
-                  </td>
-                  <td scope="row" class="px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
-                    <a [routerLink]="['/teams', season.id]">
-                        <img src="{{ season.logo }}" width="40">
-                    </a>
-                  </td>
-                  <td class="px-4 py-3 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
-                    <a [routerLink]="['/teams', season.id]" class="hover:font-semibold hover:text-gray-600">
-                        {{ season.team }}
-                    </a>
-                  </td>
-                  <td class="px-4 py-3">
-                      {{ season.games_played }}
-                  </td>
-                  <td class="px-4 py-3">
-                      {{ season.goals }}
-                  </td>
-                  <td class="px-4 py-3">
-                      {{ season.assists }}
-                  </td>
-                  <td class="px-4 py-3">
-                      {{ season.points }}
-                  </td>
-                  <td class="px-4 py-3">
-                      {{ season.ppg }}
-                  </td>
-                  <td class="px-4 py-3">
-                      {{ season.pims }}
-                  </td>
-                  <td class="px-4 py-3">
-                    {{ season.gwg }}
-                  </td>
-              </tr>
+                <div *ngFor="let season of playerStats">
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-base">
+                        <td class="px-4 py-3">
+                            {{ season.season }}
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                            <a [routerLink]="['/teams', season.id]">
+                                <img src="{{ season.logo }}" width="40">
+                            </a>
+                        </td>
+                        <td class="px-4 py-3 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                            <a [routerLink]="['/teams', season.id]" class="hover:font-semibold hover:text-gray-600">
+                                {{ season.team }}
+                            </a>
+                        </td>
+                        <td class="px-4 py-3">
+                            {{ season.games_played }}
+                        </td>
+                        <td class="px-4 py-3">
+                            {{ season.goals }}
+                        </td>
+                        <td class="px-4 py-3">
+                            {{ season.assists }}
+                        </td>
+                        <td class="px-4 py-3">
+                            {{ season.points }}
+                        </td>
+                        <td class="px-4 py-3">
+                            {{ season.ppg }}
+                        </td>
+                        <td class="px-4 py-3">
+                            {{ season.pims }}
+                        </td>
+                        <td class="px-4 py-3">
+                            {{ season.gwg }}
+                        </td>
+                    </tr>
+                </div>
           </tbody>
       </table>
     </div>
@@ -116,7 +118,7 @@
             <thead class="text-sm text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
                 <tr class="sticky top-0 bg-gray-800">
                     <th scope="col" class="px-6 py-3">
-                        #
+                        Year
                     </th>
                     <th scope="col" class="px-6 py-3">
                         
@@ -179,16 +181,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let season of goalieStats; let i = index" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-base">
+                <tr *ngFor="let season of goalieStats" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-base">
                     <td class="px-4 py-3">
-                        {{ i + 1 }}
+                        {{ season.season }}
                     </td>
                     <td class="px-4 py-3">
-                        <img src="{{ season.logo }}" width="40">
+                        <a [routerLink]="['/teams', season.id]">
+                            <img src="{{ season.logo }}" width="40">
+                        </a>
                     </td>
                     <td scope="row" class="px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
                         <a [routerLink]="['/players', season.id]" class="hover:font-semibold hover:text-gray-600">
-                        {{ season.name }}
+                        {{ season.team }}
                         </a>  
                     </td>
                     <td class="px-4 py-3">

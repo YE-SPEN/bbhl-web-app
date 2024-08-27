@@ -38,6 +38,19 @@ export class PlayerPageComponent {
           console.log(this.goalieStats);
         }
       })
+
+      this.reconcileGoalieSeasons();
     }
   }
+
+  reconcileGoalieSeasons(): void {
+    for (let goalieSeason of this.goalieStats) {
+      for (let i = this.playerStats.length - 1; i >= 0; i--) {
+        if (this.playerStats[i] === goalieSeason) {
+          this.playerStats.splice(i, 1);
+        }
+      }
+    }
+  }
+  
 }

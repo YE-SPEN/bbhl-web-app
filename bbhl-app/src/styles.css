@@ -516,40 +516,6 @@ td.roster-display {
   }
 }
 
-.gameboard-container {
-  /* Center the gameboard horizontally */
-  width: 100%;
-}
-
-.gameboard {
-  /* Default scale */
-  transform: scale(1);
-}
-
-@media (max-width: 1200px) {
-  .gameboard {
-    transform: scale(0.9); 
-  }
-}
-
-@media (max-width: 992px) {
-  .gameboard {
-    transform: scale(0.8); 
-  }
-}
-
-@media (max-width: 768px) {
-  .gameboard {
-    transform: scale(0.7); 
-  }
-}
-
-@media (max-width: 576px) {
-  .gameboard {
-    transform: scale(0.8); 
-  }
-}
-
 
 
 

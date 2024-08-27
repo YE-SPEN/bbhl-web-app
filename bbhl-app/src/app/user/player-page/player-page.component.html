@@ -70,44 +70,42 @@
               </tr>
           </thead>
           <tbody>
-                <div *ngFor="let season of playerStats">
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-base">
-                        <td class="px-4 py-3">
-                            {{ season.season }}
-                        </td>
-                        <td scope="row" class="px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
-                            <a [routerLink]="['/teams', season.id]">
-                                <img src="{{ season.logo }}" width="40">
-                            </a>
-                        </td>
-                        <td class="px-4 py-3 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
-                            <a [routerLink]="['/teams', season.id]" class="hover:font-semibold hover:text-gray-600">
-                                {{ season.team }}
-                            </a>
-                        </td>
-                        <td class="px-4 py-3">
-                            {{ season.games_played }}
-                        </td>
-                        <td class="px-4 py-3">
-                            {{ season.goals }}
-                        </td>
-                        <td class="px-4 py-3">
-                            {{ season.assists }}
-                        </td>
-                        <td class="px-4 py-3">
-                            {{ season.points }}
-                        </td>
-                        <td class="px-4 py-3">
-                            {{ season.ppg }}
-                        </td>
-                        <td class="px-4 py-3">
-                            {{ season.pims }}
-                        </td>
-                        <td class="px-4 py-3">
-                            {{ season.gwg }}
-                        </td>
-                    </tr>
-                </div>
+                <tr *ngFor="let season of playerStats" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-base">
+                    <td class="px-4 py-3">
+                        {{ season.season }}
+                    </td>
+                    <td scope="row" class="px-6 py-4 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                        <a [routerLink]="['/teams', season.id]">
+                            <img src="{{ season.logo }}" width="40">
+                        </a>
+                    </td>
+                    <td class="px-4 py-3 font-semibold text-gray-900 whitespace-nowrap dark:text-white">
+                        <a [routerLink]="['/teams', season.id]" class="hover:font-semibold hover:text-gray-600">
+                            {{ season.team }}
+                        </a>
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.games_played }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.goals }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.assists }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.points }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.ppg }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.pims }}
+                    </td>
+                    <td class="px-4 py-3">
+                        {{ season.gwg }}
+                    </td>
+                </tr>
           </tbody>
       </table>
     </div>

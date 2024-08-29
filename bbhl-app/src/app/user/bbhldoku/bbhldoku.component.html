@@ -9,25 +9,22 @@
       </tr>           
   </table> 
 </div>
-<div *ngIf="guesses === 0">
-  <h2 style="color: red;">Game over! Click squares to view all answers.</h2>
-</div>
 
 <!-- Gameboard -->
 <div class="gameboard-container flex justify-center w-full">
-  <div class="gameboard w-full max-w-full md:max-w-[80%] flex items-center sm:pb-14">
+  <div class="gameboard w-full max-w-full md:max-w-[80%] flex items-center">
     <table width="100%" align="center"> 
       <tr>
         <td align="center" class="p-6 w-[16%]"></td>
         <td *ngFor="let col of column; let colIndex = index" align="center" class="p-3 md:p-6 w-[20%]">
-          <img [src]="col.logo" class="w-[90%] md:w-1/2">
+          <img [src]="col.logo" class="w-[80%] md:w-1/2">
         </td>
       </tr>
 
       <tr *ngFor="let rowItem of row; let rowIndex = index">
         <!-- Leftmost column with logos -->
-        <td align="center" class="p-2 md:p-6 w-[16%] items-center justify-center">
-          <img [src]="rowItem.logo" class="md:w-8/12">
+        <td class="justify-center h-full relative">
+          <img [src]="rowItem.logo" class="w-10/12 md:w-8/12">
         </td>
 
         <!-- Gameboard -->
@@ -37,46 +34,96 @@
               <table class="table-fixed w-full h-0 pb-[100%] relative border border-gray-500 rounded-[16px] overflow-hidden">
                 <tr *ngFor="let subRow of [0, 1, 2]; let subRowIndex = index" class="w-full">
                   <td *ngFor="let col of [0, 1, 2]; let colIndex = index" class="p-0 w-1/4 h-0 pb-[33.33%] relative border border-gray-500">
-                    <div (click)="gameBoard[subRowIndex][colIndex] && guesses > 0 ? null : guesses === 0 ? openModal(subRowIndex, colIndex, resultModal) : openModal(subRowIndex, colIndex, guessModal)" 
-                        class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-white hover:bg-gray-100">
+                    <div (click)="gameBoard[subRowIndex][colIndex] && guesses > 0 ? null : guesses === 0 ? openModal(subRowIndex, colIndex, resultModal) : openModal(subRowIndex, colIndex, guessModal)"
+                      class="absolute top-0 left-0 w-full h-full flex justify-center items-center"
+                      [ngClass]="{
+                        'bg-green-200': gameBoard[subRowIndex][colIndex]?.guessed,
+                        'bg-white hover:bg-gray-100': !gameBoard[subRowIndex][colIndex] || !gameBoard[subRowIndex][colIndex]?.guessed,
+                        'hover:bg-green-300' : gameBoard[subRowIndex][colIndex]?.guessed && guesses === 0
+                      }">
                         <div *ngIf="gameBoard[subRowIndex][colIndex]" class="relative flex flex-col items-center">
-                          <img [src]="gameBoard[subRowIndex][colIndex]?.picture" alt="{{ gameBoard[subRowIndex][colIndex]?.name }}" class="w-3/6 h-auto">
-                          <h2 class="font-semibold text-sm sm:text-lg mt-2">{{ gameBoard[subRowIndex][colIndex]?.name }}</h2>
+                          <img [src]="gameBoard[subRowIndex][colIndex]?.player?.picture" alt="{{ gameBoard[subRowIndex][colIndex]?.player?.name }}" class="w-3/6 h-auto">
+                          <h2 class="font-semibold text-sm sm:text-lg mt-2">{{ gameBoard[subRowIndex][colIndex]?.player?.name }}</h2>
                         </div>                        
                       <div *ngIf="message && subRowIndex === rowSelected && colIndex === colSelected && guesses !== 0" class="absolute bottom-2 text-center">
                         <h4>{{ message }}</h4>
                       </div>
                       <div *ngIf="gameBoard[subRowIndex][colIndex]" class="absolute top-0 right-0 m-2 p-2 bg-red-600 text-white text-xs sm:text-md font-medium rounded-md">
-                        {{ gameBoard[subRowIndex][colIndex]?.uniqueness || 0 }}%
+                        {{ gameBoard[subRowIndex][colIndex]?.player?.uniqueness || 0 }}%
                       </div>
                     </div>
                   </td>
                 </tr>
               </table>
             </div>
-          </td>
+          </td>          
 
-          <td class="p-4">
-            <h2 class="font-semibold text-md md:text-2xl">{{ score }}/9 Score<br>
-                {{ total_uniqueness }} Uniqueness
+          <td class="pl-6 hidden md:block items-center h-full">
+            <h2 class="font-semibold text-5xl">
+              <span class="mb-6 text-lg font-normal text-gray-500 lg:text-2xl dark:text-gray-400">Score</span><br>  
+              {{ score }}/9
+            </h2>
+            <h2 class="font-semibold text-5xl">
+              <span class="mb-6 text-lg font-normal text-gray-500 lg:text-2xl dark:text-gray-400">Uniqueness</span><br>  
+              {{ total_uniqueness }}
+            </h2>
+          </td>
+          
+        </ng-container>
+        <ng-container *ngIf="rowIndex === 1">
+          <td class="pl-6 hidden md:flex items-center h-full">
+            <h2 class="font-semibold text-5xl">
+              <span class="mb-6 text-lg font-normal text-gray-500 lg:text-2xl dark:text-gray-400">Shots Left</span><br>  
+              {{ guesses }}
             </h2>
           </td>
         </ng-container>
-        <ng-container *ngIf="rowIndex === 1">
-          <td class="p-4">
-            <h2 class="font-semibold text-md md:text-2xl">{{ guesses }}/9 Shots Left</h2>
-          </td>
-        </ng-container>
         <ng-container *ngIf="rowIndex === 2">
-          <td class="p-4">
+          <td class="pl-6 hidden md:block">
               <button type="button" *ngIf="guesses > 0" (click)="endGame()" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:outline-none focus: font-medium rounded-lg text-xs sm:text-sm px-5 py-2.5 me-2 mb-2 text-center dark:border-gray-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600">End Game</button><br>
               <button type="button" (click)="generateBoard()" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus: font-medium rounded-lg text-xs sm:text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">New Game</button>
+              <div *ngIf="guesses === 0">
+                <h2 style="color: red;">Game over! Click squares to view all answers.</h2>
+              </div>
           </td>
         </ng-container>
       </tr>
     </table>
   </div>
 </div>
+
+<div class="gameboard-container flex justify-center w-full sm:hidden">
+  <!-- 2x2 table for mobile screens -->
+  <table class="w-[80%] border-collapse">
+      <tr>
+          <td class="py-4 text-center font-semibold">
+            <h2 class="font-semibold text-right text-4xl">
+              <span class="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Score</span><br>  
+              {{ score }}/9
+            </h2>
+          </td>
+          <td class="py-4 text-center font-semibold text-md">
+            <h2 class="font-semibold text-right text-4xl">
+              <span class="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Shots Left</span><br>  
+              {{ guesses }}
+            </h2>     
+          </td>
+      </tr>
+      <tr>
+          <td class="py-4 text-center font-semibold text-md">
+            <h2 class="font-semibold text-right text-4xl">
+              <span class="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Uniqueness</span><br>  
+              {{ total_uniqueness }}
+            </h2>  
+          </td>
+          <td class="py-4 text-right">
+              <button type="button" *ngIf="guesses > 0" (click)="endGame()" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-lg text-xs px-3 py-1.5 mb-2">End Game</button><br>
+              <button type="button" (click)="generateBoard()" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-xs px-3 py-1.5">New Game</button>
+          </td>
+      </tr>
+  </table>
+</div>
+
 
 <ng-template #guessModal>
   <div class="modal-dialog modal-dialog-centered">
@@ -121,7 +168,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="font-semibold text-lg">Results: {{ row[rowSelected].name }} - {{ column[colSelected].name }}</h3>
+        <h3 class="font-semibold text-lg">{{ row[rowSelected].name }} - {{ column[colSelected].name }}</h3>
         <button type="button" (click)="modalRef.hide()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="static-modal">
             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -130,9 +177,11 @@
         </button>
       </div>
       <div class="modal-body">
-          <div *ngFor="let player of answerSet">
-              {{ player.name }} - {{ player?.uniqueness || 0 }}%
-          </div>
+          <ul class="max-full draft-log max-h-[300px] text-sm font-semibold text-gray-900 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            <li *ngFor="let player of answerSet;" class="w-full px-2 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              {{ player.name }} <span class="text-gray-500 italic font-medium">- {{ player?.uniqueness || 0 }}%</span>
+            </li>
+          </ul> 
       </div>
       <div class="modal-footer">
         <button type="button" (click)="modalRef.hide()" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:outline-none focus: font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 text-center dark:border-gray-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600">Close</button>

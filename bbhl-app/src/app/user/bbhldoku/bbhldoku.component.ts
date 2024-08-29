@@ -5,11 +5,17 @@ import { PlayersService } from 'src/app/services/players.service';
 import { TeamsService } from 'src/app/services/teams.service';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 
+interface DokuSquare {
+  player: Player;
+  guessed: boolean;
+}
+
 @Component({
   selector: 'app-bbhldoku',
   templateUrl: './bbhldoku.component.html',
   styleUrls: ['./bbhldoku.component.css']
 })
+
 export class BbhldokuComponent {
   allTeams: Team[] = [];
   row: Team[] = [];
@@ -26,7 +32,7 @@ export class BbhldokuComponent {
   total_uniqueness = 0;
   modalRef!: BsModalRef;
   message = '';
-  gameBoard: (Player | null)[][]= [
+  gameBoard: (DokuSquare | null)[][]= [
       [null, null, null],
       [null, null, null],
       [null, null, null]
@@ -73,19 +79,25 @@ export class BbhldokuComponent {
 
   endGame(): void {
     this.guesses = 0;
+    this.fillSquares();
   }
 
-  getAnswerSet(team1: string, team2: string): void {
+  getAnswerSet(team1: string, team2: string): Promise<Player[]> {
     if (team1 > team2) {
-      let temp = team1;
-      team1 = team2;
-      team2 = temp;
+      [team1, team2] = [team2, team1];
     }
-    
-    this.playersService.getDokuAnswers(team1, team2)
-    .subscribe(response => {
-      this.answerSet = response.answerSet;
-      console.log(this.answerSet);
+  
+    return new Promise((resolve, reject) => {
+      this.playersService.getDokuAnswers(team1, team2).subscribe(
+        response => {
+          this.answerSet = response.answerSet;
+          console.log(this.answerSet);
+          resolve(this.answerSet);
+        },
+        error => {
+          reject(error);
+        }
+      );
     });
   }
 
@@ -95,6 +107,20 @@ export class BbhldokuComponent {
     );
   }
 
+  async fillSquares(): Promise<void> {
+    for (let i = 0; i < this.gameBoard.length; i++) {
+      for (let j = 0; j < this.gameBoard[i].length; j++) {
+        const cell = this.gameBoard[i][j];
+        if (!cell) {
+          await this.getAnswerSet(this.row[i].name, this.column[j].name);
+          let square = {player: this.answerSet[0], guessed: false }
+          this.gameBoard[i][j] = square;
+          this.total_uniqueness += 100;
+        }
+      }
+    }
+  }
+  
   checkAnswer(player: Player, rowIndex: number, colIndex: number): boolean {
     if (this.alreadyGuessed(player)) {
       this.closeModal();      
@@ -104,7 +130,8 @@ export class BbhldokuComponent {
     this.guesses--;
     for (let i = 0; i < this.answerSet.length; i++) {
       if (this.answerSet[i].name === player.name) {
-        this.gameBoard[rowIndex][colIndex] = this.answerSet[i];
+        let square = {player: this.answerSet[i], guessed: true}
+        this.gameBoard[rowIndex][colIndex] = square;
         this.recordGuess(player, this.row[rowIndex].name, this.column[colIndex].name)
         this.score++;
         this.total_uniqueness += Math.round(this.answerSet[i].uniqueness);
@@ -128,7 +155,7 @@ export class BbhldokuComponent {
       }
       for (let j = 0; j < this.gameBoard[i].length; j++) {
         const cell = this.gameBoard[i][j];
-        if (cell && cell.name === player.name) {
+        if (cell && cell.player.name === player.name) {
           return true;
         }
       }

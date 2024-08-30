@@ -16,7 +16,7 @@ export const uploadFileRoute = {
         payload: {
             maxBytes: 1048576,
             output: 'stream',
-            parse: false,
+            parse: true,
             allow: 'multipart/form-data'
         }
     },

@@ -1,5 +1,6 @@
 import Boom from '@hapi/boom';
-import AWS from 'aws-sdk';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -8,11 +9,13 @@ console.log('Initializing DigitalOcean Spaces configuration...');
 console.log('DO_SPACES_REGION:', process.env.DO_SPACES_REGION);
 console.log('DO_SPACES_BUCKET:', process.env.DO_SPACES_BUCKET);
 
-const spacesEndpoint = new AWS.Endpoint(`${process.env.DO_SPACES_REGION}.digitaloceanspaces.com`);
-const s3 = new AWS.S3({
-    endpoint: spacesEndpoint,
-    accessKeyId: process.env.DO_SPACES_KEY,
-    secretAccessKey: process.env.DO_SPACES_SECRET,
+const s3Client = new S3Client({
+    endpoint: `https://${process.env.DO_SPACES_REGION}.digitaloceanspaces.com`,
+    region: process.env.DO_SPACES_REGION,
+    credentials: {
+        accessKeyId: process.env.DO_SPACES_KEY,
+        secretAccessKey: process.env.DO_SPACES_SECRET,
+    },
 });
 
 export const uploadFileRoute = {
@@ -20,7 +23,7 @@ export const uploadFileRoute = {
     path: '/api/admin-hub/upload',
     options: {
         payload: {
-            maxBytes: 1048576,
+            maxBytes: 1048576, // 1MB limit
             output: 'stream',
             parse: true,
             multipart: true,
@@ -59,22 +62,21 @@ export const uploadFileRoute = {
             }
 
             // Prepare the S3 upload parameters
-            const params = {
+            const putObjectCommand = new PutObjectCommand({
                 Bucket: process.env.DO_SPACES_BUCKET,
-                Key: `player_pics/${fileName}`, 
+                Key: `player_pics/${fileName}`,
                 Body: file,
-                ACL: 'public-read', 
+                ACL: 'public-read',
                 ContentType: fileType,
-            };
-
-            console.log('Uploading file to DigitalOcean Space with parameters:', params);
+            });
 
             // Upload the file to DigitalOcean Space
-            const uploadResult = await s3.upload(params).promise();
+            const uploadResult = await s3Client.send(putObjectCommand);
 
             console.log('File uploaded successfully:', uploadResult);
 
-            return h.response({ fileUrl: uploadResult.Location }).code(201);
+            const fileUrl = `https://${process.env.DO_SPACES_BUCKET}.${process.env.DO_SPACES_REGION}.digitaloceanspaces.com/player_pics/${fileName}`;
+            return h.response({ fileUrl }).code(201);
         
         } catch (error) {
             console.error('Error during file upload:', error);

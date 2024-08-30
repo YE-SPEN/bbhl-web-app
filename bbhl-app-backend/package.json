@@ -16,6 +16,7 @@
     "@hapi/boom": "^10.0.1",
     "@hapi/hapi": "^21.3.2",
     "@hapi/inert": "^7.1.0",
+    "aws-sdk": "^2.1687.0",
     "dotenv": "^16.4.5",
     "firebase-admin": "^11.9.0",
     "mysql": "^2.18.1",

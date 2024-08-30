@@ -16,7 +16,7 @@ export const uploadFileRoute = {
         payload: {
             maxBytes: 1048576,
             output: 'stream',
-            parse: true,
+            parse: false,
             allow: 'multipart/form-data'
         }
     },
@@ -27,11 +27,19 @@ export const uploadFileRoute = {
                 return Boom.badRequest('No file provided');
             }
 
+            console.log('Headers:', req.headers);
+            console.log('Payload:', req.payload);
+
             const fileName = file.hapi.filename.replace(/\s+/g, '_');
+            console.log('Detected file name:', fileName);
+
             const fileType = file.hapi.headers['content-type'];
+            console.log('Detected file type:', fileType);
+
 
             // Validate file type
-            if (!['image/png', 'image/jpeg'].includes(fileType)) {
+            const validMimeTypes = ['image/png', 'image/jpeg', 'image/x-png', 'image/pjpeg'];
+            if (!validMimeTypes.includes(fileType)) {
                 return Boom.badRequest('Invalid file type');
             }
 

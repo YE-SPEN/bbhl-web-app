@@ -76,25 +76,30 @@ export class PlayerFormComponent {
 
   uploadFile(event: any): boolean {
     const file: File = event.target.files[0];
-
+  
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
-
-      this.http.post('/api/admin-hub/upload', formData).subscribe(
-        (response: any) => {
+  
+      console.log('FormData contents:', formData.get('file')); 
+  
+      this.http.post('/api/admin-hub/upload', formData).subscribe({
+        next: (response: any) => {
           console.log('File uploaded successfully:', response.fileUrl);
           this.formData.picture = response.fileUrl;
           return true;
         },
-        (error) => {
+        error: (error) => {
           console.error('File upload failed:', error);
           return false;
+        },
+        complete: () => {
+          console.log('File upload process completed.');
         }
-      );
+      });
     }
     return false;
-  }
+  }  
 
   generateID(name: string): string {
     const id = name.toLowerCase().replace(/\s+/g, '');

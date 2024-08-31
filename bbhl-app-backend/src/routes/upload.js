@@ -10,8 +10,8 @@ console.log('DO_SPACES_REGION:', process.env.DO_SPACES_REGION);
 console.log('DO_SPACES_BUCKET:', process.env.DO_SPACES_BUCKET);
 
 const s3Client = new S3Client({
-    endpoint: `https://nyc3.digitaloceanspaces.com`,
-    region: 'nyc3',
+    endpoint: process.env.DO_SPACES_BUCKET,
+    region: process.env.DO_SPACES_REGION,
     credentials: {
         accessKeyId: process.env.DO_SPACES_KEY,
         secretAccessKey: process.env.DO_SPACES_SECRET,
@@ -75,7 +75,7 @@ export const uploadFileRoute = {
 
             console.log('File uploaded successfully:', uploadResult);
 
-            const fileUrl = `https://${process.env.DO_SPACES_BUCKET}.nyc3.digitaloceanspaces.com/player_pics/${fileName}`;
+            const fileUrl = `${process.env.DO_SPACES_BUCKET}/player_pics/${fileName}`;
             return h.response({ fileUrl }).code(201);
         
         } catch (error) {

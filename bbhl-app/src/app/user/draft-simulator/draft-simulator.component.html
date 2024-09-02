@@ -325,9 +325,10 @@
                                     {{ onDisplayF?.[2]?.name ?? '' }}
                                 </div>
                             </td>
-                            <td rowspan="3" align="right" style="padding-top: 25px;">
-                                <h4 class="font-semibold text-xl">
-                                    {{ onDisplayF?.length ?? 0 }}/9 Forwards
+                            <td rowspan="3" align="right" style="padding-top: 25px;" class="hidden md:table-cell">
+                                <h4 class="font-semibold text-3xl">
+                                    <span class="mb-6 text-base font-normal text-gray-500 lg:text-xl dark:text-gray-400">Forwards</span><br>  
+                                    {{ onDisplayF?.length ?? 0 }}/9
                                 </h4>
                             </td> 
                         </tr>
@@ -395,9 +396,10 @@
                             <td class="w-1/4 ">
 
                             </td>
-                            <td rowspan="3" align="right" style="padding-top: 25px;">
-                                <h4 class="font-semibold text-xl">
-                                    {{ onDisplayD?.length ?? 0 }}/5 Defensemen
+                            <td rowspan="3" align="right" style="padding-top: 25px;" class="hidden md:table-cell">
+                                <h4 class="font-semibold text-3xl">
+                                    <span class="mb-6 text-base font-normal text-gray-500 lg:text-xl dark:text-gray-400">Defensemen</span><br>  
+                                    {{ onDisplayD?.length ?? 0 }}/5
                                 </h4>
                             </td>
                         </tr>
@@ -442,9 +444,30 @@
                             <td colspan="2">
 
                             </td>
-                            <td align="right">
-                                <h4 class="font-semibold text-xl">
-                                    {{ onDisplayG?.length ?? 0 }}/1 Goalie
+                            <td align="right" class="hidden md:table-cell"> 
+                                <h4 class="font-semibold text-3xl">
+                                    <span class="mb-6 text-base font-normal text-gray-500 lg:text-xl dark:text-gray-400">Goalies</span><br>  
+                                    {{ onDisplayG?.length ?? 0 }}/1
+                                </h4>
+                            </td>
+                        </tr>
+                        <tr class="md:hidden">
+                            <td>
+                                <h4 class="font-semibold text-3xl">
+                                    <span class="mb-6 text-base font-normal text-gray-500 lg:text-xl dark:text-gray-400">Forwards</span><br>  
+                                    {{ onDisplayF?.length ?? 0 }}/9
+                                </h4>
+                            </td>
+                            <td>
+                                <h4 class="font-semibold text-3xl">
+                                    <span class="mb-6 text-base font-normal text-gray-500 lg:text-xl dark:text-gray-400">Defensemen</span><br>  
+                                    {{ onDisplayD?.length ?? 0 }}/5
+                                </h4>
+                            </td>
+                            <td>
+                                <h4 class="font-semibold text-3xl">
+                                    <span class="mb-6 text-base font-normal text-gray-500 lg:text-xl dark:text-gray-400">Goalies</span><br>  
+                                    {{ onDisplayG?.length ?? 0 }}/1
                                 </h4>
                             </td>
                         </tr>

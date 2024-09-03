@@ -63,7 +63,8 @@
                 <th class="w-6 text-center align-bottom">
                     
                 </th>
-                <th *ngFor="let drafter of draftOrder" class="w-1/7 p-1">
+                <th *ngFor="let drafter of draftOrder" class="w-1/7 pt-3"
+                [ngClass]="{'border-r-2 border-l-2 border-t-2 border-r-red-500 border-l-red-500 border-t-red-500 bg-gray-100': drafter === draftingAs}">
                     <div class="flex flex-col items-center">
                         <img [src]="drafter['team'].logo" width="80px" class="mx-auto">
                         <h3 class="py-3 font-semibold text-center text-[9px] md:text-base">{{ drafter['team'].captain }}</h3>
@@ -78,7 +79,7 @@
                 </td>
                 <td *ngFor="let drafter of draftOrder"
                     class="border border-gray-400 text-sm text-gray-900 w-1/7"
-                    [ngClass]="{'highlight-column': drafter === draftingAs}">
+                    [ngClass]="{'border-r-2 border-l-2 border-r-red-500 border-l-red-500 bg-gray-100': drafter === draftingAs}">
                     <div class="flex justify-center items-center h-full text-[9px] md:text-base">
                         <ng-container *ngIf="drafter.roster[i+1]; else emptyCell">
                             <i>{{ drafter.roster[i+1].name }}</i>

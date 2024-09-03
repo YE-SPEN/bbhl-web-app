@@ -67,7 +67,6 @@ export class PlayerFormComponent {
     this.filteredPlayers = [];
     this.searchTerm = '';
     this.formData.position = this.playerToEdit.position;
-    this.formData.name = this.playerToEdit.name;
   }
 
   resetSearch(): void {
@@ -111,17 +110,18 @@ export class PlayerFormComponent {
     const submissionData = {
       oldName: this.playerToEdit?.name,
       id: this.generateID(this.formData.name),
-      name: this.formData.name,
+      name: this.formData.name.trim() === '' ? this.playerToEdit?.name : this.formData.name,
       position: this.formData.position,
-      picture: this.formData.picture, 
+      picture: this.formData.picture.trim() === '' ? this.playerToEdit?.picture : this.formData.picture,
       action: this.action
     };
+    
 
     this.http.post('/api/admin-hub/new-player', submissionData)
       .subscribe({
         next: (response) => {
           console.log('New player added to database.', response);
-          const message = submissionData.name + ' added to the BBHL Database';
+          const message = 'Changes saved to the database.';
           this.completeAction(message, true);
 
           this.formSubmitted = true;

@@ -15,7 +15,7 @@ export class DraftSimulatorComponent {
   status: 'Ready' | 'In Progress' | 'Complete' = 'Ready';
   displaying: 'Available' | 'Roster' = 'Available';
   rounds: Number[] = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ]
-  countdown: number = 90;
+  countdown: number = 60;
   countdownInterval: any;
   currentRound = 1;
   pickOfRound = 1;
@@ -31,7 +31,7 @@ export class DraftSimulatorComponent {
   onDisplayF: Player[] | null = [];
   onDisplayG: Player[] | null = [];
   draftLog: string[] = ['Click start draft to begin...'];
-  sortColumn: string | null = 'points';
+  sortColumn: string | null = 'draft_row';
   sortDirection: 'asc' | 'desc' = 'desc';
   @ViewChild('toastSuccess', { static: false }) toastSuccess!: ElementRef<HTMLDivElement>;
   @ViewChild('toastWarning', { static: false }) toastWarning!: ElementRef<HTMLDivElement>;
@@ -55,6 +55,7 @@ export class DraftSimulatorComponent {
     this.playersService.getDraftPlayers()
     .subscribe(response => {
       this.available = response.players;
+      this.toggleSort('draft_row');
     });
   }
 
@@ -396,7 +397,7 @@ export class DraftSimulatorComponent {
   clearCountdown() {
     if (this.countdownInterval) {
       clearInterval(this.countdownInterval);
-      this.countdown = 90;
+      this.countdown = 60;
     }
   }
 
@@ -457,7 +458,7 @@ export class DraftSimulatorComponent {
 
 
   isButtonDisabled(player: any): boolean {
-      if (this.onTheClock !== this.draftingAs || (player.position === 'Goalie' && this.draftingAs && this.draftingAs.numG > 0) || (this.currentRound === 14 && this.draftingAs && this.draftingAs.numG === 0 && player.position !== 'Goalie')) {
+      if (this.status !== 'In Progress' || this.onTheClock !== this.draftingAs || (player.position === 'Goalie' && this.draftingAs && this.draftingAs.numG > 0) || (this.currentRound === 14 && this.draftingAs && this.draftingAs.numG === 0 && player.position !== 'Goalie')) {
         return true;
       }
       return false;

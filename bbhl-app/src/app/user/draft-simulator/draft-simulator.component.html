@@ -107,9 +107,9 @@
             </div>
         </div>
         <div class="table-col">
-            <h3 class="text-base font-semibold text-left md:text-right">
-                Round {{ currentRound }}, Pick {{ pickOfRound }} ({{ nextPick }})<br>
-                On the clock ({{ formatCountdown() }}): {{ onTheClock?.['team']?.name }}<br>
+            <h3 class="mb-6 text-base font-normal md:text-right text-gray-500 lg:text-xl dark:text-gray-400">
+                <b>Round {{ currentRound }}, Pick {{ pickOfRound }} ({{ nextPick }})<br>
+                On the clock ({{ formatCountdown() }}):</b> {{ onTheClock?.['team']?.name }}<br>
             </h3>
         </div>
     </div>
@@ -165,77 +165,63 @@
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-50 uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
                         <tr class="sticky top-0 bg-gray-800">
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" (click)="toggleSort('draft_row')" class="px-6 py-3 hover:bg-gray-700 cursor-pointer" [ngClass]="{'bg-gray-700': sortColumn === 'draft_row'}">
                                 <div class="flex items-center">
                                     #
-                                    <a (click)="toggleSort('draft_row')">
                                         <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
                                             <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
                                         </svg>
-                                    </a>
                                 </div>
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" (click)="toggleSort('name')" class="px-6 py-3 hover:bg-gray-700 cursor-pointer" [ngClass]="{'bg-gray-700': sortColumn === 'name'}">
                                 <div class="flex items-center">
                                     Name
-                                    <a (click)="toggleSort('name')">
                                         <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
                                             <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
                                         </svg>
-                                    </a>
                                 </div>
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Position
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" (click)="toggleSort('games_played')" class="px-6 py-3 hover:bg-gray-700 cursor-pointer" [ngClass]="{'bg-gray-700': sortColumn === 'games_played'}">
                                 <div class="flex items-center">
                                     GP
-                                    <a (click)="toggleSort('games_played')">
                                         <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
                                             <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
                                         </svg>
-                                    </a>
                                 </div>
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" (click)="toggleSort('goals')" class="px-6 py-3 hover:bg-gray-700 cursor-pointer" [ngClass]="{'bg-gray-700': sortColumn === 'goals'}">
                                 <div class="flex items-center">
                                     G
-                                    <a (click)="toggleSort('goals')">
                                         <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
                                             <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
                                         </svg>
-                                    </a>
                                 </div>
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" (click)="toggleSort('assists')" class="px-6 py-3 hover:bg-gray-700 cursor-pointer" [ngClass]="{'bg-gray-700': sortColumn === 'assists'}">
                                 <div class="flex items-center">
                                     A
-                                    <a (click)="toggleSort('assists')">
                                         <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
                                             <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
                                         </svg>
-                                    </a>
                                 </div>
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" (click)="toggleSort('points')" class="px-6 py-3 hover:bg-gray-700 cursor-pointer" [ngClass]="{'bg-gray-700': sortColumn === 'points'}">
                                 <div class="flex items-center">
                                     PTS
-                                    <a (click)="toggleSort('points')">
                                         <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
                                             <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
                                         </svg>
-                                    </a>
                                 </div>
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" (click)="toggleSort('ppg')" class="px-6 py-3 hover:bg-gray-700 cursor-pointer" [ngClass]="{'bg-gray-700': sortColumn === 'ppg'}">
                                 <div class="flex items-center">
                                     PPG
-                                    <a (click)="toggleSort('ppg')">
                                         <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
                                             <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
                                         </svg>
-                                    </a>
                                 </div>
                             </th>
                             <th scope="col" class="px-6 py-3">

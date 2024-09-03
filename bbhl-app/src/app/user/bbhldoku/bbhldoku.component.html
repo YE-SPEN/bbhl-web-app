@@ -39,7 +39,7 @@
                                 [ngClass]="{
                                     'bg-green-200': gameBoard[subRowIndex][colIndex]?.guessed,
                                     'bg-white hover:bg-gray-100': !gameBoard[subRowIndex][colIndex] || !gameBoard[subRowIndex][colIndex]?.guessed,
-                                    'hover:bg-green-300' : gameBoard[subRowIndex][colIndex]?.guessed && guesses === 0
+                                    'hover:bg-green-100' : gameBoard[subRowIndex][colIndex]?.guessed && guesses === 0
                                 }">
                                 <div *ngIf="gameBoard[subRowIndex][colIndex]" class="relative flex flex-col items-center">
                                     <img [src]="gameBoard[subRowIndex][colIndex]?.player?.picture" alt="{{ gameBoard[subRowIndex][colIndex]?.player?.name }}" class="w-auto md:w-[60%] max-h-20 md:max-h-64 md:h-auto">

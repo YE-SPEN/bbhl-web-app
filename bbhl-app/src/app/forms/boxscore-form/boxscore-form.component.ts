@@ -354,7 +354,7 @@ export class BoxscoreFormComponent {
     // check shots have been entered for both teams
     for (let team in this.matchup) {
       if (this.matchup[team].shots === 0) {
-        const message = 'No Shots Recorded for the ' + this.matchup[team].name + '.';
+        const message = 'No Shots Recorded for ' + this.matchup[team].name + '.';
         const warning = { message: message, isRed: true };
         this.warnings.push(warning);
       }
@@ -377,9 +377,10 @@ export class BoxscoreFormComponent {
       }
     }
 
-    // check if any absences have been recorded for both teams or if absent players are credited with points
+    // check if any absences or penalty minutes have been recorded for both teams or if absent players are credited with points
     for (let team in this.matchup) {
       let hasAbsence = false;
+      let hasPims = false;
       for (let player of this.matchup[team].roster) {
         if (player.isAbsent) { 
           hasAbsence = true; 
@@ -389,9 +390,17 @@ export class BoxscoreFormComponent {
             this.warnings.push(warning);
           }
         }
+        if (player.pims > 0) { 
+          hasPims = true; 
+        }
       }
       if (!hasAbsence) {
         const message = 'No Absences Recorded for ' + this.matchup[team].name + '.';
+        const warning = { message: message, isRed: false };
+        this.warnings.push(warning);
+      }
+      if (!hasPims) {
+        const message = 'No Penalty Minutes Recorded for ' + this.matchup[team].name + '.';
         const warning = { message: message, isRed: false };
         this.warnings.push(warning);
       }

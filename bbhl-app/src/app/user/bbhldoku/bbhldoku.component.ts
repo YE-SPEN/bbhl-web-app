@@ -78,7 +78,10 @@ export class BbhldokuComponent {
   }
 
   endGame(): void {
-    this.guesses = 0;
+    while (this.guesses > 0) {
+      this.guesses--;
+      this.total_uniqueness += 100;
+    }
     this.fillSquares();
   }
 
@@ -115,7 +118,6 @@ export class BbhldokuComponent {
           await this.getAnswerSet(this.row[i].name, this.column[j].name);
           let square = {player: this.answerSet[0], guessed: false }
           this.gameBoard[i][j] = square;
-          this.total_uniqueness += 100;
         }
       }
     }

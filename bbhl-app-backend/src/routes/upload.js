@@ -1,13 +1,6 @@
 import Boom from '@hapi/boom';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
-console.log('Initializing DigitalOcean Spaces configuration...');
-console.log('DO_SPACES_REGION:', process.env.DO_SPACES_REGION);
-console.log('DO_SPACES_BUCKET:', process.env.DO_SPACES_BUCKET);
-console.log('Testing DB variable:', process.env.DB_NAME)
-console.log('Current working directory:', process.cwd());
-
-
 const s3Client = new S3Client({
     endpoint: `${process.env.DO_SPACES_ENDPOINT}`,
     region: process.env.DO_SPACES_REGION,

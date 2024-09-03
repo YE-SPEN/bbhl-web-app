@@ -17,7 +17,7 @@ export const newPlayerRoute = {
                 result = await db.query(query, [id, name, position, picture]);
                 return h.response(result).code(201);
             }
-            if (action === 'update') {
+            if (action === 'edit') {
                 const query = `
                 UPDATE players
                 SET

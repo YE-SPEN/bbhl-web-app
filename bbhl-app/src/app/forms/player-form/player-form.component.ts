@@ -67,6 +67,7 @@ export class PlayerFormComponent {
     this.filteredPlayers = [];
     this.searchTerm = '';
     this.formData.position = this.playerToEdit.position;
+    this.formData.name = this.playerToEdit.name;
   }
 
   resetSearch(): void {

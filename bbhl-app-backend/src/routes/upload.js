@@ -1,12 +1,10 @@
 import Boom from '@hapi/boom';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 console.log('Initializing DigitalOcean Spaces configuration...');
 console.log('DO_SPACES_REGION:', process.env.DO_SPACES_REGION);
 console.log('DO_SPACES_BUCKET:', process.env.DO_SPACES_BUCKET);
+console.log('Testing DB variable:', process.env.DB_NAME)
 console.log('Current working directory:', process.cwd());
 
 
@@ -76,7 +74,7 @@ export const uploadFileRoute = {
 
             console.log('File uploaded successfully:', uploadResult);
 
-            const fileUrl = `https://bbhl-angular-bucket.nyc3.digitaloceanspaces.com/player_pics/${fileName}`;
+            const fileUrl = `${process.env.DO_SPACES_ENDPOINT}/${process.env.DO_SPACES_BUCKET}/player_pics/${fileName}`;
             return h.response({ fileUrl }).code(201);
         
         } catch (error) {

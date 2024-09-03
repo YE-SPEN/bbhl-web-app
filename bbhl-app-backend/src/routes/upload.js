@@ -2,7 +2,7 @@ import Boom from '@hapi/boom';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+dotenv.config();
 
 console.log('Initializing DigitalOcean Spaces configuration...');
 console.log('DO_SPACES_REGION:', process.env.DO_SPACES_REGION);

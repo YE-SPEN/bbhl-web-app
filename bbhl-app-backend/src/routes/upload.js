@@ -2,17 +2,17 @@ import Boom from '@hapi/boom';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 console.log('Initializing DigitalOcean Spaces configuration...');
-console.log('DO_SPACES_REGION:' + process.env.DO_SPACES_REGION);
-console.log('DO_SPACES_BUCKET:' + process.env.DO_SPACES_BUCKET);
-console.log('KEY: ' + process.env.DO_SPACES_KEY);
-console.log('Secret: ' + process.env.DO_SPACES_SECRET);
+console.log('DO_SPACES_REGION:', process.env.DO_SPACES_REGION);
+console.log('DO_SPACES_BUCKET:', process.env.DO_SPACES_BUCKET);
+console.log('Current working directory:', process.cwd());
+
 
 const s3Client = new S3Client({
-    endpoint: `https://nyc3.digitaloceanspaces.com`,
-    region: `nyc3`,
+    endpoint: `${process.env.DO_SPACES_ENDPOINT}`,
+    region: process.env.DO_SPACES_REGION,
     credentials: {
         accessKeyId: process.env.DO_SPACES_KEY,
         secretAccessKey: process.env.DO_SPACES_SECRET,

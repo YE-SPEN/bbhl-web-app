@@ -7,6 +7,8 @@ dotenv.config();
 console.log('Initializing DigitalOcean Spaces configuration...');
 console.log('DO_SPACES_REGION:' + process.env.DO_SPACES_REGION);
 console.log('DO_SPACES_BUCKET:' + process.env.DO_SPACES_BUCKET);
+console.log('KEY: ' + process.env.DO_SPACES_KEY);
+console.log('Secret: ' + process.env.DO_SPACES_SECRET);
 
 const s3Client = new S3Client({
     endpoint: `https://nyc3.digitaloceanspaces.com`,

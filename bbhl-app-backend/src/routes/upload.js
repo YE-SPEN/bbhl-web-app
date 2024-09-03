@@ -5,12 +5,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 console.log('Initializing DigitalOcean Spaces configuration...');
-console.log('DO_SPACES_REGION:', process.env.DO_SPACES_REGION);
-console.log('DO_SPACES_BUCKET:', process.env.DO_SPACES_BUCKET);
+console.log('DO_SPACES_REGION:' + process.env.DO_SPACES_REGION);
+console.log('DO_SPACES_BUCKET:' + process.env.DO_SPACES_BUCKET);
 
 const s3Client = new S3Client({
-    endpoint: `${process.env.DO_SPACES_ENDPOINT}`,
-    region: process.env.DO_SPACES_REGION,
+    endpoint: `https://nyc3.digitaloceanspaces.com`,
+    region: `nyc3`,
     credentials: {
         accessKeyId: process.env.DO_SPACES_KEY,
         secretAccessKey: process.env.DO_SPACES_SECRET,
@@ -62,7 +62,7 @@ export const uploadFileRoute = {
 
             // Prepare the S3 upload parameters
             const putObjectCommand = new PutObjectCommand({
-                Bucket: process.env.DO_SPACES_BUCKET,
+                Bucket: 'bbhl-angular-bucket',
                 Key: `player_pics/${fileName}`,
                 Body: file._data,
                 ACL: 'public-read',
@@ -74,7 +74,7 @@ export const uploadFileRoute = {
 
             console.log('File uploaded successfully:', uploadResult);
 
-            const fileUrl = `https://${process.env.DO_SPACES_BUCKET}.${process.env.DO_SPACES_REGION}.digitaloceanspaces.com/player_pics/${fileName}`;
+            const fileUrl = `https://bbhl-angular-bucket.nyc3.digitaloceanspaces.com/player_pics/${fileName}`;
             return h.response({ fileUrl }).code(201);
         
         } catch (error) {

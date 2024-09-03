@@ -1,6 +1,5 @@
 import Boom from '@hapi/boom';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -10,7 +9,7 @@ console.log('DO_SPACES_REGION:', process.env.DO_SPACES_REGION);
 console.log('DO_SPACES_BUCKET:', process.env.DO_SPACES_BUCKET);
 
 const s3Client = new S3Client({
-    endpoint: process.env.DO_SPACES_BUCKET,
+    endpoint: `${process.env.DO_SPACES_ENDPOINT}`,
     region: process.env.DO_SPACES_REGION,
     credentials: {
         accessKeyId: process.env.DO_SPACES_KEY,
@@ -23,7 +22,7 @@ export const uploadFileRoute = {
     path: '/api/admin-hub/upload',
     options: {
         payload: {
-            maxBytes: 1048576, // 1MB limit
+            maxBytes: 1048576,
             output: 'stream',
             parse: true,
             multipart: true,
@@ -65,7 +64,7 @@ export const uploadFileRoute = {
             const putObjectCommand = new PutObjectCommand({
                 Bucket: process.env.DO_SPACES_BUCKET,
                 Key: `player_pics/${fileName}`,
-                Body: file,
+                Body: file._data,
                 ACL: 'public-read',
                 ContentType: fileType,
             });
@@ -75,7 +74,7 @@ export const uploadFileRoute = {
 
             console.log('File uploaded successfully:', uploadResult);
 
-            const fileUrl = `${process.env.DO_SPACES_BUCKET}/player_pics/${fileName}`;
+            const fileUrl = `https://${process.env.DO_SPACES_BUCKET}.${process.env.DO_SPACES_REGION}.digitaloceanspaces.com/player_pics/${fileName}`;
             return h.response({ fileUrl }).code(201);
         
         } catch (error) {

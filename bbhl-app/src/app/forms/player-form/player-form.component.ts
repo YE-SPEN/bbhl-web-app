@@ -112,24 +112,28 @@ export class PlayerFormComponent {
       id: this.generateID(this.formData.name),
       name: this.formData.name,
       position: this.formData.position,
-      picture: this.formData.picture
-   };
+      picture: this.formData.picture, 
+      action: this.action
+    };
 
     this.http.post('/api/admin-hub/new-player', submissionData)
-      .subscribe(response => {
-        console.log('New player added to database.', response);
-        const message = submissionData.name + ' added to the BBHL Database';
-        this.completeAction(message, true);
+      .subscribe({
+        next: (response) => {
+          console.log('New player added to database.', response);
+          const message = submissionData.name + ' added to the BBHL Database';
+          this.completeAction(message, true);
 
-        this.formSubmitted = true;
-        setTimeout(() => {
-          this.formSubmitted = false;
-        }, 3000);
-        this.resetForm();
-      }, error => {
-        console.error('Error submitting form', error, submissionData);
-        this.completeAction('Error Submitting Player Form', false);
-      });
+          this.formSubmitted = true;
+          setTimeout(() => {
+            this.formSubmitted = false;
+          }, 3000);
+          this.resetForm();
+        },
+        error: (error) => {
+          console.error('Error submitting form', error, submissionData);
+          this.completeAction('Error Submitting Player Form', false);
+        }
+      });  
   }
 
   resetForm() {

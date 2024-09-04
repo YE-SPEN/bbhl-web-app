@@ -39,6 +39,7 @@ export class PlayerFormComponent {
 
   setAction(action: 'add' | 'edit'): void {
     this.action = action;
+    this.playerToEdit = null;
   }
 
   searchPlayers(): void {
@@ -147,5 +148,12 @@ export class PlayerFormComponent {
   completeAction(message: string, success: boolean): void {
     this.actionCompleted.emit({ message, success });
   }
+
+  isButtonDisabled(): boolean {
+    if ((this.action === 'edit' && !this.playerToEdit) || (this.action === 'add' && (this.formData.name === '' || this.formData.position === ''))) {
+      return true;
+    }
+    return false;
+}
 
 }

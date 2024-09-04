@@ -130,6 +130,8 @@ export class BbhldokuComponent {
       return false;
     }
     this.guesses--;
+    if (this.guesses === 0) { this.endGame() };
+    
     for (let i = 0; i < this.answerSet.length; i++) {
       if (this.answerSet[i].name === player.name) {
         let square = {player: this.answerSet[i], guessed: true}

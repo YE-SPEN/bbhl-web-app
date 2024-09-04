@@ -89,4 +89,12 @@ export class ScheduleFormComponent {
   completeAction(message: string, success: boolean): void {
     this.actionCompleted.emit({ message, success });
   }
+
+  isButtonDisabled(): boolean {
+    if (this.formData.date === '' || this.formData.time === '' || this.formData.homeTeam === '' || this.formData.awayTeam === '') {
+      return true;
+    }
+    return false;
+  }
+
 }

@@ -58,6 +58,7 @@ export class AdminHubComponent {
     } else {
       this.showToast(event.message, false);
     }
+    this.action = '';
   }
   
 }

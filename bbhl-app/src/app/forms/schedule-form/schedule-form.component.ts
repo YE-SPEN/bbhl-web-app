@@ -91,7 +91,7 @@ export class ScheduleFormComponent {
   }
 
   isButtonDisabled(): boolean {
-    if (this.formData.date === '' || this.formData.time === '' || this.formData.homeTeam === '' || this.formData.awayTeam === '') {
+    if (this.formData.date === '' || this.formData.time === '' || this.formData.homeTeam === '' || this.formData.awayTeam === '' || this.formData.homeTeam === this.formData.awayTeam) {
       return true;
     }
     return false;
